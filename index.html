@@ -574,13 +574,33 @@
       <div class="form-group">
         <label>Select from list</label>
         <select onchange="if(this.value) go('screen-bed-info-guest')">
-          <option value="">— Choose a bed —</option>
-          <option value="Z1-A1">Z1-A1 · Tomatoes</option>
-          <option value="Z1-A2">Z1-A2 · Bell Peppers</option>
-          <option value="Z2-B1">Z2-B1 · Squash</option>
-          <option value="Z2-B2">Z2-B2 · Kale & Chard</option>
-          <option value="Z3-C1">Z3-C1 · Herbs</option>
-          <option value="Z3-C2">Z3-C2 · Strawberries</option>
+          <optgroup label="Zone 1">
+  <option value="1A">1A</option>
+  <option value="1B">1B</option>
+  <option value="1C">1C</option>
+  <option value="1D">1D</option>
+  <option value="1E">1E</option>
+  <option value="1F">1F</option>
+  <option value="1G">1G</option>
+  <option value="1H">1H</option>
+</optgroup>
+<optgroup label="Zone 2">
+  <option value="2A">2A</option>
+  <option value="2B">2B</option>
+  <option value="2C">2C</option>
+  <option value="2D">2D</option>
+  <option value="2E">2E</option>
+  <option value="2F">2F</option>
+</optgroup>
+<optgroup label="Zone 3">
+  <option value="3A">3A</option>
+  <option value="3B">3B</option>
+  <option value="3C">3C</option>
+  <option value="3D">3D</option>
+  <option value="3E">3E</option>
+  <option value="3F">3F</option>
+  <option value="3G">3G</option>
+</optgroup>
         </select>
       </div>
     </div>
