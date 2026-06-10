@@ -29,7 +29,7 @@
     color: var(--cream);
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
   }
 
@@ -483,12 +483,235 @@
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 2px; }
+
+  /* PHOTO ALBUM */
+  .zone-header {
+    background: var(--soil);
+    color: var(--straw);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    font-family: 'IM Fell English', serif;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .photo-thumb {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--mist);
+  }
+  .photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-thumb .bed-tag {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    background: rgba(44,26,14,0.75);
+    color: var(--straw);
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+  .photo-empty {
+    background: var(--white);
+    border: 1.5px dashed var(--mist);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    color: var(--bark);
+    font-size: 0.82rem;
+    opacity: 0.6;
+  }
+  .upload-btn {
+    background: var(--leaf);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .upload-btn:active { opacity: 0.85; }
+
+  /* PHOTO LIGHTBOX */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(44,26,14,0.95);
+    z-index: 100;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: var(--radius);
+    object-fit: contain;
+  }
+  .lightbox-meta {
+    margin-top: 14px;
+    text-align: center;
+    color: var(--straw);
+  }
+  .lightbox-meta h3 { font-family: 'IM Fell English', serif; font-size: 1rem; }
+  .lightbox-meta p { font-size: 0.75rem; opacity: 0.6; font-family: 'Courier Prime', monospace; margin-top: 4px; }
+  .lightbox-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .lightbox-actions button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .lightbox-close { background: rgba(255,255,255,0.15); color: var(--straw); }
+
+  /* UPLOAD MODAL */
+  .upload-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(44,26,14,0.92);
+    z-index: 100;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .upload-modal.open { display: flex; }
+  .upload-sheet {
+    background: var(--cream);
+    border-radius: var(--radius) var(--radius) 0 0;
+    padding: 24px 20px 36px;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .upload-sheet h2 { font-family: 'IM Fell English', serif; font-size: 1.2rem; color: var(--soil); text-align: center; }
+  .upload-preview {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--mist);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 2px dashed var(--sage);
+    cursor: pointer;
+    position: relative;
+  }
+  .upload-preview img { width: 100%; height: 100%; object-fit: cover; display: none; }
+  .upload-preview .placeholder { font-size: 0.85rem; color: var(--bark); opacity: 0.5; text-align: center; padding: 20px; }
+  .upload-preview input[type=file] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
 </style>
 </head>
 <body>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-meta">
+    <h3 id="lightbox-title"></h3>
+    <p id="lightbox-date"></p>
+  </div>
+  <div class="lightbox-actions" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕ Close</button>
+  </div>
+</div>
+
+<!-- UPLOAD MODAL -->
+<div class="upload-modal" id="upload-modal">
+  <div class="upload-sheet">
+    <h2>Add a Photo</h2>
+    <div class="form-group">
+      <label>Admin Password</label>
+      <input type="password" id="upload-password" placeholder="Enter admin password">
+    </div>
+    <div class="upload-preview" id="upload-preview">
+      <img id="preview-img" src="" alt="">
+      <div class="placeholder" id="preview-placeholder">📷 Tap to take a photo<br>or choose from your library</div>
+      <input type="file" accept="image/*" capture="environment" onchange="previewPhoto(this)">
+    </div>
+    <div class="form-group">
+      <label>Which bed?</label>
+      <select id="upload-bed">
+        <optgroup label="Zone 1">
+          <option value="1A">1A</option>
+          <option value="1B">1B</option>
+          <option value="1C">1C</option>
+          <option value="1D">1D</option>
+          <option value="1E">1E</option>
+          <option value="1F">1F</option>
+          <option value="1G">1G</option>
+          <option value="1H">1H</option>
+        </optgroup>
+        <optgroup label="Zone 2">
+          <option value="2A">2A</option>
+          <option value="2B">2B</option>
+          <option value="2C">2C</option>
+          <option value="2D">2D</option>
+          <option value="2E">2E</option>
+          <option value="2F">2F</option>
+        </optgroup>
+        <optgroup label="Zone 3">
+          <option value="3A">3A</option>
+          <option value="3B">3B</option>
+          <option value="3C">3C</option>
+          <option value="3D">3D</option>
+          <option value="3E">3E</option>
+          <option value="3F">3F</option>
+          <option value="3G">3G</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Caption (optional)</label>
+      <input type="text" id="upload-caption" placeholder="What's growing here?">
+    </div>
+    <button class="submit-btn" onclick="submitPhoto()">Upload Photo</button>
+    <button style="background:none;border:none;color:var(--bark);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeUploadModal()">Cancel</button>
+  </div>
+</div>
 
 <!-- ═══════════════════════════════════════════ -->
 <!-- SCREEN: LANDING                            -->
@@ -500,9 +723,7 @@
       <h2>Lancer Farms<br>& Gardens</h2>
       <p>California Baptist University</p>
     </div>
-
     <p class="section-label">Who are you visiting as?</p>
-
     <div class="option-card" onclick="go('screen-guest-options')">
       <span class="card-icon">👤</span>
       <div class="card-text">
@@ -510,7 +731,6 @@
         <p>Browse the farm, learn about our beds</p>
       </div>
     </div>
-
     <div class="option-card primary" onclick="go('screen-login')">
       <span class="card-icon">🔑</span>
       <div class="card-text">
@@ -552,6 +772,13 @@
         <p>Leave a message or support the farm</p>
       </div>
     </div>
+    <div class="option-card" onclick="go('screen-photo-album')">
+      <span class="card-icon">📸</span>
+      <div class="card-text">
+        <h3>Photo Album</h3>
+        <p>Browse farm photos by zone and bed</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -574,33 +801,34 @@
       <div class="form-group">
         <label>Select from list</label>
         <select onchange="if(this.value) go('screen-bed-info-guest')">
+          <option value="">— Choose a bed —</option>
           <optgroup label="Zone 1">
-  <option value="1A">1A</option>
-  <option value="1B">1B</option>
-  <option value="1C">1C</option>
-  <option value="1D">1D</option>
-  <option value="1E">1E</option>
-  <option value="1F">1F</option>
-  <option value="1G">1G</option>
-  <option value="1H">1H</option>
-</optgroup>
-<optgroup label="Zone 2">
-  <option value="2A">2A</option>
-  <option value="2B">2B</option>
-  <option value="2C">2C</option>
-  <option value="2D">2D</option>
-  <option value="2E">2E</option>
-  <option value="2F">2F</option>
-</optgroup>
-<optgroup label="Zone 3">
-  <option value="3A">3A</option>
-  <option value="3B">3B</option>
-  <option value="3C">3C</option>
-  <option value="3D">3D</option>
-  <option value="3E">3E</option>
-  <option value="3F">3F</option>
-  <option value="3G">3G</option>
-</optgroup>
+            <option value="1A">1A</option>
+            <option value="1B">1B</option>
+            <option value="1C">1C</option>
+            <option value="1D">1D</option>
+            <option value="1E">1E</option>
+            <option value="1F">1F</option>
+            <option value="1G">1G</option>
+            <option value="1H">1H</option>
+          </optgroup>
+          <optgroup label="Zone 2">
+            <option value="2A">2A</option>
+            <option value="2B">2B</option>
+            <option value="2C">2C</option>
+            <option value="2D">2D</option>
+            <option value="2E">2E</option>
+            <option value="2F">2F</option>
+          </optgroup>
+          <optgroup label="Zone 3">
+            <option value="3A">3A</option>
+            <option value="3B">3B</option>
+            <option value="3C">3C</option>
+            <option value="3D">3D</option>
+            <option value="3E">3E</option>
+            <option value="3F">3F</option>
+            <option value="3G">3G</option>
+          </optgroup>
         </select>
       </div>
     </div>
@@ -622,7 +850,6 @@
       <h2>Tomatoes</h2>
       <div class="bed-manager">Managed by Sarah M.</div>
     </div>
-
     <div class="info-row">
       <span class="label">Currently Growing</span>
       <span class="value">Heirloom Tomatoes</span>
@@ -635,12 +862,10 @@
       <span class="label">Est. Harvest</span>
       <span class="value">June 20, 2026</span>
     </div>
-
     <div class="blessing-block">
       <p>"The earth is the Lord's, and everything in it, the world, and all who live in it."</p>
       <cite>— Psalm 24:1 · chosen by Sarah M.</cite>
     </div>
-
     <p class="section-label">Community Comments</p>
     <div class="comment-feed">
       <div class="comment-item">
@@ -652,7 +877,6 @@
         <p>Beautiful work on this bed. The staking system is really well done.</p>
       </div>
     </div>
-
     <div class="report-link">
       <a onclick="go('screen-damage-report')">Something wrong with this bed? Click here to report it.</a>
     </div>
@@ -757,11 +981,33 @@
       <label>Which bed? (optional)</label>
       <select>
         <option value="">General comment about the farm</option>
-        <option>Z1-A1 · Tomatoes</option>
-        <option>Z1-A2 · Bell Peppers</option>
-        <option>Z2-B1 · Squash</option>
-        <option>Z2-B2 · Kale & Chard</option>
-        <option>Z3-C1 · Herbs</option>
+        <optgroup label="Zone 1">
+          <option value="1A">1A</option>
+          <option value="1B">1B</option>
+          <option value="1C">1C</option>
+          <option value="1D">1D</option>
+          <option value="1E">1E</option>
+          <option value="1F">1F</option>
+          <option value="1G">1G</option>
+          <option value="1H">1H</option>
+        </optgroup>
+        <optgroup label="Zone 2">
+          <option value="2A">2A</option>
+          <option value="2B">2B</option>
+          <option value="2C">2C</option>
+          <option value="2D">2D</option>
+          <option value="2E">2E</option>
+          <option value="2F">2F</option>
+        </optgroup>
+        <optgroup label="Zone 3">
+          <option value="3A">3A</option>
+          <option value="3B">3B</option>
+          <option value="3C">3C</option>
+          <option value="3D">3D</option>
+          <option value="3E">3E</option>
+          <option value="3F">3F</option>
+          <option value="3G">3G</option>
+        </optgroup>
       </select>
     </div>
     <div class="form-group">
@@ -769,6 +1015,49 @@
       <textarea placeholder="Share your thoughts, encouragement, or questions..."></textarea>
     </div>
     <button class="submit-btn" onclick="showToast('✓ Comment submitted — thank you!'); go('screen-guest-options')">Post Comment</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: PHOTO ALBUM                        -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-photo-album">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-guest-options')">‹</button>
+    <h1>Photo Album</h1>
+    <p>Lancer Farms & Gardens</p>
+  </div>
+  <div class="screen-body">
+
+    <button class="upload-btn" id="album-upload-btn" onclick="openUploadModal()" style="display:none;">
+      📷 Add a Photo
+    </button>
+
+    <div class="zone-header">🌿 Zone 1</div>
+    <div class="photo-grid">
+      <div class="photo-thumb" onclick="openLightbox('https://res.cloudinary.com/ddbsuxerb/image/upload/v1/samples/landscapes/nature-mountains.jpg','Bed 1A · Tomatoes','Uploaded Jun 8, 2026')">
+        <img src="https://res.cloudinary.com/ddbsuxerb/image/upload/w_300,h_300,c_fill/v1/samples/landscapes/nature-mountains.jpg" alt="Bed 1A">
+        <span class="bed-tag">1A</span>
+      </div>
+      <div class="photo-thumb" onclick="openLightbox('https://res.cloudinary.com/ddbsuxerb/image/upload/v1/samples/food/fish-vegetables.jpg','Bed 1C · Herbs','Uploaded Jun 5, 2026')">
+        <img src="https://res.cloudinary.com/ddbsuxerb/image/upload/w_300,h_300,c_fill/v1/samples/food/fish-vegetables.jpg" alt="Bed 1C">
+        <span class="bed-tag">1C</span>
+      </div>
+    </div>
+
+    <div class="zone-header">🌿 Zone 2</div>
+    <div class="photo-grid">
+      <div class="photo-thumb" onclick="openLightbox('https://res.cloudinary.com/ddbsuxerb/image/upload/v1/samples/food/spices.jpg','Bed 2B · Squash','Uploaded Jun 3, 2026')">
+        <img src="https://res.cloudinary.com/ddbsuxerb/image/upload/w_300,h_300,c_fill/v1/samples/food/spices.jpg" alt="Bed 2B">
+        <span class="bed-tag">2B</span>
+      </div>
+    </div>
+
+    <div class="zone-header">🌿 Zone 3</div>
+    <div class="photo-grid">
+      <div class="photo-empty">No photos yet for Zone 3.</div>
+    </div>
+
   </div>
 </div>
 
@@ -786,8 +1075,8 @@
       <h2>Welcome Back</h2>
       <p>Enter your credentials to access the farm dashboard</p>
       <input type="text" placeholder="Username" />
-      <input type="password" placeholder="Password" />
-     <button onclick="handleLogin()">Sign In</button>
+      <input type="password" id="login-password" placeholder="Password" />
+      <button onclick="handleLogin()">Sign In</button>
     </div>
   </div>
 </div>
@@ -880,6 +1169,13 @@
         <p>Guest engagement and support</p>
       </div>
     </div>
+    <div class="option-card" onclick="go('screen-photo-album', {showUpload: true})">
+      <span class="card-icon">📸</span>
+      <div class="card-text">
+        <h3>Photo Album</h3>
+        <p>Browse and upload farm photos</p>
+      </div>
+    </div>
     <p class="section-label">Staff Tools</p>
     <div class="option-card" onclick="go('screen-tools-inventory')">
       <span class="card-icon">🔧</span>
@@ -925,33 +1221,33 @@
         <label>Select from list</label>
         <select onchange="if(this.value) go('screen-bed-info-employee')">
           <option value="">— Choose a bed —</option>
-         <optgroup label="Zone 1">
-  <option value="1A">1A</option>
-  <option value="1B">1B</option>
-  <option value="1C">1C</option>
-  <option value="1D">1D</option>
-  <option value="1E">1E</option>
-  <option value="1F">1F</option>
-  <option value="1G">1G</option>
-  <option value="1H">1H</option>
-</optgroup>
-<optgroup label="Zone 2">
-  <option value="2A">2A</option>
-  <option value="2B">2B</option>
-  <option value="2C">2C</option>
-  <option value="2D">2D</option>
-  <option value="2E">2E</option>
-  <option value="2F">2F</option>
-</optgroup>
-<optgroup label="Zone 3">
-  <option value="3A">3A</option>
-  <option value="3B">3B</option>
-  <option value="3C">3C</option>
-  <option value="3D">3D</option>
-  <option value="3E">3E</option>
-  <option value="3F">3F</option>
-  <option value="3G">3G</option>
-</optgroup>
+          <optgroup label="Zone 1">
+            <option value="1A">1A</option>
+            <option value="1B">1B</option>
+            <option value="1C">1C</option>
+            <option value="1D">1D</option>
+            <option value="1E">1E</option>
+            <option value="1F">1F</option>
+            <option value="1G">1G</option>
+            <option value="1H">1H</option>
+          </optgroup>
+          <optgroup label="Zone 2">
+            <option value="2A">2A</option>
+            <option value="2B">2B</option>
+            <option value="2C">2C</option>
+            <option value="2D">2D</option>
+            <option value="2E">2E</option>
+            <option value="2F">2F</option>
+          </optgroup>
+          <optgroup label="Zone 3">
+            <option value="3A">3A</option>
+            <option value="3B">3B</option>
+            <option value="3C">3C</option>
+            <option value="3D">3D</option>
+            <option value="3E">3E</option>
+            <option value="3F">3F</option>
+            <option value="3G">3G</option>
+          </optgroup>
         </select>
       </div>
     </div>
@@ -1165,10 +1461,18 @@
       <label>Bed or Zone (if applicable)</label>
       <select>
         <option>Not bed-specific</option>
-        <option>Z1-A1 · Tomatoes</option>
-        <option>Z1-A2 · Bell Peppers</option>
-        <option>Z2-B1 · Squash</option>
-        <option>Z3-C1 · Herbs</option>
+        <optgroup label="Zone 1">
+          <option>1A</option><option>1B</option><option>1C</option><option>1D</option>
+          <option>1E</option><option>1F</option><option>1G</option><option>1H</option>
+        </optgroup>
+        <optgroup label="Zone 2">
+          <option>2A</option><option>2B</option><option>2C</option>
+          <option>2D</option><option>2E</option><option>2F</option>
+        </optgroup>
+        <optgroup label="Zone 3">
+          <option>3A</option><option>3B</option><option>3C</option><option>3D</option>
+          <option>3E</option><option>3F</option><option>3G</option>
+        </optgroup>
       </select>
     </div>
     <div class="form-group">
@@ -1208,27 +1512,23 @@
         <span><span class="badge">1</span> <span class="arrow">›</span></span>
       </div>
     </div>
-
     <div class="admin-section">
       <div class="admin-section-header">Bed Management</div>
       <div class="admin-row" onclick="showToast('Bed list coming soon')"><span>View All Beds</span><span class="arrow">›</span></div>
       <div class="admin-row" onclick="showToast('Add bed coming soon')"><span>Add New Bed</span><span class="arrow">›</span></div>
       <div class="admin-row" onclick="showToast('Password reset coming soon')"><span>Reset Bed Passwords</span><span class="arrow">›</span></div>
     </div>
-
     <div class="admin-section">
       <div class="admin-section-header">Inventory Management</div>
       <div class="admin-row" onclick="go('screen-tools-inventory')"><span>Tool Inventory</span><span class="arrow">›</span></div>
       <div class="admin-row" onclick="go('screen-consumables')"><span>Consumables & Par Levels</span><span class="arrow">›</span></div>
       <div class="admin-row" onclick="showToast('Par change requests coming soon')"><span>Par Change Requests <span class="badge">1</span></span><span class="arrow">›</span></div>
     </div>
-
     <div class="admin-section">
       <div class="admin-section-header">Community</div>
       <div class="admin-row" onclick="showToast('Comment moderation coming soon')"><span>Moderate Comments</span><span class="arrow">›</span></div>
       <div class="admin-row" onclick="showToast('Donation tracking coming soon')"><span>Donation Activity</span><span class="arrow">›</span></div>
     </div>
-
     <div class="admin-section">
       <div class="admin-section-header">Site</div>
       <div class="admin-row" onclick="showToast('About page editor coming soon')"><span>Edit About Page</span><span class="arrow">›</span></div>
@@ -1239,31 +1539,28 @@
 </div>
 
 <script>
-  function go(screenId) {
+  // MASTER PASSWORD
+  const MASTER_PASSWORD = 'Lilybean$$16';
+
+  // CLOUDINARY CONFIG
+  const CLOUD_NAME = 'ddbsuxerb';
+  const UPLOAD_PRESET = 'lfg-photos';
+
+  // NAVIGATION
+  function go(screenId, options = {}) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(screenId);
     if (target) {
       target.classList.add('active');
       target.scrollTop = 0;
     }
-  
+    if (screenId === 'screen-photo-album') {
+      const btn = document.getElementById('album-upload-btn');
+      if (btn) btn.style.display = options.showUpload ? 'flex' : 'none';
+    }
   }
-// MASTER PASSWORD
-const MASTER_PASSWORD = '8675309';
 
-// Override the login screen sign-in button
-// Find the button in screen-login that says onclick="go('screen-alert')"
-// Replace that onclick with this:
-// onclick="handleLogin()"
-
-function handleLogin() {
-  const pw = document.querySelector('#screen-login input[type="password"]').value;
-  if (pw === MASTER_PASSWORD) {
-    go('screen-alert');
-  } else {
-    showToast('⛔ Incorrect password');
-  }
-}
+  // TOAST
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -1271,7 +1568,92 @@ function handleLogin() {
     setTimeout(() => t.classList.remove('show'), 2500);
   }
 
-  // Secret admin access: tap header 5 times on employee dashboard
+  // LOGIN
+  function handleLogin() {
+    const pw = document.getElementById('login-password').value;
+    if (pw === MASTER_PASSWORD) {
+      go('screen-alert');
+    } else {
+      showToast('⛔ Incorrect password');
+    }
+  }
+
+  // LIGHTBOX
+  function openLightbox(src, title, date) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-title').textContent = title;
+    document.getElementById('lightbox-date').textContent = date;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+
+  // UPLOAD MODAL
+  function openUploadModal() {
+    document.getElementById('upload-modal').classList.add('open');
+  }
+  function closeUploadModal() {
+    document.getElementById('upload-modal').classList.remove('open');
+    document.getElementById('preview-img').style.display = 'none';
+    document.getElementById('preview-placeholder').style.display = 'block';
+    document.getElementById('preview-img').src = '';
+    document.getElementById('upload-caption').value = '';
+    document.getElementById('upload-password').value = '';
+  }
+  function previewPhoto(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.getElementById('preview-img');
+        img.src = e.target.result;
+        img.style.display = 'block';
+        document.getElementById('preview-placeholder').style.display = 'none';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  async function submitPhoto() {
+    const fileInput = document.querySelector('#upload-preview input[type=file]');
+    const bed = document.getElementById('upload-bed').value;
+    const caption = document.getElementById('upload-caption').value;
+    const password = document.getElementById('upload-password').value;
+
+    if (password !== MASTER_PASSWORD) {
+      showToast('⛔ Incorrect password');
+      return;
+    }
+    if (!fileInput.files || !fileInput.files[0]) {
+      showToast('📷 Please select a photo first');
+      return;
+    }
+
+    showToast('⏳ Uploading...');
+
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+    formData.append('upload_preset', UPLOAD_PRESET);
+    formData.append('folder', 'lfg-photos');
+    formData.append('context', `bed=${bed}|caption=${caption}`);
+
+    try {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (data.secure_url) {
+        showToast('✓ Photo uploaded!');
+        closeUploadModal();
+      } else {
+        showToast('Upload failed — try again');
+      }
+    } catch(e) {
+      showToast('Upload failed — check connection');
+    }
+  }
+
+  // SECRET ADMIN ACCESS — tap header 5 times on employee dashboard
   let tapCount = 0;
   document.addEventListener('DOMContentLoaded', () => {
     const headers = document.querySelectorAll('.app-header h1');
