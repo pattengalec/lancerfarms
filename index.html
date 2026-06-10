@@ -1,393 +1,1237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lancer Farms & Gardens · CBU</title>
-  <meta name="description" content="A living classroom rooted in the Inland Empire — growing food, skills, and community at California Baptist University." />
-  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Source+Sans+3:wght@300;400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Lancer Farms & Gardens</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=Courier+Prime&display=swap');
 
-    :root {
-      --dry-grass: #E8DFC8;
-      --straw:     #D4C5A0;
-      --sandstone: #C4A882;
-      --manzanita: #8B5E3C;
-      --oak:       #4A3728;
-      --sage:      #7A9E6E;
-      --poppy:     #C4651A;
-      --gold:      #D4892A;
-      --sky:       #6B8FA8;
-      --cream-card: #F2EBD8;
-      --cream-light: #FAF6EE;
-    }
+  :root {
+    --soil:     #2C1A0E;
+    --bark:     #4A2E1A;
+    --straw:    #C8A96E;
+    --sage:     #7A9E7E;
+    --cream:    #F5EFE0;
+    --mist:     #EAE4D4;
+    --leaf:     #3D6B45;
+    --alert:    #B85C2A;
+    --white:    #FDFAF4;
+    --radius:   12px;
+    --shadow:   0 2px 16px rgba(44,26,14,0.13);
+  }
 
-    body {
-      font-family: 'Source Sans 3', Georgia, sans-serif;
-      background: var(--dry-grass);
-      color: var(--oak);
-    }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2.5rem;
-      background: rgba(232,223,200,0.94);
-      border-bottom: 1px solid rgba(196,168,130,0.4);
-      backdrop-filter: blur(6px);
-    }
-    .nav-brand {
-      font-family: Georgia, serif;
-      font-size: 1.1rem;
-      color: var(--oak);
-      text-decoration: none;
-    }
-    .nav-brand em { font-style: italic; color: var(--manzanita); }
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
-    .nav-links a {
-      font-size: 0.75rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--manzanita);
-      text-decoration: none;
-    }
-    .nav-links a:hover { color: var(--oak); }
-    .nav-login {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border: 1px solid var(--sandstone);
-      color: var(--manzanita);
-      padding: 0.38rem 0.9rem;
-      text-decoration: none;
-      border-radius: 2px;
-      transition: background 0.2s;
-    }
-    .nav-login:hover { background: rgba(139,94,60,0.08); }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--soil);
+    color: var(--cream);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      min-height: 90vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 5rem 2rem 4rem;
-      text-align: center;
-    }
-    .watermark-bg {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      z-index: 0;
-    }
-    .watermark-bg svg {
-      position: absolute;
-      inset: -10%;
-      width: 120%;
-      height: 120%;
-    }
-    .hero-vignette {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background: radial-gradient(
-        ellipse 70% 55% at 50% 45%,
-        rgba(232,223,200,0.25) 0%,
-        rgba(232,223,200,0.60) 55%,
-        rgba(232,223,200,0.92) 100%
-      );
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 640px;
-    }
-    .hero-eyebrow {
-      font-family: 'Courier Prime', Courier, monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--poppy);
-      margin-bottom: 1rem;
-    }
-    .hero-title {
-      font-family: Georgia, serif;
-      font-size: clamp(2.8rem, 6vw, 4.5rem);
-      font-weight: 400;
-      line-height: 1.1;
-      color: var(--oak);
-      margin-bottom: 0.5rem;
-    }
-    .hero-title em { font-style: italic; color: var(--manzanita); }
-    .hero-rule {
-      width: 44px;
-      height: 1px;
-      background: var(--sandstone);
-      margin: 1.2rem auto;
-    }
-    .hero-sub {
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--manzanita);
-      line-height: 1.65;
-      margin-bottom: 2.2rem;
-    }
-    .hero-cta {
-      display: inline-block;
-      font-family: 'Courier Prime', Courier, monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--oak);
-      border: 1px solid var(--sandstone);
-      padding: 0.7rem 1.6rem;
-      text-decoration: none;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .hero-cta:hover { background: rgba(139,94,60,0.07); border-color: var(--manzanita); }
+  /* SCREEN SYSTEM */
+  .screen {
+    display: none;
+    width: 100%;
+    max-width: 420px;
+    min-height: 100vh;
+    background: var(--cream);
+    color: var(--soil);
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto;
+  }
+  .screen.active { display: flex; }
 
-    /* ── FEATURES ── */
-    .features {
-      background: var(--cream-light);
-      padding: 4.5rem 2.5rem;
-    }
-    .features-header { text-align: center; margin-bottom: 3rem; }
-    .features-eyebrow {
-      font-family: 'Courier Prime', Courier, monospace;
-      font-size: 0.66rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.6rem;
-    }
-    .features-title {
-      font-family: Georgia, serif;
-      font-size: 1.85rem;
-      font-weight: 400;
-      color: var(--oak);
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-      max-width: 920px;
-      margin: 0 auto;
-    }
-    .card {
-      background: var(--cream-card);
-      border: 0.5px solid var(--straw);
-      padding: 1.75rem 1.5rem;
-      position: relative;
-      transition: transform 0.2s;
-      cursor: pointer;
-    }
-    .card:hover { transform: translateY(-2px); }
-    .card-accent {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-    .card-title {
-      font-family: Georgia, serif;
-      font-size: 1.1rem;
-      color: var(--oak);
-      margin-bottom: 0.5rem;
-    }
-    .card-desc {
-      font-size: 0.85rem;
-      color: var(--manzanita);
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-      font-weight: 300;
-    }
-    .card-link {
-      font-family: 'Courier Prime', Courier, monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      text-decoration: none;
-    }
-    .card-lock {
-      font-family: 'Courier Prime', Courier, monospace;
-      font-size: 0.66rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: 0.85;
-    }
+  /* HEADER */
+  .app-header {
+    background: var(--soil);
+    color: var(--straw);
+    padding: 18px 20px 14px;
+    text-align: center;
+    position: relative;
+  }
+  .app-header h1 {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.45rem;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  .app-header p {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    color: var(--straw);
+    opacity: 0.7;
+    margin-top: 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .back-btn {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--straw);
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+  }
 
-    /* ── ABOUT ── */
-    .about {
-      background: var(--oak);
-      padding: 4rem 2.5rem;
-      text-align: center;
-    }
-    .about-title {
-      font-family: Georgia, serif;
-      font-size: 1.5rem;
-      font-weight: 400;
-      color: var(--dry-grass);
-      margin-bottom: 0.75rem;
-    }
-    .about-body {
-      font-size: 0.92rem;
-      font-weight: 300;
-      color: var(--sandstone);
-      line-height: 1.75;
-      max-width: 580px;
-      margin: 0 auto 1.5rem;
-    }
-    .about-badge {
-      display: inline-block;
-      font-family: 'Courier Prime', Courier, monospace;
-      font-size: 0.66rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      border: 1px solid rgba(196,168,130,0.35);
-      color: var(--sandstone);
-      padding: 0.35rem 0.9rem;
-      border-radius: 2px;
-    }
+  /* BODY CONTENT */
+  .screen-body {
+    flex: 1;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--straw);
-      padding: 1.5rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      border-top: 1px solid var(--sandstone);
-    }
-    .footer-brand {
-      font-family: Georgia, serif;
-      font-size: 0.9rem;
-      color: var(--oak);
-    }
-    .footer-meta {
-      font-family: 'Courier Prime', Courier, monospace;
-      font-size: 0.63rem;
-      letter-spacing: 0.1em;
-      color: var(--manzanita);
-      text-align: right;
-    }
-    .footer-meta a { color: var(--manzanita); text-decoration: none; opacity: 0.7; }
+  /* HERO LANDING */
+  .hero-block {
+    background: var(--soil);
+    border-radius: var(--radius);
+    padding: 32px 24px 28px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .hero-block .farm-emblem {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .hero-block h2 {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.6rem;
+    color: var(--straw);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .hero-block p {
+    font-size: 0.82rem;
+    color: var(--mist);
+    opacity: 0.8;
+    font-style: italic;
+  }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      nav { padding: 0.85rem 1.25rem; }
-      .nav-links { display: none; }
-      .hero { min-height: 80vh; }
-      .features { padding: 3rem 1.25rem; }
-      .about { padding: 3rem 1.25rem; }
-      footer { padding: 1.25rem; flex-direction: column; text-align: center; }
-      .footer-meta { text-align: center; }
-    }
-  </style>
+  /* OPTION CARDS */
+  .option-card {
+    background: var(--white);
+    border: 1.5px solid var(--mist);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: var(--soil);
+  }
+  .option-card:active { border-color: var(--sage); box-shadow: 0 1px 6px rgba(44,26,14,0.1); }
+  .option-card .card-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .option-card .card-text h3 { font-size: 1rem; font-weight: 600; color: var(--soil); }
+  .option-card .card-text p { font-size: 0.78rem; color: var(--bark); margin-top: 2px; opacity: 0.75; }
+  .option-card.primary { background: var(--leaf); border-color: var(--leaf); }
+  .option-card.primary .card-text h3 { color: var(--white); }
+  .option-card.primary .card-text p { color: var(--mist); }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--bark);
+    opacity: 0.6;
+    margin-bottom: -6px;
+    padding-left: 2px;
+  }
+
+  /* ALERT BANNER */
+  .alert-banner {
+    background: var(--alert);
+    color: var(--white);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .alert-banner .alert-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
+  .alert-banner h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+  .alert-banner p { font-size: 0.78rem; opacity: 0.9; }
+  .alert-banner button {
+    margin-top: 10px;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: var(--white);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* BED INFO PAGE */
+  .bed-header {
+    background: var(--leaf);
+    color: var(--white);
+    padding: 20px 20px 16px;
+    border-radius: var(--radius);
+  }
+  .bed-header .bed-id {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.72rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .bed-header h2 { font-family: 'IM Fell English', serif; font-size: 1.4rem; margin: 4px 0 2px; }
+  .bed-header .bed-manager { font-size: 0.8rem; opacity: 0.85; }
+
+  .info-row {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 12px 16px;
+    border: 1px solid var(--mist);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .info-row .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bark); opacity: 0.65; font-family: 'Courier Prime', monospace; }
+  .info-row .value { font-size: 0.92rem; font-weight: 600; color: var(--soil); text-align: right; max-width: 60%; }
+
+  .blessing-block {
+    background: var(--soil);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    text-align: center;
+  }
+  .blessing-block p {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--straw);
+    line-height: 1.6;
+  }
+  .blessing-block cite {
+    display: block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.68rem;
+    color: var(--straw);
+    opacity: 0.6;
+    margin-top: 8px;
+    font-style: normal;
+    letter-spacing: 0.06em;
+  }
+
+  /* COMMENT FEED */
+  .comment-feed { display: flex; flex-direction: column; gap: 10px; }
+  .comment-item {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--mist);
+  }
+  .comment-item .comment-meta { font-size: 0.68rem; color: var(--bark); opacity: 0.6; font-family: 'Courier Prime', monospace; margin-bottom: 4px; }
+  .comment-item p { font-size: 0.85rem; color: var(--soil); line-height: 1.5; }
+
+  .report-link {
+    text-align: center;
+    margin-top: 4px;
+    padding: 8px;
+  }
+  .report-link a {
+    font-size: 0.72rem;
+    color: var(--bark);
+    opacity: 0.45;
+    text-decoration: none;
+    border-bottom: 1px dashed currentColor;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .report-link a:hover { opacity: 0.75; }
+
+  /* MANAGE BUTTON */
+  .manage-btn {
+    background: var(--leaf);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: 0.03em;
+  }
+
+  /* FORM STYLES */
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bark); font-family: 'Courier Prime', monospace; }
+  .form-group input, .form-group select, .form-group textarea {
+    background: var(--white);
+    border: 1.5px solid var(--mist);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 0.92rem;
+    font-family: inherit;
+    color: var(--soil);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--sage); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  .submit-btn {
+    background: var(--soil);
+    color: var(--straw);
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px;
+    font-size: 1rem;
+    font-family: 'IM Fell English', serif;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: 0.04em;
+  }
+  .submit-btn:active { opacity: 0.85; }
+
+  /* LOGIN */
+  .login-block {
+    background: var(--soil);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .login-block h2 { font-family: 'IM Fell English', serif; color: var(--straw); font-size: 1.3rem; margin-bottom: 6px; }
+  .login-block p { font-size: 0.8rem; color: var(--mist); opacity: 0.75; margin-bottom: 20px; }
+  .login-block input {
+    width: 100%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(200,169,110,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    color: var(--white);
+    font-family: inherit;
+    outline: none;
+    margin-bottom: 12px;
+    text-align: center;
+    letter-spacing: 0.1em;
+  }
+  .login-block button {
+    width: 100%;
+    background: var(--straw);
+    color: var(--soil);
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-size: 0.95rem;
+    font-family: 'IM Fell English', serif;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+  }
+
+  /* INVENTORY */
+  .inventory-item {
+    background: var(--white);
+    border: 1.5px solid var(--mist);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .inventory-item.low-stock { border-color: var(--alert); }
+  .inventory-item .item-name { font-size: 0.9rem; font-weight: 600; color: var(--soil); }
+  .inventory-item .item-sub { font-size: 0.72rem; color: var(--bark); opacity: 0.65; margin-top: 2px; }
+  .inventory-item .item-qty { text-align: right; }
+  .inventory-item .qty-num { font-family: 'Courier Prime', monospace; font-size: 1.1rem; font-weight: 600; color: var(--soil); }
+  .inventory-item.low-stock .qty-num { color: var(--alert); }
+  .inventory-item .qty-par { font-size: 0.68rem; color: var(--bark); opacity: 0.55; }
+  .stock-flag {
+    background: var(--alert);
+    color: var(--white);
+    font-size: 0.62rem;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: 'Courier Prime', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ADMIN PANEL */
+  .admin-section {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1.5px solid var(--mist);
+    overflow: hidden;
+  }
+  .admin-section-header {
+    background: var(--soil);
+    color: var(--straw);
+    padding: 10px 16px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .admin-row {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--mist);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .admin-row:last-child { border-bottom: none; }
+  .admin-row span { font-size: 0.9rem; color: var(--soil); }
+  .admin-row .badge {
+    background: var(--alert);
+    color: var(--white);
+    font-size: 0.68rem;
+    border-radius: 10px;
+    padding: 2px 8px;
+    font-family: 'Courier Prime', monospace;
+  }
+  .admin-row .arrow { color: var(--bark); opacity: 0.4; font-size: 1rem; }
+
+  /* BED SELECTOR */
+  .bed-selector {
+    background: var(--white);
+    border: 1.5px solid var(--mist);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .bed-selector h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--soil); text-align: center; }
+  .qr-btn {
+    background: var(--soil);
+    color: var(--straw);
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-family: 'IM Fell English', serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .divider-or {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--bark);
+    opacity: 0.5;
+    font-family: 'Courier Prime', monospace;
+    letter-spacing: 0.1em;
+    position: relative;
+  }
+  .divider-or::before, .divider-or::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 38%;
+    height: 1px;
+    background: var(--mist);
+  }
+  .divider-or::before { left: 0; }
+  .divider-or::after { right: 0; }
+
+  /* ABOUT PAGE */
+  .about-block {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--mist);
+    padding: 20px;
+  }
+  .about-block h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--soil); margin-bottom: 10px; }
+  .about-block p { font-size: 0.88rem; color: var(--bark); line-height: 1.65; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--soil);
+    color: var(--straw);
+    padding: 12px 22px;
+    border-radius: 24px;
+    font-size: 0.85rem;
+    font-family: 'Courier Prime', monospace;
+    transition: transform 0.3s ease;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 2px; }
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a class="nav-brand" href="/"><em>Lancer</em> Farms</a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/configurator.html">Configurator</a></li>
-      <li><a href="/gallery.html">Gallery</a></li>
-    </ul>
-    <a class="nav-login" href="/login.html">Farm login</a>
-  </nav>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="watermark-bg">
-      <svg viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <pattern id="wm" x="0" y="0" width="240" height="110"
-            patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
-            <text x="8" y="40"
-              font-family="Georgia, serif"
-              font-size="15" font-weight="700" letter-spacing="6"
-              fill="rgba(139,94,60,0.28)">LANCER FARMS</text>
-            <text x="30" y="82"
-              font-family="Courier, monospace"
-              font-size="11" letter-spacing="10"
-              fill="rgba(196,101,26,0.20)">CBU</text>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#wm)" />
-      </svg>
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LANDING                            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen active" id="screen-landing">
+  <div class="screen-body" style="justify-content:center; padding-top:40px;">
+    <div class="hero-block">
+      <span class="farm-emblem">🌱</span>
+      <h2>Lancer Farms<br>& Gardens</h2>
+      <p>California Baptist University</p>
     </div>
-    <div class="hero-vignette"></div>
-    <div class="hero-content">
-      <p class="hero-eyebrow">California Baptist University · Riverside, CA</p>
-      <h1 class="hero-title">Lancer <em>Farms</em></h1>
-      <div class="hero-rule"></div>
-      <p class="hero-sub">A living classroom rooted in the Inland Empire — growing food, skills, and community one season at a time.</p>
-      <a class="hero-cta" href="#features">Explore the farm ↓</a>
+
+    <p class="section-label">Who are you visiting as?</p>
+
+    <div class="option-card" onclick="go('screen-guest-options')">
+      <span class="card-icon">👤</span>
+      <div class="card-text">
+        <h3>Guest</h3>
+        <p>Browse the farm, learn about our beds</p>
+      </div>
     </div>
-  </section>
 
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <div class="features-header">
-      <p class="features-eyebrow">What you can do here</p>
-      <h2 class="features-title">Built for growers and caretakers</h2>
+    <div class="option-card primary" onclick="go('screen-login')">
+      <span class="card-icon">🔑</span>
+      <div class="card-text">
+        <h3>Employee / Student</h3>
+        <p>Log in to manage your beds</p>
+      </div>
     </div>
-    <div class="cards">
+  </div>
+</div>
 
-      <div class="card">
-        <div class="card-accent" style="background:#7A9E6E;"></div>
-        <h3 class="card-title">Raised bed configurator</h3>
-        <p class="card-desc">Design and plan your beds. Set dimensions, choose crops, and map your layout before you break ground.</p>
-        <a class="card-link" href="/configurator.html" style="color:#7A9E6E;">Open configurator →</a>
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: GUEST OPTIONS                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-guest-options">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-landing')">‹</button>
+    <h1>Lancer Farms & Gardens</h1>
+    <p>Guest Access</p>
+  </div>
+  <div class="screen-body">
+    <div class="option-card" onclick="go('screen-bed-selector-guest')">
+      <span class="card-icon">🌿</span>
+      <div class="card-text">
+        <h3>Explore a Garden Bed</h3>
+        <p>View crop info, manager, and blessings</p>
       </div>
-
-      <div class="card">
-        <div class="card-accent" style="background:#6B8FA8;"></div>
-        <h3 class="card-title">Photo album</h3>
-        <p class="card-desc">A seasonal record of the farm. Browse growth timelines, harvests, and student projects from the field.</p>
-        <a class="card-link" href="/gallery.html" style="color:#6B8FA8;">View gallery →</a>
-      </div>
-
-      <div class="card">
-        <div class="card-accent" style="background:#D4892A;"></div>
-        <h3 class="card-title">Farm management</h3>
-        <p class="card-desc">Zone tracking, caretaker logs, and task tools powered by the Grush system deployed at LFG.</p>
-        <span class="card-lock">⚿ Staff login required</span>
-      </div>
-
-      <div class="card" style="opacity: 0.7;">
-        <div class="card-accent" style="background:#C4A882;"></div>
-        <h3 class="card-title">Garden map</h3>
-        <p class="card-desc">An interactive map of all 21 raised beds across the LFG campus — find any bed by zone or ID.</p>
-        <span class="card-lock" style="color:var(--sandstone);">◌ Coming soon</span>
-      </div>
-
     </div>
-  </section>
+    <div class="option-card" onclick="go('screen-about')">
+      <span class="card-icon">📖</span>
+      <div class="card-text">
+        <h3>About Lancer Farms</h3>
+        <p>Our mission, history, and community</p>
+      </div>
+    </div>
+    <div class="option-card" onclick="go('screen-comment-donate')">
+      <span class="card-icon">💬</span>
+      <div class="card-text">
+        <h3>Comment or Donate</h3>
+        <p>Leave a message or support the farm</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <!-- ABOUT -->
-  <section class="about">
-    <h2 class="about-title">Rooted in the Inland Empire</h2>
-    <p class="about-body">Lancer Farms & Gardens is a student-run growing space on the CBU campus in Riverside, CA — where Zone 9B heat, sandy loam soils, and chaparral-adapted plants meet hands-on agricultural education.</p>
-    <span class="about-badge">Est. CBU · Riverside, CA</span>
-  </section>
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED SELECTOR (GUEST)               -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-selector-guest">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-guest-options')">‹</button>
+    <h1>Select a Bed</h1>
+    <p>Guest View</p>
+  </div>
+  <div class="screen-body">
+    <div class="bed-selector">
+      <h3>Find a Garden Bed</h3>
+      <button class="qr-btn" onclick="showToast('📷 QR scanner coming soon')">
+        📷 Scan QR Code
+      </button>
+      <div class="divider-or">OR</div>
+      <div class="form-group">
+        <label>Select from list</label>
+        <select onchange="if(this.value) go('screen-bed-info-guest')">
+          <option value="">— Choose a bed —</option>
+          <option value="Z1-A1">Z1-A1 · Tomatoes</option>
+          <option value="Z1-A2">Z1-A2 · Bell Peppers</option>
+          <option value="Z2-B1">Z2-B1 · Squash</option>
+          <option value="Z2-B2">Z2-B2 · Kale & Chard</option>
+          <option value="Z3-C1">Z3-C1 · Herbs</option>
+          <option value="Z3-C2">Z3-C2 · Strawberries</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <span class="footer-brand">Lancer Farms & Gardens</span>
-    <span class="footer-meta">Powered by <a href="https://getgrush.com">Grush</a> · California Baptist University</span>
-  </footer>
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED INFO (GUEST)                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-info-guest">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-bed-selector-guest')">‹</button>
+    <h1>Bed Z1-A1</h1>
+    <p>Zone 1 · Row A</p>
+  </div>
+  <div class="screen-body">
+    <div class="bed-header">
+      <div class="bed-id">Bed ID: Z1-A1</div>
+      <h2>Tomatoes</h2>
+      <div class="bed-manager">Managed by Sarah M.</div>
+    </div>
 
+    <div class="info-row">
+      <span class="label">Currently Growing</span>
+      <span class="value">Heirloom Tomatoes</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Date Planted</span>
+      <span class="value">March 12, 2026</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Est. Harvest</span>
+      <span class="value">June 20, 2026</span>
+    </div>
+
+    <div class="blessing-block">
+      <p>"The earth is the Lord's, and everything in it, the world, and all who live in it."</p>
+      <cite>— Psalm 24:1 · chosen by Sarah M.</cite>
+    </div>
+
+    <p class="section-label">Community Comments</p>
+    <div class="comment-feed">
+      <div class="comment-item">
+        <div class="comment-meta">Guest Visitor · Jun 8, 2026 at 2:14 PM</div>
+        <p>These tomatoes are looking incredible! Can't wait to see them at the farmers market.</p>
+      </div>
+      <div class="comment-item">
+        <div class="comment-meta">Guest Visitor · Jun 5, 2026 at 10:32 AM</div>
+        <p>Beautiful work on this bed. The staking system is really well done.</p>
+      </div>
+    </div>
+
+    <div class="report-link">
+      <a onclick="go('screen-damage-report')">Something wrong with this bed? Click here to report it.</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: DAMAGE REPORT                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-damage-report">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-bed-info-guest')">‹</button>
+    <h1>Report an Issue</h1>
+    <p>Bed Z1-A1</p>
+  </div>
+  <div class="screen-body">
+    <div class="about-block">
+      <h3>Help us keep the farm healthy</h3>
+      <p>Noticed something wrong? Let our team know. Your report goes directly to farm staff.</p>
+    </div>
+    <div class="form-group">
+      <label>What did you notice?</label>
+      <select>
+        <option>Damaged structure or materials</option>
+        <option>Pest or disease signs</option>
+        <option>Irrigation problem</option>
+        <option>Vandalism</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea placeholder="Describe what you observed..."></textarea>
+    </div>
+    <button class="submit-btn" onclick="showToast('✓ Report submitted — thank you'); go('screen-bed-info-guest')">Submit Report</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ABOUT LFG                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-about">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-guest-options')">‹</button>
+    <h1>About the Farm</h1>
+    <p>Our Story</p>
+  </div>
+  <div class="screen-body">
+    <div class="about-block">
+      <h3>Lancer Farms & Gardens</h3>
+      <p>Lancer Farms & Gardens is the working farm of California Baptist University in Riverside, CA. Students, faculty, and community volunteers cultivate specialty crops, practice sustainable agriculture, and explore the intersection of faith and stewardship of the land.</p>
+    </div>
+    <div class="about-block">
+      <h3>Our Mission</h3>
+      <p>To educate and equip the next generation of growers, to care for creation faithfully, and to feed our community with intention and love.</p>
+    </div>
+    <div class="blessing-block">
+      <p>"Commit your work to the Lord, and your plans will be established."</p>
+      <cite>— Proverbs 16:3</cite>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: COMMENT / DONATE                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-comment-donate">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-guest-options')">‹</button>
+    <h1>Comment or Donate</h1>
+    <p>Support the Farm</p>
+  </div>
+  <div class="screen-body">
+    <div class="option-card" onclick="go('screen-leave-comment')">
+      <span class="card-icon">💬</span>
+      <div class="card-text">
+        <h3>Leave a Comment</h3>
+        <p>Share a message for a bed or the farm</p>
+      </div>
+    </div>
+    <div class="option-card" onclick="showToast('💛 Donation flow coming soon')">
+      <span class="card-icon">🌻</span>
+      <div class="card-text">
+        <h3>Donate</h3>
+        <p>Support students and the farm program</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LEAVE COMMENT                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-leave-comment">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-comment-donate')">‹</button>
+    <h1>Leave a Comment</h1>
+    <p>For a Bed or the Farm</p>
+  </div>
+  <div class="screen-body">
+    <div class="form-group">
+      <label>Which bed? (optional)</label>
+      <select>
+        <option value="">General comment about the farm</option>
+        <option>Z1-A1 · Tomatoes</option>
+        <option>Z1-A2 · Bell Peppers</option>
+        <option>Z2-B1 · Squash</option>
+        <option>Z2-B2 · Kale & Chard</option>
+        <option>Z3-C1 · Herbs</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Your Comment</label>
+      <textarea placeholder="Share your thoughts, encouragement, or questions..."></textarea>
+    </div>
+    <button class="submit-btn" onclick="showToast('✓ Comment submitted — thank you!'); go('screen-guest-options')">Post Comment</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LOGIN                              -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-login">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-landing')">‹</button>
+    <h1>Lancer Farms & Gardens</h1>
+    <p>Employee / Student</p>
+  </div>
+  <div class="screen-body" style="justify-content:center;">
+    <div class="login-block">
+      <h2>Welcome Back</h2>
+      <p>Enter your credentials to access the farm dashboard</p>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <button onclick="go('screen-alert')">Sign In</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ALERT (DAMAGE REPORTS PENDING)     -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-alert">
+  <div class="app-header">
+    <h1>Lancer Farms & Gardens</h1>
+    <p>Staff Dashboard</p>
+  </div>
+  <div class="screen-body" style="justify-content:center;">
+    <div class="alert-banner">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <h3>2 Damage Reports Pending</h3>
+        <p>New issues have been submitted by visitors and require your attention before continuing.</p>
+        <button onclick="go('screen-damage-inbox')">Review Reports</button>
+      </div>
+    </div>
+    <div class="option-card" onclick="go('screen-employee-options')" style="opacity:0.5; pointer-events:none;">
+      <span class="card-icon">🌿</span>
+      <div class="card-text">
+        <h3>Continue to Dashboard</h3>
+        <p>Review reports above to unlock</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: DAMAGE REPORT INBOX               -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-damage-inbox">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-alert')">‹</button>
+    <h1>Damage Reports</h1>
+    <p>Pending Review</p>
+  </div>
+  <div class="screen-body">
+    <div class="inventory-item low-stock">
+      <div>
+        <div class="item-name">Bed Z1-A1 · Irrigation Problem</div>
+        <div class="item-sub">Reported Jun 9, 2026 at 4:22 PM by Guest</div>
+        <div class="item-sub" style="margin-top:4px;">"The drip line on the north side looks disconnected."</div>
+      </div>
+      <button onclick="showToast('✓ Marked resolved')" style="background:var(--leaf);color:white;border:none;border-radius:6px;padding:6px 12px;font-size:0.75rem;cursor:pointer;flex-shrink:0;margin-left:10px;">Resolve</button>
+    </div>
+    <div class="inventory-item low-stock">
+      <div>
+        <div class="item-name">Bed Z3-C1 · Pest Signs</div>
+        <div class="item-sub">Reported Jun 8, 2026 at 11:05 AM by Guest</div>
+        <div class="item-sub" style="margin-top:4px;">"Saw what looked like aphids on the herb bed."</div>
+      </div>
+      <button onclick="showToast('✓ Marked resolved')" style="background:var(--leaf);color:white;border:none;border-radius:6px;padding:6px 12px;font-size:0.75rem;cursor:pointer;flex-shrink:0;margin-left:10px;">Resolve</button>
+    </div>
+    <button class="submit-btn" onclick="go('screen-employee-options')">Continue to Dashboard →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: EMPLOYEE OPTIONS                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-employee-options">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-landing')">‹</button>
+    <h1>Farm Dashboard</h1>
+    <p>Staff & Students</p>
+  </div>
+  <div class="screen-body">
+    <div class="option-card" onclick="go('screen-bed-selector-employee')">
+      <span class="card-icon">🌿</span>
+      <div class="card-text">
+        <h3>Garden Beds</h3>
+        <p>View and manage your assigned beds</p>
+      </div>
+    </div>
+    <div class="option-card" onclick="go('screen-about')">
+      <span class="card-icon">📖</span>
+      <div class="card-text">
+        <h3>About Lancer Farms</h3>
+        <p>Farm info and mission</p>
+      </div>
+    </div>
+    <div class="option-card" onclick="go('screen-comment-donate')">
+      <span class="card-icon">💬</span>
+      <div class="card-text">
+        <h3>Comment or Donate</h3>
+        <p>Guest engagement and support</p>
+      </div>
+    </div>
+    <p class="section-label">Staff Tools</p>
+    <div class="option-card" onclick="go('screen-tools-inventory')">
+      <span class="card-icon">🔧</span>
+      <div class="card-text">
+        <h3>Tool Inventory</h3>
+        <p>View available farm equipment</p>
+      </div>
+    </div>
+    <div class="option-card" onclick="go('screen-consumables')">
+      <span class="card-icon">📦</span>
+      <div class="card-text">
+        <h3>Supplies & Consumables</h3>
+        <p>Track stock levels and par flags</p>
+      </div>
+    </div>
+    <div class="option-card" onclick="go('screen-requests')">
+      <span class="card-icon">📋</span>
+      <div class="card-text">
+        <h3>Submit a Request</h3>
+        <p>Resupply, repairs, and outside assistance</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED SELECTOR (EMPLOYEE)            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-selector-employee">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-employee-options')">‹</button>
+    <h1>Select a Bed</h1>
+    <p>Staff Access</p>
+  </div>
+  <div class="screen-body">
+    <div class="bed-selector">
+      <h3>Find a Garden Bed</h3>
+      <button class="qr-btn" onclick="showToast('📷 QR scanner coming soon')">
+        📷 Scan QR Code
+      </button>
+      <div class="divider-or">OR</div>
+      <div class="form-group">
+        <label>Select from list</label>
+        <select onchange="if(this.value) go('screen-bed-info-employee')">
+          <option value="">— Choose a bed —</option>
+          <option>Z1-A1 · Tomatoes</option>
+          <option>Z1-A2 · Bell Peppers</option>
+          <option>Z2-B1 · Squash</option>
+          <option>Z2-B2 · Kale & Chard</option>
+          <option>Z3-C1 · Herbs</option>
+          <option>Z3-C2 · Strawberries</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED INFO (EMPLOYEE)                -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-info-employee">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-bed-selector-employee')">‹</button>
+    <h1>Bed Z1-A1</h1>
+    <p>Zone 1 · Row A</p>
+  </div>
+  <div class="screen-body">
+    <div class="bed-header">
+      <div class="bed-id">Bed ID: Z1-A1</div>
+      <h2>Tomatoes</h2>
+      <div class="bed-manager">Managed by Sarah M.</div>
+    </div>
+    <div class="info-row">
+      <span class="label">Currently Growing</span>
+      <span class="value">Heirloom Tomatoes</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Date Planted</span>
+      <span class="value">March 12, 2026</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Est. Harvest</span>
+      <span class="value">June 20, 2026</span>
+    </div>
+    <div class="blessing-block">
+      <p>"The earth is the Lord's, and everything in it, the world, and all who live in it."</p>
+      <cite>— Psalm 24:1 · chosen by Sarah M.</cite>
+    </div>
+    <button class="manage-btn" onclick="go('screen-bed-password')">🔓 Manage This Bed</button>
+    <div class="report-link">
+      <a onclick="go('screen-damage-report')">Something wrong with this bed? Click here to report it.</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED PASSWORD                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-password">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-bed-info-employee')">‹</button>
+    <h1>Bed Access</h1>
+    <p>Z1-A1 Password Required</p>
+  </div>
+  <div class="screen-body" style="justify-content:center;">
+    <div class="login-block">
+      <h2>Enter Bed Password</h2>
+      <p>Each bed has its own password. Contact your supervisor if you need access.</p>
+      <input type="password" placeholder="Bed password" />
+      <button onclick="go('screen-bed-configurator')">Unlock Configurator</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED CONFIGURATOR                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-configurator">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-bed-info-employee')">‹</button>
+    <h1>Manage Bed Z1-A1</h1>
+    <p>Configurator Unlocked</p>
+  </div>
+  <div class="screen-body">
+    <div class="form-group">
+      <label>Bed Designator</label>
+      <input type="text" value="Z1-A1" />
+    </div>
+    <div class="form-group">
+      <label>Bed Manager Name</label>
+      <input type="text" value="Sarah M." />
+    </div>
+    <div class="form-group">
+      <label>Currently Growing</label>
+      <input type="text" value="Heirloom Tomatoes" />
+    </div>
+    <div class="form-group">
+      <label>Date Planted</label>
+      <input type="date" value="2026-03-12" />
+    </div>
+    <div class="form-group">
+      <label>Estimated Harvest Date</label>
+      <input type="date" value="2026-06-20" />
+    </div>
+    <div class="form-group">
+      <label>Bible Passage or Blessing</label>
+      <textarea>"The earth is the Lord's, and everything in it, the world, and all who live in it." — Psalm 24:1</textarea>
+    </div>
+    <button class="submit-btn" onclick="showToast('✓ Bed updated successfully'); go('screen-bed-info-employee')">Save Changes</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: TOOLS INVENTORY                    -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-tools-inventory">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-employee-options')">‹</button>
+    <h1>Tool Inventory</h1>
+    <p>Reference List · Admin Managed</p>
+  </div>
+  <div class="screen-body">
+    <p class="section-label">Hand Tools</p>
+    <div class="inventory-item"><div><div class="item-name">Garden Hoe</div><div class="item-sub">Long-handled · stored in shed</div></div><div class="item-qty"><div class="qty-num">4</div></div></div>
+    <div class="inventory-item"><div><div class="item-name">Hand Trowel</div><div class="item-sub">Short-handled · stored in shed</div></div><div class="item-qty"><div class="qty-num">8</div></div></div>
+    <div class="inventory-item"><div><div class="item-name">Garden Fork</div><div class="item-sub">Long-handled · stored in shed</div></div><div class="item-qty"><div class="qty-num">3</div></div></div>
+    <p class="section-label">Irrigation</p>
+    <div class="inventory-item"><div><div class="item-name">Hose Reel</div><div class="item-sub">50ft · Zone 1 corner</div></div><div class="item-qty"><div class="qty-num">2</div></div></div>
+    <div class="inventory-item"><div><div class="item-name">Drip Line Kit</div><div class="item-sub">Emitters + tubing</div></div><div class="item-qty"><div class="qty-num">1</div></div></div>
+    <p class="section-label">Power Equipment</p>
+    <div class="inventory-item"><div><div class="item-name">Electric Tiller</div><div class="item-sub">Corded · locked in shed</div></div><div class="item-qty"><div class="qty-num">1</div></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: CONSUMABLES                        -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-consumables">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-employee-options')">‹</button>
+    <h1>Supplies & Consumables</h1>
+    <p>Live Inventory</p>
+  </div>
+  <div class="screen-body">
+    <p class="section-label">Soil & Amendments</p>
+    <div class="inventory-item low-stock">
+      <div>
+        <div class="item-name">Compost <span class="stock-flag">Low Stock</span></div>
+        <div class="item-sub">Par level: 10 bags</div>
+      </div>
+      <div class="item-qty"><div class="qty-num" style="color:var(--alert)">3</div><div class="qty-par">bags</div></div>
+    </div>
+    <div class="inventory-item">
+      <div><div class="item-name">Perlite</div><div class="item-sub">Par level: 5 bags</div></div>
+      <div class="item-qty"><div class="qty-num">7</div><div class="qty-par">bags</div></div>
+    </div>
+    <div class="inventory-item low-stock">
+      <div>
+        <div class="item-name">Fertilizer (10-10-10) <span class="stock-flag">Low Stock</span></div>
+        <div class="item-sub">Par level: 4 bags</div>
+      </div>
+      <div class="item-qty"><div class="qty-num" style="color:var(--alert)">1</div><div class="qty-par">bags</div></div>
+    </div>
+    <p class="section-label">Seeds & Starts</p>
+    <div class="inventory-item">
+      <div><div class="item-name">Seed Packets (mixed)</div><div class="item-sub">Par level: 20 packets</div></div>
+      <div class="item-qty"><div class="qty-num">34</div><div class="qty-par">pkts</div></div>
+    </div>
+    <p class="section-label">Irrigation Consumables</p>
+    <div class="inventory-item">
+      <div><div class="item-name">Drip Emitters</div><div class="item-sub">Par level: 50 units</div></div>
+      <div class="item-qty"><div class="qty-num">82</div><div class="qty-par">units</div></div>
+    </div>
+    <button class="submit-btn" style="background:var(--sage); color:var(--soil); margin-top:8px;" onclick="showToast('Par change request sent to admin')">Request Par Level Change</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: REQUESTS                           -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-requests">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-employee-options')">‹</button>
+    <h1>Submit a Request</h1>
+    <p>Outside Assistance</p>
+  </div>
+  <div class="screen-body">
+    <div class="option-card" onclick="go('screen-request-form')">
+      <span class="card-icon">🛒</span>
+      <div class="card-text"><h3>Resupply Request</h3><p>Request soil, amendments, seeds, or supplies</p></div>
+    </div>
+    <div class="option-card" onclick="go('screen-request-form')">
+      <span class="card-icon">🔨</span>
+      <div class="card-text"><h3>Repair Request</h3><p>Report structural or equipment repairs needed</p></div>
+    </div>
+    <div class="option-card" onclick="go('screen-request-form')">
+      <span class="card-icon">🌱</span>
+      <div class="card-text"><h3>Planting Assistance</h3><p>Request help with planting or bed prep</p></div>
+    </div>
+    <div class="option-card" onclick="go('screen-request-form')">
+      <span class="card-icon">📐</span>
+      <div class="card-text"><h3>Infrastructure Request</h3><p>New beds, irrigation, or site improvements</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: REQUEST FORM                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-request-form">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-requests')">‹</button>
+    <h1>Resupply Request</h1>
+    <p>Sent to Admin</p>
+  </div>
+  <div class="screen-body">
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" placeholder="First Last" />
+    </div>
+    <div class="form-group">
+      <label>Bed or Zone (if applicable)</label>
+      <select>
+        <option>Not bed-specific</option>
+        <option>Z1-A1 · Tomatoes</option>
+        <option>Z1-A2 · Bell Peppers</option>
+        <option>Z2-B1 · Squash</option>
+        <option>Z3-C1 · Herbs</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>What do you need?</label>
+      <textarea placeholder="Describe the items or assistance needed, including quantity if known..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Priority</label>
+      <select>
+        <option>Normal — within the week</option>
+        <option>Urgent — within 48 hours</option>
+        <option>Low — when available</option>
+      </select>
+    </div>
+    <button class="submit-btn" onclick="showToast('✓ Request submitted to admin'); go('screen-employee-options')">Submit Request</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ADMIN PANEL                        -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-admin">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-employee-options')">‹</button>
+    <h1>Admin Panel</h1>
+    <p>Master Access</p>
+  </div>
+  <div class="screen-body">
+    <div class="admin-section">
+      <div class="admin-section-header">Alerts & Reports</div>
+      <div class="admin-row" onclick="go('screen-damage-inbox')">
+        <span>Damage Report Inbox</span>
+        <span><span class="badge">2</span> <span class="arrow">›</span></span>
+      </div>
+      <div class="admin-row" onclick="showToast('Request inbox coming soon')">
+        <span>Request Submissions</span>
+        <span><span class="badge">1</span> <span class="arrow">›</span></span>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-header">Bed Management</div>
+      <div class="admin-row" onclick="showToast('Bed list coming soon')"><span>View All Beds</span><span class="arrow">›</span></div>
+      <div class="admin-row" onclick="showToast('Add bed coming soon')"><span>Add New Bed</span><span class="arrow">›</span></div>
+      <div class="admin-row" onclick="showToast('Password reset coming soon')"><span>Reset Bed Passwords</span><span class="arrow">›</span></div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-header">Inventory Management</div>
+      <div class="admin-row" onclick="go('screen-tools-inventory')"><span>Tool Inventory</span><span class="arrow">›</span></div>
+      <div class="admin-row" onclick="go('screen-consumables')"><span>Consumables & Par Levels</span><span class="arrow">›</span></div>
+      <div class="admin-row" onclick="showToast('Par change requests coming soon')"><span>Par Change Requests <span class="badge">1</span></span><span class="arrow">›</span></div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-header">Community</div>
+      <div class="admin-row" onclick="showToast('Comment moderation coming soon')"><span>Moderate Comments</span><span class="arrow">›</span></div>
+      <div class="admin-row" onclick="showToast('Donation tracking coming soon')"><span>Donation Activity</span><span class="arrow">›</span></div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-header">Site</div>
+      <div class="admin-row" onclick="showToast('About page editor coming soon')"><span>Edit About Page</span><span class="arrow">›</span></div>
+      <div class="admin-row" onclick="showToast('User management coming soon')"><span>User Management</span><span class="arrow">›</span></div>
+      <div class="admin-row" onclick="showToast('Request workflows coming soon')"><span>Request Workflow Library</span><span class="arrow">›</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function go(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(screenId);
+    if (target) {
+      target.classList.add('active');
+      target.scrollTop = 0;
+    }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Secret admin access: tap header 5 times on employee dashboard
+  let tapCount = 0;
+  document.addEventListener('DOMContentLoaded', () => {
+    const headers = document.querySelectorAll('.app-header h1');
+    headers.forEach(h => {
+      h.addEventListener('click', () => {
+        const current = document.querySelector('.screen.active');
+        if (current && current.id === 'screen-employee-options') {
+          tapCount++;
+          if (tapCount >= 5) {
+            tapCount = 0;
+            showToast('🔐 Admin access granted');
+            setTimeout(() => go('screen-admin'), 800);
+          }
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>
