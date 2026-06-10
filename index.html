@@ -767,7 +767,7 @@
       <p>Enter your credentials to access the farm dashboard</p>
       <input type="text" placeholder="Username" />
       <input type="password" placeholder="Password" />
-      <button onclick="go('screen-alert')">Sign In</button>
+     <button onclick="handleLogin()">Sign In</button>
     </div>
   </div>
 </div>
@@ -1205,8 +1205,24 @@
       target.classList.add('active');
       target.scrollTop = 0;
     }
+  
   }
+// MASTER PASSWORD
+const MASTER_PASSWORD = '8675309';
 
+// Override the login screen sign-in button
+// Find the button in screen-login that says onclick="go('screen-alert')"
+// Replace that onclick with this:
+// onclick="handleLogin()"
+
+function handleLogin() {
+  const pw = document.querySelector('#screen-login input[type="password"]').value;
+  if (pw === MASTER_PASSWORD) {
+    go('screen-alert');
+  } else {
+    showToast('⛔ Incorrect password');
+  }
+}
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
