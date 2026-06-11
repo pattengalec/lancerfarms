@@ -1539,14 +1539,8 @@
 </div>
 
 <script>
-  // MASTER PASSWORD
-  const MASTER_PASSWORD = '8675309';
-
-  // CLOUDINARY CONFIG
-  const CLOUD_NAME = 'ddbsuxerb';
-  const UPLOAD_PRESET = 'lfg-photos';
-
-  // NAVIGATION
+  const Web_APP_URL = https://script.google.com/macros/s/AKfycbycfcy3pTyJCYnSaEq3jkSqAObKB4UWypVKlitwYQQv76gQkUIyM8VgO4Iu2ZoaGZk/exec
+  
   function go(screenId, options = {}) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(screenId);
@@ -1569,14 +1563,24 @@
   }
 
   // LOGIN
-  function handleLogin() {
-    const pw = document.getElementById('login-password').value;
-    if (pw === MASTER_PASSWORD) {
-      go('screen-alert');
-    } else {
-      showToast('⛔ Incorrect password');
-    }
-  }
+async function handleLogin() {
+const pw = document.getElementById('login-password').value;
+const res = await fetch(WEB_APP_URL, {
+method: 'POST',
+body: JSON.stringify({
+action: 'checkPassword',
+bedId: 'MASTER',
+password: pw
+})
+});
+const data = await res.json();
+if (data.ok) {
+sessionStorage.setItem('adminToken', pw);
+go('screen-alert');
+} else {
+showToast('Incorrect password');
+}
+}
 
   // LIGHTBOX
   function openLightbox(src, title, date) {
