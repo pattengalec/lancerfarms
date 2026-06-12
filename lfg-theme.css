@@ -1,215 +1,178 @@
-/* LFG SITE ENGINE v1
-   Load deferred at end of <body>. Pre-paint theme snippet lives inline in <head>.
-   INTEGRATION SLOT 1: set CONFIG_URL to the "LFG Public Config API" /exec URL. */
+/* LANCER FARMS & GARDENS — THEME ENGINE v1
+   Four themes via [data-theme] on <html>. Sun mode via [data-vis="high"].
+   Craft layer via body.craft. Phosphor scanlines via [data-scanlines="on"].
+   Contrast-hardened per WCAG AA audit (citrus text-orange, night nav, 14px floor). */
 
-var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQRmcTyhqDQVj1eDAEXXJcyNwBFW6B33P4Q5JIkaAEfp_7HBIw/exec';
+:root, [data-theme="inland"] {
+  --bg: #2C1A0E; --surface: #F5EFE0; --surface2: #FDFAF4; --mist: #EAE4D4;
+  --ink: #2C1A0E; --ink-soft: #4A2E1A; --on-bg: #F5EFE0; --on-bg-soft: #C8A96E;
+  --accent: #3D6B45; --accent-2: #7A9E7E; --on-accent: #F5EFE0;
+  --alert: #B85C2A; --on-alert: #FDF1E8;
+  --font-head: Georgia, serif; --font-body: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+  --radius: 10px; --border-w: 1.5px;
+}
+[data-theme="citrus"] {
+  --bg: #FFF7E8; --surface: #FFFFFF; --surface2: #FFFFFF; --mist: #FDEBD2;
+  --ink: #5A3517; --ink-soft: #9c6b3f; --on-bg: #5A3517; --on-bg-soft: #A65A14;
+  --accent: #E8862F; --accent-2: #6B8F3D; --on-accent: #3d2008;
+  --alert: #C84B2A; --on-alert: #fdeae4;
+}
+[data-theme="night"] {
+  --bg: #0E1810; --surface: #1A2A1E; --surface2: #1A2A1E; --mist: #2c4233;
+  --ink: #DCE8DA; --ink-soft: #8FB896; --on-bg: #DCE8DA; --on-bg-soft: #7d9a83;
+  --accent: #4F7A58; --accent-2: #8FB896; --on-accent: #0E1810;
+  --alert: #D88A5C; --on-alert: #2b1608;
+}
+[data-theme="phosphor"] {
+  --bg: #0A0E0A; --surface: #0A0E0A; --surface2: #102a14; --mist: #1d3b1d;
+  --ink: #33FF66; --ink-soft: #1f9e44; --on-bg: #33FF66; --on-bg-soft: #1f9e44;
+  --accent: #33FF66; --accent-2: #1f9e44; --on-accent: #0A0E0A;
+  --alert: #FFB000; --on-alert: #332600;
+  --font-head: 'Courier New', monospace; --font-body: 'Courier New', monospace;
+  --radius: 3px;
+}
 
-(function () {
-  'use strict';
-  var CACHE_KEY = 'lfg-config-v1';
-  var cfg = null;
+/* Sun mode — high-visibility override. Theme accent survives, surfaces go max-contrast. */
+[data-vis="high"] {
+  --bg: #FDFDFB; --surface: #FFFFFF; --surface2: #FFFFFF; --mist: #e8e8e2;
+  --ink: #141a15; --ink-soft: #2b332d; --on-bg: #141a15; --on-bg-soft: #3a463d;
+  --on-accent: #FFFFFF; --alert: #8a1f00; --on-alert: #FFFFFF;
+  --border-w: 2px;
+}
+[data-vis="high"][data-theme="inland"]   { --accent: #2e4f34; --accent-2: #2e4f34; }
+[data-vis="high"][data-theme="citrus"]   { --accent: #8a4410; --accent-2: #4a6328; }
+[data-vis="high"][data-theme="night"]    { --accent: #2e5238; --accent-2: #2e5238; }
+[data-vis="high"][data-theme="phosphor"] { --accent: #0c5f28; --accent-2: #0c5f28; --font-head: Georgia, serif; --font-body: 'Source Sans 3', sans-serif; --radius: 10px; }
+[data-vis="high"] body { font-weight: 500; }
+[data-vis="high"] .card, [data-vis="high"] .btn { border-width: 2px !important; }
+[data-vis="high"] .craft-tilt { transform: none !important; }
 
-  /* ── config: cached render, background refresh ── */
-  function readCache() {
-    try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) { return null; }
-  }
-  function fetchConfig() {
-    return fetch(CONFIG_URL).then(function (r) { return r.json(); }).then(function (j) {
-      var c = (j && j.config) ? j.config : j;
-      localStorage.setItem(CACHE_KEY, JSON.stringify(c));
-      return c;
-    });
-  }
-  function val(key, fallback) {
-    if (!cfg || !(key in cfg)) return fallback;
-    var v = cfg[key];
-    if (v === 'TRUE' || v === true) return true;
-    if (v === 'FALSE' || v === false) return false;
-    return v;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); }
+body {
+  font-family: var(--font-body); color: var(--on-bg); background: var(--bg);
+  min-height: 100vh; font-size: 16px; line-height: 1.6;
+  transition: background-color .45s ease, color .45s ease;
+}
+h1, h2, h3 { font-family: var(--font-head); font-weight: 500; }
+body { font-size: max(14px, 1em); }
 
-  /* ── theme application + announce ── */
-  var live;
-  function announce(msg) {
-    if (!live) { live = document.createElement('div'); live.className = 'sr-live'; live.setAttribute('aria-live', 'polite'); document.body.appendChild(live); }
-    live.textContent = msg;
-  }
-  var THEME_NAMES = { inland: 'Inland Empire', citrus: 'Citrus Grove', night: 'Night Garden', phosphor: 'Phosphor' };
-  function applyTheme(t, opts) {
-    opts = opts || {};
-    var doc = document.documentElement;
-    var swap = function () {
-      doc.setAttribute('data-theme', t);
-      doc.setAttribute('data-scanlines', (t === 'phosphor' && val('phosphor_scanlines', false)) ? 'on' : 'off');
-      document.body.classList.toggle('craft', !!val('craft_layer_enabled', true) && t !== 'phosphor');
-      doc.style.setProperty('--tilt', (parseFloat(val('card_tilt_deg', 0.35)) || 0) + 'deg');
-    };
-    sessionStorage.setItem('lfg-theme', t);
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!opts.animate || reduced) { swap(); }
-    else if (document.startViewTransition) { document.startViewTransition(swap); }
-    else { swap(); }
-    announce('Theme set to ' + (THEME_NAMES[t] || t));
-  }
+.shell { max-width: 640px; margin: 0 auto; padding: 24px 18px 64px; }
 
-  /* ── sun mode ── */
-  function initSun() {
-    if (!val('sun_mode_available', true)) return;
-    var doc = document.documentElement;
-    var saved = localStorage.getItem('lfg-vis');
-    var auto = window.matchMedia('(prefers-contrast: more)').matches;
-    if (saved === 'high' || (saved === null && auto)) doc.setAttribute('data-vis', 'high');
-    var b = document.createElement('button');
-    b.className = 'sun-toggle'; b.setAttribute('aria-label', 'Toggle high-visibility sun mode');
-    b.textContent = doc.getAttribute('data-vis') === 'high' ? '\u263E' : '\u2600';
-    b.onclick = function () {
-      var on = doc.getAttribute('data-vis') !== 'high';
-      if (on) doc.setAttribute('data-vis', 'high'); else doc.removeAttribute('data-vis');
-      localStorage.setItem('lfg-vis', on ? 'high' : 'normal');
-      b.textContent = on ? '\u263E' : '\u2600';
-      announce(on ? 'Sun mode on' : 'Sun mode off');
-    };
-    document.body.appendChild(b);
-  }
+.site-header { text-align: center; padding: 16px 0 4px; }
+.site-header h1 { color: var(--on-bg); font-size: 22px; letter-spacing: 2px; }
+.site-header .tag { color: var(--on-bg-soft); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+[data-theme="phosphor"] .site-header h1 { text-transform: uppercase; letter-spacing: 3px; }
 
-  /* ── gate ── */
-  function sha256(str) {
-    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function (buf) {
-      return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-    });
-  }
-  function runGate() {
-    return new Promise(function (resolve) {
-      var el = document.getElementById('gate'); if (!el) return resolve();
-      var form = el.querySelector('.gate-form');
-      var dismiss = function () {
-        el.classList.add('leaving');
-        setTimeout(function () { el.hidden = true; }, 420);
-        resolve();
-      };
-      if (!val('gate_enabled', true) || sessionStorage.getItem('lfg-gate') === 'open') return dismiss();
-      if (form) form.hidden = false;
-      var input = el.querySelector('input'), msg = el.querySelector('.gate-msg');
-      function attempt() {
-        sha256(input.value.trim()).then(function (h) {
-          if (h === String(val('gate_password_hash', ''))) {
-            sessionStorage.setItem('lfg-gate', 'open');
-            dismiss();
-          } else { msg.textContent = 'Not quite — try again.'; input.select(); }
-        });
-      }
-      el.querySelector('button').onclick = attempt;
-      input.onkeydown = function (e) { if (e.key === 'Enter') attempt(); };
-      input.focus();
-    });
-  }
+.card {
+  background: var(--surface2); color: var(--ink);
+  border: var(--border-w) solid var(--ink); border-radius: var(--radius);
+  padding: 16px 18px; margin: 12px 0; display: block; text-decoration: none;
+}
+.card h2 { color: var(--ink); font-size: 17px; }
+.card p { color: var(--ink-soft); font-size: 14px; margin-top: 3px; }
+.card.primary { background: var(--accent); border-color: var(--accent); }
+.card.primary h2, .card.primary p { color: var(--on-accent); }
+[data-theme="phosphor"] .card.primary { background: var(--surface2); border-color: var(--accent); }
+[data-theme="phosphor"] .card.primary h2 { color: var(--accent); }
+[data-theme="phosphor"] .card.primary p { color: var(--ink-soft); }
 
-  /* ── mood quadrant ── */
-  var MOOD_MAP = { PE: 'citrus', PC: 'inland', LE: 'phosphor', LC: 'night' };
-  function runMood() {
-    return new Promise(function (resolve) {
-      var el = document.getElementById('mood'); if (!el) return resolve();
-      if (!val('mood_picker_enabled', true) || sessionStorage.getItem('lfg-theme')) return resolve();
-      el.hidden = false;
-      var box = el.querySelector('.mood-box'), dot = el.querySelector('.dot');
-      var prompt = el.querySelector('.mood-prompt');
-      if (prompt) prompt.textContent = val('welcome_line', 'tap the spot that matches how you feel today');
-      function pick(x, y, rect) {
-        var nx = (x - rect.left) / rect.width * 2 - 1;   /* -1 lazy … +1 productive */
-        var ny = 1 - (y - rect.top) / rect.height * 2;   /* -1 calm … +1 energetic  */
-        dot.style.left = ((nx + 1) / 2 * 100) + '%'; dot.style.top = ((1 - ny) / 2 * 100) + '%';
-        dot.classList.add('show');
-        var theme;
-        if (Math.sqrt(nx * nx + ny * ny) < 0.15) theme = val('default_theme', 'inland');
-        else theme = MOOD_MAP[(nx >= 0 ? 'P' : 'L') + (ny >= 0 ? 'E' : 'C')];
-        var enabled = String(val('themes_enabled', 'inland,citrus,night,phosphor')).split(',');
-        if (enabled.indexOf(theme) === -1) theme = val('default_theme', 'inland');
-        setTimeout(function () {
-          el.classList.add('leaving');
-          applyTheme(theme, { animate: true });
-          setTimeout(function () { el.hidden = true; resolve(); }, 420);
-        }, 300);
-      }
-      box.addEventListener('pointerdown', function (e) { pick(e.clientX, e.clientY, box.getBoundingClientRect()); }, { once: true });
-      var skip = el.querySelector('.mood-skip');
-      if (skip) skip.onclick = function () {
-        el.classList.add('leaving');
-        applyTheme(val('default_theme', 'inland'), { animate: false });
-        setTimeout(function () { el.hidden = true; resolve(); }, 420);
-      };
-    });
-  }
+.btn {
+  display: inline-block; background: var(--accent); color: var(--on-accent);
+  border: var(--border-w) solid var(--accent); border-radius: calc(var(--radius) - 4px);
+  font-family: var(--font-body); font-size: 14px; letter-spacing: 1px;
+  padding: 11px 22px; cursor: pointer; text-decoration: none;
+}
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+.gate-screen .btn.ghost, .mood-screen .btn.ghost { color: var(--on-bg); border-color: var(--on-bg); }
 
-  /* ── feedback (honeypot + min-time) ── */
-  function initFeedback() {
-    if (!val('feedback_enabled', true)) return;
-    var tab = document.createElement('button');
-    tab.className = 'fb-tab'; tab.textContent = 'thoughts?';
-    var panel = document.createElement('div');
-    panel.className = 'fb-panel';
-    panel.innerHTML = '<label for="fb-msg">Tell the garden crew</label>' +
-      '<textarea id="fb-msg" rows="3"></textarea>' +
-      '<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' +
-      '<button class="btn" type="button">send</button><div class="fb-status"></div>';
-    document.body.appendChild(tab); document.body.appendChild(panel);
-    var openedAt = 0;
-    tab.onclick = function () { panel.classList.toggle('open'); openedAt = Date.now(); };
-    panel.querySelector('.btn').onclick = function () {
-      var msg = panel.querySelector('textarea').value.trim();
-      var status = panel.querySelector('.fb-status');
-      if (!msg) { status.textContent = 'Write something first.'; return; }
-      if (panel.querySelector('.hp').value || Date.now() - openedAt < 3000) { status.textContent = 'Thanks!'; return; } /* silent bot drop */
-      status.textContent = 'Sending\u2026';
-      fetch(CONFIG_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({
-          message: msg,
-          theme: document.documentElement.getAttribute('data-theme'),
-          mood: sessionStorage.getItem('lfg-theme') ? 'picked' : 'default',
-          sun_mode: document.documentElement.getAttribute('data-vis') === 'high',
-          viewport: window.innerWidth + 'x' + window.innerHeight,
-          page: location.pathname,
-          ua: navigator.userAgent
-        })
-      }).then(function () {
-        status.textContent = 'Received \u2014 thank you.';
-        panel.querySelector('textarea').value = '';
-        setTimeout(function () { panel.classList.remove('open'); }, 1500);
-      }).catch(function () { status.textContent = 'Could not send \u2014 try later.'; });
-    };
-  }
+.stamp {
+  display: inline-block; border: var(--border-w) solid var(--alert); color: var(--alert);
+  font-size: 11px; letter-spacing: 1.5px; padding: 4px 10px;
+  border-radius: 3px; font-weight: 600; text-transform: uppercase;
+}
 
-  /* ── footer mood re-plot ── */
-  function initFooterMood() {
-    var link = document.getElementById('mood-again');
-    if (!link) return;
-    if (!val('footer_mood_link', true)) { link.hidden = true; return; }
-    link.onclick = function (e) {
-      e.preventDefault();
-      sessionStorage.removeItem('lfg-theme');
-      var el = document.getElementById('mood');
-      el.classList.remove('leaving'); el.hidden = false;
-      runMood();
-    };
-  }
+/* ── Craft layer ─────────────────────────────────────────── */
+body.craft .craft-tilt:nth-child(3n+1) { transform: rotate(calc(var(--tilt, 0.35deg) * -1)); }
+body.craft .craft-tilt:nth-child(3n)   { transform: rotate(var(--tilt, 0.35deg)); }
+body.craft .craft-stamp { transform: rotate(-1.2deg); }
+body.craft .rule {
+  height: 10px; border: none; background-repeat: no-repeat; background-size: 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 560 10' preserveAspectRatio='none'%3E%3Cpath d='M8,5 C60,3.4 110,6.2 170,4.8 S 280,3.6 340,5.4 S 460,6 552,4.4' fill='none' stroke='%23888' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E");
+  opacity: .8;
+}
+body:not(.craft) .rule { height: 1px; background: var(--mist); border: none; }
+[data-theme="phosphor"] body.craft .craft-tilt, [data-theme="phosphor"] .craft-tilt { transform: none !important; }
 
-  /* ── boot ── */
-  cfg = readCache();
-  var booted = false;
-  function boot() {
-    if (booted) return; booted = true;
-    var saved = sessionStorage.getItem('lfg-theme');
-    if (saved) applyTheme(saved, { animate: false });
-    runGate().then(runMood).then(function () {
-      if (!sessionStorage.getItem('lfg-theme')) applyTheme(val('default_theme', 'inland'), { animate: false });
-      initSun(); initFeedback(); initFooterMood();
-      var h = document.getElementById('home'); if (h) h.hidden = false;
-    });
-  }
-  if (cfg) { boot(); fetchConfig().then(function (f) { cfg = f; }).catch(function () {}); }
-  else {
-    fetchConfig().then(function (f) { cfg = f; boot(); })
-      .catch(function () { cfg = {}; boot(); }); /* offline fail-soft: defaults, gate skipped only if disabled */
-  }
-})();
+/* ── Phosphor scanlines (config-gated) ───────────────────── */
+[data-theme="phosphor"][data-scanlines="on"] body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px);
+}
+[data-vis="high"] body::after { display: none; }
+
+/* ── Gate & mood screens ─────────────────────────────────── */
+.overlay-screen {
+  position: fixed; inset: 0; background: var(--bg); z-index: 100;
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  transition: opacity .4s ease, transform .4s ease;
+}
+.overlay-screen.leaving { opacity: 0; transform: scale(.96); pointer-events: none; }
+.panel { width: 100%; max-width: 380px; text-align: center; }
+.panel input[type="password"], .panel textarea {
+  width: 100%; background: var(--surface2); color: var(--ink);
+  border: var(--border-w) solid var(--ink); border-radius: calc(var(--radius) - 4px);
+  font-family: var(--font-body); font-size: 16px; padding: 11px 12px; margin: 10px 0;
+}
+.gate-msg { font-size: 13px; color: var(--alert); min-height: 1.4em; }
+
+.mood-box {
+  position: relative; aspect-ratio: 1; background: var(--surface2);
+  border: var(--border-w) solid var(--ink); border-radius: var(--radius);
+  cursor: crosshair; touch-action: none; margin: 8px 0;
+}
+.mood-box .vline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--mist); }
+.mood-box .hline { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--mist); }
+.mood-box .neutral { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 11px; color: var(--ink-soft); background: var(--surface2); padding: 1px 6px; }
+.mood-box .dot { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); transform: translate(-50%,-50%); display: none; pointer-events: none; }
+.mood-box .dot.show { display: block; animation: pulse .3s ease; }
+@keyframes pulse { 0% { transform: translate(-50%,-50%) scale(.4); } 70% { transform: translate(-50%,-50%) scale(1.25);} 100% { transform: translate(-50%,-50%) scale(1);} }
+.axis { font-size: 12px; color: var(--on-bg-soft); }
+.axis-row { display: flex; align-items: center; gap: 8px; }
+.axis-row .axis { writing-mode: vertical-rl; }
+.axis-row .axis.flip { transform: rotate(180deg); }
+
+/* ── Sun toggle & feedback tab ───────────────────────────── */
+.sun-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 50;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--surface2); color: var(--ink); border: var(--border-w) solid var(--ink);
+  font-size: 20px; cursor: pointer; line-height: 1;
+}
+[data-vis="high"] .sun-toggle { background: #141a15; color: #FDFDFB; border-color: #141a15; }
+
+.fb-tab {
+  position: fixed; bottom: 18px; right: 14px; z-index: 50;
+  background: var(--surface2); color: var(--ink); border: var(--border-w) solid var(--ink);
+  border-radius: calc(var(--radius) - 2px); font-size: 13px; letter-spacing: 1px;
+  padding: 9px 16px; cursor: pointer; font-family: var(--font-body);
+}
+.fb-panel {
+  position: fixed; bottom: 64px; right: 14px; z-index: 60; width: min(320px, calc(100vw - 28px));
+  background: var(--surface2); color: var(--ink); border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius); padding: 14px; display: none; text-align: left;
+}
+.fb-panel.open { display: block; }
+.fb-panel label { font-size: 11px; letter-spacing: 1.5px; color: var(--ink-soft); text-transform: uppercase; }
+.fb-panel .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.fb-status { font-size: 12px; color: var(--ink-soft); min-height: 1.3em; margin-top: 6px; }
+
+.site-footer { text-align: center; margin-top: 40px; font-size: 13px; color: var(--on-bg-soft); }
+.site-footer a { color: var(--on-bg-soft); }
+
+.sr-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, body { transition: none !important; animation: none !important; }
+  .overlay-screen { transition: none; }
+}
