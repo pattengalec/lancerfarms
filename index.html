@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Lancer Farms & Gardens</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="lfg-theme.css">
+<script>
+/* Pre-paint: apply remembered theme before first render */
+(function(){try{
+  var t=sessionStorage.getItem('lfg-theme'); if(t)document.documentElement.setAttribute('data-theme',t);
+  var v=localStorage.getItem('lfg-vis'); if(v==='high')document.documentElement.setAttribute('data-vis','high');
+}catch(e){}})();
+</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=Courier+Prime&display=swap');
 
@@ -641,8 +650,79 @@
     height: 100%;
   }
 </style>
+<style id="lfg-bridge">
+/* ── THEME BRIDGE: remaps the app's palette per theme ── */
+[data-theme="citrus"] {
+  --soil:#5A3517; --bark:#8a4410; --straw:#F2C879; --sage:#6B8F3D;
+  --cream:#FFF7E8; --mist:#FDEBD2; --leaf:#A65A14; --alert:#C84B2A; --white:#FFFFFF;
+}
+[data-theme="night"] {
+  --soil:#DCE8DA; --bark:#8FB896; --straw:#C9DCC9; --sage:#4F7A58;
+  --cream:#16241A; --mist:#2c4233; --leaf:#3a5c42; --alert:#D88A5C; --white:#1F3326;
+  --shadow:0 2px 16px rgba(0,0,0,0.4);
+}
+[data-theme="phosphor"] {
+  --soil:#33FF66; --bark:#1f9e44; --straw:#33FF66; --sage:#1f9e44;
+  --cream:#0A0E0A; --mist:#1d3b1d; --leaf:#145c2c; --alert:#FFB000; --white:#0F1A10;
+  --radius:3px; --shadow:none;
+}
+/* dark themes: surfaces that used --soil as a background */
+[data-theme="night"] :is(body,.app-header,.hero-block,.blessing-block,.login-block,.toast,.admin-section-header,.submit-btn),
+[data-theme="phosphor"] :is(body,.app-header,.hero-block,.blessing-block,.login-block,.toast,.admin-section-header,.submit-btn) {
+  background:#0A120C;
+}
+[data-theme="phosphor"] :is(body,.app-header,.hero-block,.blessing-block,.login-block,.toast,.admin-section-header,.submit-btn){ background:#050805; }
+[data-theme="night"] .qr-btn, [data-theme="phosphor"] .qr-btn { background:#0A120C; }
+[data-theme="phosphor"] .qr-btn { background:#050805; }
+[data-theme="phosphor"] .screen, [data-theme="phosphor"] body, [data-theme="phosphor"] input, [data-theme="phosphor"] select, [data-theme="phosphor"] textarea, [data-theme="phosphor"] button { font-family:'Courier Prime',monospace; }
+[data-theme="phosphor"] .option-card.primary .card-text h3, [data-theme="phosphor"] .option-card.primary .card-text p { color:#0A0E0A; }
+[data-theme="night"] .option-card.primary .card-text h3 { color:#EAF2E8; }
+/* sun mode: maximum legibility, theme accents darkened by lfg-theme.css */
+[data-vis="high"] {
+  --soil:#141a15; --bark:#2b332d; --straw:#FFFFFF; --sage:#2e5238;
+  --cream:#FDFDFB; --mist:#cfcfc6; --leaf:#1e4226; --alert:#8a1f00; --white:#FFFFFF;
+  --shadow:none; --radius:10px;
+}
+[data-vis="high"] :is(body,.app-header,.hero-block,.blessing-block,.login-block,.toast,.admin-section-header,.submit-btn){ background:#141a15; }
+[data-vis="high"] .screen, [data-vis="high"] body { font-family:'Source Sans 3',sans-serif; }
+#gate { z-index:120; }
+#mood { z-index:110; }
+</style>
 </head>
 <body>
+
+<!-- ── ENTRY VEIL / PASSWORD CURTAIN (config: gate_enabled) ── -->
+<section id="gate" class="overlay-screen gate-screen">
+  <div class="panel">
+    <h1 style="color:var(--on-bg)">Lancer Farms &amp; Gardens</h1>
+    <div class="gate-form" hidden>
+      <p style="color:var(--on-bg-soft);font-size:13px;margin:4px 0 14px">still growing — enter the password to look around</p>
+      <input type="password" aria-label="Site password" autocomplete="off">
+      <div class="gate-msg" aria-live="polite"></div>
+      <button class="btn" type="button">enter</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── MOOD QUADRANT (config: mood_picker_enabled) ── -->
+<section id="mood" class="overlay-screen mood-screen" hidden>
+  <div class="panel">
+    <h1 style="font-size:18px;color:var(--on-bg)">how are you feeling?</h1>
+    <p class="mood-prompt" style="color:var(--on-bg-soft);font-size:13px;margin:4px 0 10px"></p>
+    <div class="axis">energetic</div>
+    <div class="axis-row">
+      <div class="axis flip">lazy</div>
+      <div class="mood-box" role="application" aria-label="Mood picker: tap anywhere. Left is lazy, right is productive, up is energetic, down is calm.">
+        <div class="vline"></div><div class="hline"></div>
+        <span class="neutral">·</span>
+        <div class="dot"></div>
+      </div>
+      <div class="axis">productive</div>
+    </div>
+    <div class="axis">calm</div>
+    <button class="btn ghost mood-skip" type="button" style="margin-top:14px">skip — just show me the garden</button>
+  </div>
+</section>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
@@ -1540,6 +1620,9 @@
 
 <script>
   const Web_APP_URL = https://script.google.com/macros/s/AKfycbycfcy3pTyJCYnSaEq3jkSqAObKB4UWypVKlitwYQQv76gQkUIyM8VgO4Iu2ZoaGZk/exec
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxq2WZZzuZnMgjSrCPhWsgeA3OYg2Z9x9nrHCZ-p5m87QJU50Vh4DScwl_85X_I5irh/exec';
+  const CLOUD_NAME = 'ddbsuxerb';
+  const UPLOAD_PRESET = 'lfg-photos';
   
   function go(screenId, options = {}) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1623,7 +1706,12 @@ showToast('Incorrect password');
     const caption = document.getElementById('upload-caption').value;
     const password = document.getElementById('upload-password').value;
 
-    if (password !== MASTER_PASSWORD) {
+    const pwRes = await fetch(WEB_APP_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: password })
+    });
+    const pwData = await pwRes.json();
+    if (!pwData.ok) {
       showToast('⛔ Incorrect password');
       return;
     }
@@ -1676,5 +1764,13 @@ showToast('Incorrect password');
     });
   });
 </script>
+<script src="lfg-site.js" defer></script>
 </body>
 </html>
+
+
+
+
+
+
+
