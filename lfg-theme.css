@@ -127,15 +127,41 @@ body:not(.craft) .rule { height: 1px; background: var(--mist); border: none; }
 .gate-msg { font-size: 13px; color: var(--alert); min-height: 1.4em; }
 
 .mood-box {
-  position: relative; aspect-ratio: 1; background: var(--surface2);
-  border: var(--border-w) solid var(--ink); border-radius: var(--radius);
-  cursor: crosshair; touch-action: none; margin: 8px 0;
+  position: relative; width: 300px; height: 300px; max-width: 100%;
+  border: var(--border-w) solid #C8A96E; border-radius: 14px; overflow: hidden;
+  cursor: pointer; touch-action: none; margin: 8px auto; background: #FDFAF4;
 }
-.mood-box .vline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--mist); }
-.mood-box .hline { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--mist); }
-.mood-box .neutral { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-size: 11px; color: var(--ink-soft); background: var(--surface2); padding: 1px 6px; }
-.mood-box .dot { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); transform: translate(-50%,-50%); display: none; pointer-events: none; }
+.mood-box .mq { position: absolute; width: 50%; height: 50%; }
+.mood-box .mq-tl { left: 0; top: 0; background: #D0FBD4; }
+.mood-box .mq-tr { right: 0; top: 0; background: #F8DDC3; }
+.mood-box .mq-bl { left: 0; bottom: 0; background: #A6AAA2; }
+.mood-box .mq-br { right: 0; bottom: 0; background: #DAE1D4; }
+.mood-box .plot-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 29px, rgba(44,26,14,0.10) 29px 30px),
+    repeating-linear-gradient(90deg, transparent 0 29px, rgba(44,26,14,0.10) 29px 30px);
+}
+.mood-box .vline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1.5px; background: rgba(44,26,14,0.5); }
+.mood-box .hline { position: absolute; top: 50%; left: 0; right: 0; height: 1.5px; background: rgba(44,26,14,0.5); }
+.mood-box .mw {
+  position: absolute; width: 50%; text-align: center; pointer-events: none;
+  font-family: Georgia, serif; font-style: italic; font-size: 13px; font-weight: 600;
+}
+.mood-box .mw-tl { left: 0; top: 20%; color: #0a3d1a; }
+.mood-box .mw-tr { right: 0; top: 20%; color: #6b3408; }
+.mood-box .mw-bl { left: 0; bottom: 20%; color: #1e3326; }
+.mood-box .mw-br { right: 0; bottom: 20%; color: #1e3326; }
+.mood-box .dot {
+  position: absolute; width: 18px; height: 18px; border-radius: 50%;
+  background: #F5EFE0; border: 3px solid #2C1A0E;
+  transform: translate(-50%,-50%); display: none; pointer-events: none;
+}
 .mood-box .dot.show { display: block; animation: pulse .3s ease; }
+.mood-greet {
+  font-family: Georgia, serif; font-style: italic; font-size: 14px;
+  color: var(--on-bg); margin-top: 10px; min-height: 1.4em;
+}
 @keyframes pulse { 0% { transform: translate(-50%,-50%) scale(.4); } 70% { transform: translate(-50%,-50%) scale(1.25);} 100% { transform: translate(-50%,-50%) scale(1);} }
 .axis { font-size: 12px; color: var(--on-bg-soft); }
 .axis-row { display: flex; align-items: center; gap: 8px; }

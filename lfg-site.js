@@ -106,29 +106,42 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
 
   /* ── mood quadrant ── */
   var MOOD_MAP = { PE: 'citrus', PC: 'inland', LE: 'phosphor', LC: 'night' };
+  var GREET = { PE: 'bright and blooming \u2014 let\u2019s go', PC: 'good steady soil under your boots', LE: 'a little mischief it is\u2026', LC: 'soft light coming right up' };
+  var ACTIVITY = {
+    PE: 'Bright and blooming \u2014 perfect time to wander the photo album.',
+    PC: 'Good steady light \u2014 a fine moment to explore a garden bed.',
+    LE: 'Feeling playful? Tap around \u2014 the garden has secrets.',
+    LC: 'Easy does it \u2014 the bed blessings read beautifully at this pace.'
+  };
   function runMood() {
     return new Promise(function (resolve) {
       var el = document.getElementById('mood'); if (!el) return resolve();
       if (!val('mood_picker_enabled', true) || sessionStorage.getItem('lfg-theme')) return resolve();
       el.hidden = false;
       var box = el.querySelector('.mood-box'), dot = el.querySelector('.dot');
+      var greet = el.querySelector('.mood-greet');
       var prompt = el.querySelector('.mood-prompt');
-      if (prompt) prompt.textContent = val('welcome_line', 'tap the spot that matches how you feel today');
+      if (prompt) prompt.textContent = val('welcome_line', 'Plot your mood for a custom theme and recommended activities');
       function pick(x, y, rect) {
-        var nx = (x - rect.left) / rect.width * 2 - 1;   /* -1 lazy … +1 productive */
+        var nx = (x - rect.left) / rect.width * 2 - 1;   /* -1 easygoing … +1 productive */
         var ny = 1 - (y - rect.top) / rect.height * 2;   /* -1 calm … +1 energetic  */
         dot.style.left = ((nx + 1) / 2 * 100) + '%'; dot.style.top = ((1 - ny) / 2 * 100) + '%';
         dot.classList.add('show');
+        var quad = (nx >= 0 ? 'P' : 'L') + (ny >= 0 ? 'E' : 'C');
+        if (greet && GREET[quad]) greet.textContent = GREET[quad];
         var theme;
         if (Math.sqrt(nx * nx + ny * ny) < 0.15) theme = val('default_theme', 'inland');
-        else theme = MOOD_MAP[(nx >= 0 ? 'P' : 'L') + (ny >= 0 ? 'E' : 'C')];
+        else theme = MOOD_MAP[quad];
         var enabled = String(val('themes_enabled', 'inland,citrus,night,phosphor')).split(',');
         if (enabled.indexOf(theme) === -1) theme = val('default_theme', 'inland');
         setTimeout(function () {
           el.classList.add('leaving');
           applyTheme(theme, { animate: true });
-          setTimeout(function () { el.hidden = true; resolve(); }, 420);
-        }, 300);
+          setTimeout(function () {
+            el.hidden = true; resolve();
+            if (window.showToast && ACTIVITY[quad]) setTimeout(function () { window.showToast(ACTIVITY[quad]); }, 600);
+          }, 420);
+        }, 650);
       }
       box.addEventListener('pointerdown', function (e) { pick(e.clientX, e.clientY, box.getBoundingClientRect()); }, { once: true });
       var skip = el.querySelector('.mood-skip');

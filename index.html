@@ -707,20 +707,27 @@
 <!-- ── MOOD QUADRANT (config: mood_picker_enabled) ── -->
 <section id="mood" class="overlay-screen mood-screen" hidden>
   <div class="panel">
-    <h1 style="font-size:18px;color:var(--on-bg)">how are you feeling?</h1>
-    <p class="mood-prompt" style="color:var(--on-bg-soft);font-size:13px;margin:4px 0 10px"></p>
-    <div class="axis">energetic</div>
+    <h1 style="font-family:Georgia,serif;font-style:italic;font-size:24px;color:var(--on-bg)">How are you today?</h1>
+    <p class="mood-prompt" style="color:#E8D5A8;font-size:13px;line-height:1.5;margin:8px auto 14px;max-width:300px"></p>
+    <div class="axis" style="color:#E8D5A8;font-size:12px">energetic</div>
     <div class="axis-row">
-      <div class="axis flip">lazy</div>
-      <div class="mood-box" role="application" aria-label="Mood picker: tap anywhere. Left is lazy, right is productive, up is energetic, down is calm.">
+      <div class="axis flip" style="color:#E8D5A8;font-size:12px">easygoing</div>
+      <div class="mood-box" role="application" aria-label="Mood picker: tap anywhere. Left is easygoing, right is productive, up is energetic, down is calm.">
+        <div class="mq mq-tl"></div><div class="mq mq-tr"></div>
+        <div class="mq mq-bl"></div><div class="mq mq-br"></div>
+        <div class="plot-grid"></div>
         <div class="vline"></div><div class="hline"></div>
-        <span class="neutral">·</span>
+        <span class="mw mw-tl">playful &amp; bright</span>
+        <span class="mw mw-tr">sunny &amp; busy</span>
+        <span class="mw mw-bl">quiet evening</span>
+        <span class="mw mw-br">steady &amp; grounded</span>
         <div class="dot"></div>
       </div>
-      <div class="axis">productive</div>
+      <div class="axis" style="color:#E8D5A8;font-size:12px">productive</div>
     </div>
-    <div class="axis">calm</div>
-    <button class="btn ghost mood-skip" type="button" style="margin-top:14px">skip — just show me the garden</button>
+    <div class="axis" style="color:#E8D5A8;font-size:12px">calm</div>
+    <div class="mood-greet">tap anywhere in the garden</div>
+    <button class="btn ghost mood-skip" type="button" style="margin-top:10px">skip — just show me the garden</button>
   </div>
 </section>
 
