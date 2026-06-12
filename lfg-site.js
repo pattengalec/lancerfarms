@@ -106,7 +106,7 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
 
   /* ── mood quadrant ── */
   var MOOD_MAP = { PE: 'citrus', PC: 'inland', LE: 'phosphor', LC: 'night' };
-  var GREET = { PE: 'bright and blooming \u2014 let\u2019s go', PC: 'good steady soil under your boots', LE: 'a little mischief it is\u2026', LC: 'soft light coming right up' };
+  var GREET = { PE: 'sunny and bright \u2014 let\u2019s go', PC: 'good steady soil under your boots', LE: 'a little mischief it is\u2026', LC: 'soft light coming right up' };
   var ACTIVITY = {
     PE: 'Bright and blooming \u2014 perfect time to wander the photo album.',
     PC: 'Good steady light \u2014 a fine moment to explore a garden bed.',
@@ -121,6 +121,11 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
       var box = el.querySelector('.mood-box'), dot = el.querySelector('.dot');
       var greet = el.querySelector('.mood-greet');
       var prompt = el.querySelector('.mood-prompt');
+      var blw = el.querySelector('.mw-bl');
+      if (blw) {
+        var hr = new Date().getHours();
+        blw.textContent = 'quiet ' + (hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : hr < 21 ? 'evening' : 'night');
+      }
       if (prompt) prompt.textContent = val('welcome_line', 'Plot your mood for a custom theme and recommended activities');
       function pick(x, y, rect) {
         var nx = (x - rect.left) / rect.width * 2 - 1;   /* -1 easygoing … +1 productive */
