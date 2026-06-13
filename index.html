@@ -758,7 +758,7 @@
     <h2>Add a Photo</h2>
     <div class="form-group">
       <label>Admin Password</label>
-      <input type="password" id="upload-password" placeholder="Enter admin password">
+      <input type="password" id="upload-password" placeholder="Enter staff password" style="display:none">
     </div>
     <div class="upload-preview" id="upload-preview">
       <img id="preview-img" src="" alt="">
@@ -768,6 +768,12 @@
     <div class="form-group">
       <label>Which bed?</label>
       <select id="upload-bed">
+        <optgroup label="Other Locations">
+          <option value="SEED">Seed Starting Station</option>
+          <option value="ORCH">Orchard Trees</option>
+          <option value="COMP">Compost Area</option>
+          <option value="FARM">General Farm</option>
+        </optgroup>
         <optgroup label="Zone 1">
           <option value="1A">1A</option>
           <option value="1B">1B</option>
@@ -893,7 +899,7 @@
       <div class="divider-or">OR</div>
       <div class="form-group">
         <label>Select from list</label>
-        <select onchange="if(this.value) go('screen-bed-info-guest')">
+        <select onchange="if(this.value) selectBed(this.value, 'guest')">
           <option value="">— Choose a bed —</option>
           <optgroup label="Zone 1">
             <option value="1A">1A</option>
@@ -934,30 +940,30 @@
 <div class="screen" id="screen-bed-info-guest">
   <div class="app-header">
     <button class="back-btn" onclick="go('screen-bed-selector-guest')">‹</button>
-    <h1>Bed Z1-A1</h1>
-    <p>Zone 1 · Row A</p>
+    <h1 id="bi-g-title">Garden Bed</h1>
+    <p id="bi-g-zone"></p>
   </div>
   <div class="screen-body">
     <div class="bed-header">
-      <div class="bed-id">Bed ID: Z1-A1</div>
-      <h2>Tomatoes</h2>
-      <div class="bed-manager">Managed by Sarah M.</div>
+      <div class="bed-id" id="bi-g-id"></div>
+      <h2 id="bi-g-crop">—</h2>
+      <div class="bed-manager" id="bi-g-mgr"></div>
     </div>
     <div class="info-row">
       <span class="label">Currently Growing</span>
-      <span class="value">Heirloom Tomatoes</span>
+      <span class="value" id="bi-g-growing">—</span>
     </div>
     <div class="info-row">
       <span class="label">Date Planted</span>
-      <span class="value">March 12, 2026</span>
+      <span class="value" id="bi-g-planted">—</span>
     </div>
     <div class="info-row">
       <span class="label">Est. Harvest</span>
-      <span class="value">June 20, 2026</span>
+      <span class="value" id="bi-g-harvest">—</span>
     </div>
     <div class="blessing-block">
-      <p>"The earth is the Lord's, and everything in it, the world, and all who live in it."</p>
-      <cite>— Psalm 24:1 · chosen by Sarah M.</cite>
+      <p id="bi-g-blessing"></p>
+      <cite id="bi-g-cite"></cite>
     </div>
     <p class="section-label">Community Comments</p>
     <div class="comment-feed">
@@ -1126,31 +1132,36 @@
       📷 Add a Photo
     </button>
 
-    <div class="zone-header">🌿 Zone 1</div>
-    <div class="photo-grid">
-      <div class="photo-thumb" onclick="openLightbox('https://res.cloudinary.com/ddbsuxerb/image/upload/v1/samples/landscapes/nature-mountains.jpg','Bed 1A · Tomatoes','Uploaded Jun 8, 2026')">
-        <img src="https://res.cloudinary.com/ddbsuxerb/image/upload/w_300,h_300,c_fill/v1/samples/landscapes/nature-mountains.jpg" alt="Bed 1A">
-        <span class="bed-tag">1A</span>
-      </div>
-      <div class="photo-thumb" onclick="openLightbox('https://res.cloudinary.com/ddbsuxerb/image/upload/v1/samples/food/fish-vegetables.jpg','Bed 1C · Herbs','Uploaded Jun 5, 2026')">
-        <img src="https://res.cloudinary.com/ddbsuxerb/image/upload/w_300,h_300,c_fill/v1/samples/food/fish-vegetables.jpg" alt="Bed 1C">
-        <span class="bed-tag">1C</span>
-      </div>
+    <div id="album-content">
+      <div class="photo-empty">Loading photos…</div>
     </div>
 
-    <div class="zone-header">🌿 Zone 2</div>
-    <div class="photo-grid">
-      <div class="photo-thumb" onclick="openLightbox('https://res.cloudinary.com/ddbsuxerb/image/upload/v1/samples/food/spices.jpg','Bed 2B · Squash','Uploaded Jun 3, 2026')">
-        <img src="https://res.cloudinary.com/ddbsuxerb/image/upload/w_300,h_300,c_fill/v1/samples/food/spices.jpg" alt="Bed 2B">
-        <span class="bed-tag">2B</span>
-      </div>
-    </div>
+  </div>
+</div>
 
-    <div class="zone-header">🌿 Zone 3</div>
-    <div class="photo-grid">
-      <div class="photo-empty">No photos yet for Zone 3.</div>
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: FIELD LOG                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-field-log">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-employee-options')">‹</button>
+    <h1>Field Log</h1>
+    <p>Farm Journal · Staff</p>
+  </div>
+  <div class="screen-body">
+    <div class="form-group">
+      <label>Location</label>
+      <select id="log-location"></select>
     </div>
-
+    <div class="form-group">
+      <label>What did you observe or do?</label>
+      <textarea id="log-note" placeholder="Transplanted seedlings, watered Zone 2, spotted aphids on 2C…"></textarea>
+    </div>
+    <button class="submit-btn" onclick="submitFieldLog()">Add Log Entry</button>
+    <p class="section-label">Recent Entries</p>
+    <div class="comment-feed" id="log-feed">
+      <div class="comment-item"><p>Loading…</p></div>
+    </div>
   </div>
 </div>
 
@@ -1261,6 +1272,13 @@
         <p>Guest engagement and support</p>
       </div>
     </div>
+    <div class="option-card" onclick="go('screen-field-log')">
+      <span class="card-icon">📓</span>
+      <div class="card-text">
+        <h3>Field Log</h3>
+        <p>Record observations anywhere on the farm</p>
+      </div>
+    </div>
     <div class="option-card" onclick="go('screen-photo-album', {showUpload: true})">
       <span class="card-icon">📸</span>
       <div class="card-text">
@@ -1311,7 +1329,7 @@
       <div class="divider-or">OR</div>
       <div class="form-group">
         <label>Select from list</label>
-        <select onchange="if(this.value) go('screen-bed-info-employee')">
+        <select onchange="if(this.value) selectBed(this.value, 'employee')">
           <option value="">— Choose a bed —</option>
           <optgroup label="Zone 1">
             <option value="1A">1A</option>
@@ -1352,30 +1370,30 @@
 <div class="screen" id="screen-bed-info-employee">
   <div class="app-header">
     <button class="back-btn" onclick="go('screen-bed-selector-employee')">‹</button>
-    <h1>Bed Z1-A1</h1>
-    <p>Zone 1 · Row A</p>
+    <h1 id="bi-e-title">Garden Bed</h1>
+    <p id="bi-e-zone"></p>
   </div>
   <div class="screen-body">
     <div class="bed-header">
-      <div class="bed-id">Bed ID: Z1-A1</div>
-      <h2>Tomatoes</h2>
-      <div class="bed-manager">Managed by Sarah M.</div>
+      <div class="bed-id" id="bi-e-id"></div>
+      <h2 id="bi-e-crop">—</h2>
+      <div class="bed-manager" id="bi-e-mgr"></div>
     </div>
     <div class="info-row">
       <span class="label">Currently Growing</span>
-      <span class="value">Heirloom Tomatoes</span>
+      <span class="value" id="bi-e-growing">—</span>
     </div>
     <div class="info-row">
       <span class="label">Date Planted</span>
-      <span class="value">March 12, 2026</span>
+      <span class="value" id="bi-e-planted">—</span>
     </div>
     <div class="info-row">
       <span class="label">Est. Harvest</span>
-      <span class="value">June 20, 2026</span>
+      <span class="value" id="bi-e-harvest">—</span>
     </div>
     <div class="blessing-block">
-      <p>"The earth is the Lord's, and everything in it, the world, and all who live in it."</p>
-      <cite>— Psalm 24:1 · chosen by Sarah M.</cite>
+      <p id="bi-e-blessing"></p>
+      <cite id="bi-e-cite"></cite>
     </div>
     <button class="manage-btn" onclick="go('screen-bed-password')">🔓 Manage This Bed</button>
     <div class="report-link">
@@ -1642,6 +1660,8 @@
       target.classList.add('active');
       target.scrollTop = 0;
     }
+    if (screenId === 'screen-photo-album') { loadAlbum(); }
+    if (screenId === 'screen-field-log') { loadFieldLog(); }
     if (screenId === 'screen-photo-album') {
       const btn = document.getElementById('album-upload-btn');
       if (btn) btn.style.display = options.showUpload ? 'flex' : 'none';
@@ -1654,6 +1674,158 @@
     t.textContent = msg;
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  const PUBLIC_API = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQRmcTyhqDQVj1eDAEXXJcyNwBFW6B33P4Q5JIkaAEfp_7HBIw/exec';
+
+  function fmtDate(iso) {
+    try { return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+    catch (e) { return ''; }
+  }
+  function findKey(obj, patterns) {
+    const keys = Object.keys(obj);
+    for (const p of patterns) {
+      const k = keys.find(k => p.test(k));
+      if (k) return k;
+    }
+    return null;
+  }
+
+  // ── REAL BED DATA ──
+  let bedsCache = null, currentBed = null;
+  const LOCATION_NAMES = { SEED: 'Seed Starting Station', ORCH: 'Orchard Trees', COMP: 'Compost Area', FARM: 'General Farm' };
+
+  async function fetchBeds() {
+    if (bedsCache) return bedsCache;
+    const res = await fetch(PUBLIC_API + '?view=beds');
+    const data = await res.json();
+    bedsCache = (data.ok && data.beds) ? data.beds : [];
+    return bedsCache;
+  }
+
+  async function selectBed(bedId, mode) {
+    currentBed = bedId;
+    const x = mode === 'guest' ? 'g' : 'e';
+    const set = (id, v) => { const el = document.getElementById('bi-' + x + '-' + id); if (el) el.textContent = v || '—'; };
+    set('title', 'Bed ' + bedId); set('zone', 'Zone ' + bedId.charAt(0));
+    set('id', 'Bed ID: ' + bedId);
+    set('crop', '…'); set('mgr', ''); set('growing', '…'); set('planted', '…'); set('harvest', '…');
+    set('blessing', ''); set('cite', '');
+    go('screen-bed-info-' + (mode === 'guest' ? 'guest' : 'employee'));
+
+    try {
+      const beds = await fetchBeds();
+      const idKey = beds.length ? findKey(beds[0], [/^bed\s*id$/i, /bedid/i, /^bed$/i, /^id$/i]) : null;
+      const row = beds.find(b => idKey && String(b[idKey]).trim().toUpperCase() === bedId.toUpperCase());
+      if (!row) { set('crop', 'No data yet'); return; }
+      const v = pats => { const k = findKey(row, pats); return k ? String(row[k]) : ''; };
+      const crop = v([/crop/i, /grow/i, /plant(?!ed)/i]);
+      set('crop', crop || 'Unplanted');
+      set('growing', crop || '—');
+      const mgr = v([/manager/i, /steward/i, /caretaker/i, /assigned/i]);
+      set('mgr', mgr ? 'Managed by ' + mgr : '');
+      const planted = v([/planted/i, /sow/i]);
+      set('planted', planted ? (planted.includes('T') ? fmtDate(planted) : planted) : '—');
+      const harvest = v([/harvest/i]);
+      set('harvest', harvest ? (harvest.includes('T') ? fmtDate(harvest) : harvest) : '—');
+      const bless = v([/bless/i, /verse/i, /scripture/i, /passage/i]);
+      const blEl = document.getElementById('bi-' + x + '-blessing');
+      if (blEl) blEl.closest('.blessing-block').style.display = bless ? '' : 'none';
+      set('blessing', bless);
+      const citeV = v([/cite/i, /reference/i]);
+      set('cite', citeV ? '— ' + citeV : '');
+    } catch (e) {
+      set('crop', 'Could not load bed data');
+    }
+  }
+
+  // ── REAL ALBUM ──
+  async function loadAlbum() {
+    const box = document.getElementById('album-content');
+    if (!box) return;
+    try {
+      const res = await fetch(PUBLIC_API + '?view=photos');
+      const data = await res.json();
+      const photos = (data.ok && data.photos) ? data.photos : [];
+      if (!photos.length) {
+        box.innerHTML = '<div class="photo-empty">No photos yet — staff can add the first one!</div>';
+        return;
+      }
+      const groups = { '1': [], '2': [], '3': [], other: [] };
+      photos.forEach(ph => {
+        const bed = String(ph.BedID || '');
+        (groups[bed.charAt(0)] || groups.other).push(ph);
+      });
+      let html = '';
+      const section = (title, list) => {
+        if (!list.length) return '';
+        let h = '<div class="zone-header">🌿 ' + title + '</div><div class="photo-grid">';
+        list.forEach(ph => {
+          const full = String(ph.CloudinaryURL || '');
+          if (!full) return;
+          const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
+          const bed = String(ph.BedID || '');
+          const label = LOCATION_NAMES[bed] || ('Bed ' + bed);
+          const cap = String(ph.Caption || label).replace(/"/g, '&quot;').replace(/'/g, "\\'");
+          const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
+          h += '<div class="photo-thumb" onclick="openLightbox(\'' + full + '\', \'' + cap + '\', \'' + when + '\')">' +
+               '<img src="' + thumb + '" alt="' + label + '" loading="lazy">' +
+               '<span class="bed-tag">' + bed + '</span></div>';
+        });
+        return h + '</div>';
+      };
+      html += section('Zone 1', groups['1']);
+      html += section('Zone 2', groups['2']);
+      html += section('Zone 3', groups['3']);
+      html += section('Around the Farm', groups.other);
+      box.innerHTML = html || '<div class="photo-empty">No photos yet.</div>';
+    } catch (e) {
+      box.innerHTML = '<div class="photo-empty">Could not load photos — check connection.</div>';
+    }
+  }
+
+  // ── FIELD LOG ──
+  async function loadFieldLog() {
+    const sel = document.getElementById('log-location');
+    if (sel && !sel.options.length) sel.innerHTML = document.getElementById('upload-bed').innerHTML;
+    const feed = document.getElementById('log-feed');
+    try {
+      const res = await fetch(PUBLIC_API + '?view=log');
+      const data = await res.json();
+      const log = (data.ok && data.log) ? data.log : [];
+      if (!log.length) { feed.innerHTML = '<div class="comment-item"><p>No entries yet — write the first one above.</p></div>'; return; }
+      feed.innerHTML = log.map(en => {
+        const loc = String(en.Location || '');
+        const label = LOCATION_NAMES[loc] || (loc ? 'Bed ' + loc : 'Farm');
+        const when = en.LoggedAt ? fmtDate(en.LoggedAt) : '';
+        const note = String(en.Note || '').replace(/</g, '&lt;');
+        return '<div class="comment-item"><div class="comment-meta">' + label + ' · ' + when + '</div><p>' + note + '</p></div>';
+      }).join('');
+    } catch (e) {
+      feed.innerHTML = '<div class="comment-item"><p>Could not load entries.</p></div>';
+    }
+  }
+
+  async function submitFieldLog() {
+    const note = document.getElementById('log-note').value.trim();
+    if (!note) { showToast('Write a note first'); return; }
+    const pw = sessionStorage.getItem('adminToken');
+    if (!pw) { showToast('Please sign in again'); go('screen-login'); return; }
+    showToast('⏳ Saving…');
+    try {
+      const res = await fetch(PUBLIC_API, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'addLog', password: pw, location: document.getElementById('log-location').value, note: note })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        showToast('✓ Logged');
+        document.getElementById('log-note').value = '';
+        loadFieldLog();
+      } else if (data.error === 'auth') {
+        sessionStorage.removeItem('adminToken'); showToast('Session expired — sign in again'); go('screen-login');
+      } else showToast('Could not save — try again');
+    } catch (e) { showToast('Could not save — check connection'); }
   }
 
   // LOGIN
@@ -1689,6 +1861,7 @@ showToast('Incorrect password');
 
   // UPLOAD MODAL
   function openUploadModal() {
+    document.getElementById('upload-password').style.display = sessionStorage.getItem('adminToken') ? 'none' : '';
     document.getElementById('upload-modal').classList.add('open');
   }
   function closeUploadModal() {
@@ -1715,7 +1888,8 @@ showToast('Incorrect password');
     const fileInput = document.querySelector('#upload-preview input[type=file]');
     const bed = document.getElementById('upload-bed').value;
     const caption = document.getElementById('upload-caption').value;
-    const password = document.getElementById('upload-password').value;
+    const stored = sessionStorage.getItem('adminToken');
+    const password = stored || document.getElementById('upload-password').value;
 
     const pwRes = await fetch(WEB_APP_URL, {
       method: 'POST',
@@ -1723,7 +1897,13 @@ showToast('Incorrect password');
     });
     const pwData = await pwRes.json();
     if (!pwData.ok) {
-      showToast('⛔ Incorrect password');
+      if (stored) {
+        sessionStorage.removeItem('adminToken');
+        document.getElementById('upload-password').style.display = '';
+        showToast('Session expired — enter password');
+      } else {
+        showToast('⛔ Incorrect password');
+      }
       return;
     }
     if (!fileInput.files || !fileInput.files[0]) {
@@ -1746,8 +1926,19 @@ showToast('Incorrect password');
       });
       const data = await res.json();
       if (data.secure_url) {
+        try {
+          await fetch(PUBLIC_API, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'addPhoto', password: password, bedId: bed, caption: caption,
+              url: data.secure_url,
+              thumb: data.secure_url.replace('/upload/', '/upload/w_300,h_300,c_fill/')
+            })
+          });
+        } catch (e) {}
         showToast('✓ Photo uploaded!');
         closeUploadModal();
+        loadAlbum();
       } else {
         showToast('Upload failed — try again');
       }
