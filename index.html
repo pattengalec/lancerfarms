@@ -1947,10 +1947,10 @@
       const log = (data.ok && data.log) ? data.log : [];
       if (!log.length) { feed.innerHTML = '<div class="comment-item"><p>No entries yet — write the first one above.</p></div>'; return; }
       feed.innerHTML = log.map(en => {
-        const loc = String(en.Location || '');
+        const loc = String(en.BedID || '');
         const label = LOCATION_NAMES[loc] || (loc ? 'Bed ' + loc : 'Farm');
-        const when = en.LoggedAt ? fmtDate(en.LoggedAt) : '';
-        const note = String(en.Note || '').replace(/</g, '&lt;');
+        const when = en.When ? fmtDate(en.When) : '';
+        const note = String(en.What || '').replace(/</g, '&lt;');
         return '<div class="comment-item"><div class="comment-meta">' + label + ' · ' + when + '</div><p>' + note + '</p></div>';
       }).join('');
     } catch (e) {
