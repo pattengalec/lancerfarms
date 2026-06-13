@@ -1484,6 +1484,19 @@
       <input type="text" id="bc-blessing-ref" placeholder="Psalm 24:1" />
     </div>
     <button class="submit-btn" onclick="saveBedChanges()">Save Changes</button>
+    <button class="manage-btn" onclick="go('screen-bed-photos'); loadBedPhotos();" style="margin-top:10px;">📷 View Photos for This Bed</button>
+  </div>
+</div>
+
+<div class="screen" id="screen-bed-photos">
+  <div class="app-header">
+    <h1 id="bp-photos-title">Bed Photos</h1>
+    <p>Tap a photo to enlarge</p>
+  </div>
+  <div class="screen-body">
+    <div id="bed-photos-content">
+      <div class="photo-empty">Loading…</div>
+    </div>
   </div>
 </div>
 
@@ -1780,6 +1793,40 @@
   }
 
   // ── REAL ALBUM ──
+  async function loadBedPhotos() {
+    const box = document.getElementById('bed-photos-content');
+    const titleEl = document.getElementById('bp-photos-title');
+    const bed = currentBed || '';
+    if (titleEl) titleEl.textContent = (LOCATION_NAMES[bed] || ('Bed ' + bed)) + ' — Photos';
+    if (!box) return;
+    box.innerHTML = '<div class="photo-empty">Loading…</div>';
+    try {
+      const res = await fetch(PUBLIC_API + '?view=photos');
+      const data = await res.json();
+      const photos = (data.ok && data.photos) ? data.photos : [];
+      const mine = photos.filter(ph => String(ph.BedID || '').trim().toUpperCase() === String(bed).trim().toUpperCase());
+      if (!mine.length) {
+        box.innerHTML = '<div class="photo-empty">No photos yet for this bed — add one from the Photo Album!</div>';
+        return;
+      }
+      let html = '<div class="photo-grid">';
+      mine.forEach(ph => {
+        const full = String(ph.CloudinaryURL || '');
+        if (!full) return;
+        const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
+        const label = LOCATION_NAMES[bed] || ('Bed ' + bed);
+        const cap = String(ph.Caption || label).replace(/"/g, '&quot;').replace(/'/g, "\\'");
+        const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
+        html += '<div class="photo-thumb" onclick="openLightbox(\'' + full + '\', \'' + cap + '\', \'' + when + '\')">' +
+                '<img src="' + thumb + '" alt="' + label + '" loading="lazy"></div>';
+      });
+      html += '</div>';
+      box.innerHTML = html;
+    } catch (e) {
+      box.innerHTML = '<div class="photo-empty">Could not load photos — check connection.</div>';
+    }
+  }
+
   async function loadAlbum() {
     const box = document.getElementById('album-content');
     if (!box) return;
