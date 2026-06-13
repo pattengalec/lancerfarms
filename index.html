@@ -857,6 +857,13 @@
         <p>View crop info, manager, and blessings</p>
       </div>
     </div>
+    <div class="option-card" onclick="go('screen-almanac')">
+      <span class="card-icon">🌙</span>
+      <div class="card-text">
+        <h3>Farm Almanac</h3>
+        <p>Live weather, sun &amp; moon over the farm</p>
+      </div>
+    </div>
     <div class="option-card" onclick="go('screen-about')">
       <span class="card-icon">📖</span>
       <div class="card-text">
@@ -1151,7 +1158,26 @@
   <div class="screen-body">
     <div class="form-group">
       <label>Location</label>
-      <select id="log-location"></select>
+      <select id="log-location">
+        <optgroup label="Other Locations">
+          <option value="SEED">Seed Starting Station</option>
+          <option value="ORCH">Orchard Trees</option>
+          <option value="COMP">Compost Area</option>
+          <option value="FARM" selected>General Farm</option>
+        </optgroup>
+        <optgroup label="Zone 1">
+          <option value="1A">1A</option><option value="1B">1B</option><option value="1C">1C</option><option value="1D">1D</option>
+          <option value="1E">1E</option><option value="1F">1F</option><option value="1G">1G</option><option value="1H">1H</option>
+        </optgroup>
+        <optgroup label="Zone 2">
+          <option value="2A">2A</option><option value="2B">2B</option><option value="2C">2C</option>
+          <option value="2D">2D</option><option value="2E">2E</option><option value="2F">2F</option>
+        </optgroup>
+        <optgroup label="Zone 3">
+          <option value="3A">3A</option><option value="3B">3B</option><option value="3C">3C</option><option value="3D">3D</option>
+          <option value="3E">3E</option><option value="3F">3F</option><option value="3G">3G</option>
+        </optgroup>
+      </select>
     </div>
     <div class="form-group">
       <label>What did you observe or do?</label>
@@ -1162,6 +1188,42 @@
     <div class="comment-feed" id="log-feed">
       <div class="comment-item"><p>Loading…</p></div>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ALMANAC                            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-almanac">
+  <div class="app-header">
+    <button class="back-btn" onclick="go('screen-landing')">‹</button>
+    <h1>Farm Almanac</h1>
+    <p>Lancer Farms · Live Conditions</p>
+  </div>
+  <div class="screen-body">
+
+    <div class="bed-header" id="alm-now">
+      <div class="bed-id">Right now over the farm</div>
+      <h2 id="alm-temp">…</h2>
+      <div class="bed-manager" id="alm-cond">Reaching the National Weather Service…</div>
+    </div>
+
+    <div class="info-row"><span class="label">Wind</span><span class="value" id="alm-wind">—</span></div>
+    <div class="info-row"><span class="label">Sunrise</span><span class="value" id="alm-sunrise">—</span></div>
+    <div class="info-row"><span class="label">Sunset</span><span class="value" id="alm-sunset">—</span></div>
+    <div class="info-row"><span class="label">Daylight</span><span class="value" id="alm-daylight">—</span></div>
+    <div class="info-row"><span class="label">Moon</span><span class="value" id="alm-moon">—</span></div>
+
+    <p class="section-label">Coming Up</p>
+    <div class="comment-feed" id="alm-forecast">
+      <div class="comment-item"><p>Loading forecast…</p></div>
+    </div>
+
+    <div class="blessing-block">
+      <p>"He made the moon to mark the seasons, and the sun knows when to go down."</p>
+      <cite>— Psalm 104:19</cite>
+    </div>
+
   </div>
 </div>
 
@@ -1270,6 +1332,13 @@
       <div class="card-text">
         <h3>Comment or Donate</h3>
         <p>Guest engagement and support</p>
+      </div>
+    </div>
+    <div class="option-card" onclick="go('screen-almanac')">
+      <span class="card-icon">🌙</span>
+      <div class="card-text">
+        <h3>Farm Almanac</h3>
+        <p>Live weather, sun &amp; moon over the farm</p>
       </div>
     </div>
     <div class="option-card" onclick="go('screen-field-log')">
@@ -1662,6 +1731,7 @@
     }
     if (screenId === 'screen-photo-album') { loadAlbum(); }
     if (screenId === 'screen-field-log') { loadFieldLog(); }
+    if (screenId === 'screen-almanac') { loadAlmanac(); }
     if (screenId === 'screen-photo-album') {
       const btn = document.getElementById('album-upload-btn');
       if (btn) btn.style.display = options.showUpload ? 'flex' : 'none';
@@ -1784,10 +1854,102 @@
     }
   }
 
+  // ── ALMANAC ──
+  const FARM_LAT = 33.9281417, FARM_LNG = -117.4301472;
+
+  function sunTimes(date, lat, lng) {
+    // NOAA simplified sunrise/sunset
+    const rad = Math.PI / 180;
+    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 86400000);
+    function calc(rising) {
+      const zenith = 90.833;
+      const lngHour = lng / 15;
+      const t = dayOfYear + ((rising ? 6 : 18) - lngHour) / 24;
+      const M = (0.9856 * t) - 3.289;
+      let L = M + (1.916 * Math.sin(M * rad)) + (0.020 * Math.sin(2 * M * rad)) + 282.634;
+      L = ((L % 360) + 360) % 360;
+      let RA = Math.atan(0.91764 * Math.tan(L * rad)) / rad;
+      RA = ((RA % 360) + 360) % 360;
+      RA += (Math.floor(L / 90) * 90 - Math.floor(RA / 90) * 90);
+      RA /= 15;
+      const sinDec = 0.39782 * Math.sin(L * rad);
+      const cosDec = Math.cos(Math.asin(sinDec));
+      const cosH = (Math.cos(zenith * rad) - (sinDec * Math.sin(lat * rad))) / (cosDec * Math.cos(lat * rad));
+      if (cosH > 1 || cosH < -1) return null;
+      let H = rising ? 360 - Math.acos(cosH) / rad : Math.acos(cosH) / rad;
+      H /= 15;
+      const T = H + RA - (0.06571 * t) - 6.622;
+      let UT = T - lngHour;
+      UT = ((UT % 24) + 24) % 24;
+      const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      d.setUTCMinutes(Math.round(UT * 60));
+      return d;
+    }
+    return { sunrise: calc(true), sunset: calc(false) };
+  }
+
+  function moonPhase(date) {
+    const synodic = 29.53058867;
+    const known = Date.UTC(2000, 0, 6, 18, 14);
+    let age = ((date.getTime() - known) / 86400000) % synodic;
+    if (age < 0) age += synodic;
+    const names = [
+      [1.85, '🌑 New Moon'], [5.54, '🌒 Waxing Crescent'], [9.23, '🌓 First Quarter'],
+      [12.91, '🌔 Waxing Gibbous'], [16.61, '🌕 Full Moon'], [20.30, '🌖 Waning Gibbous'],
+      [23.99, '🌗 Last Quarter'], [27.68, '🌘 Waning Crescent'], [99, '🌑 New Moon']
+    ];
+    for (const [limit, name] of names) if (age < limit) return name;
+    return '🌙';
+  }
+
+  function fmtTime(d) {
+    return d ? d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '—';
+  }
+
+  async function loadAlmanac() {
+    const now = new Date();
+    // sun & moon: pure math, instant, always fresh
+    const sun = sunTimes(now, FARM_LAT, FARM_LNG);
+    document.getElementById('alm-sunrise').textContent = fmtTime(sun.sunrise);
+    document.getElementById('alm-sunset').textContent = fmtTime(sun.sunset);
+    if (sun.sunrise && sun.sunset) {
+      const mins = Math.round((sun.sunset - sun.sunrise) / 60000);
+      document.getElementById('alm-daylight').textContent = Math.floor(mins / 60) + 'h ' + (mins % 60) + 'm';
+    }
+    document.getElementById('alm-moon').textContent = moonPhase(now);
+
+    // weather: NWS, refreshed automatically on every visit (30-min courtesy cache)
+    const tempEl = document.getElementById('alm-temp'), condEl = document.getElementById('alm-cond');
+    try {
+      let cached = null;
+      try { cached = JSON.parse(sessionStorage.getItem('lfg-wx') || 'null'); } catch (e) {}
+      let periods;
+      if (cached && (Date.now() - cached.at) < 30 * 60 * 1000) {
+        periods = cached.periods;
+      } else {
+        const pt = await (await fetch('https://api.weather.gov/points/' + FARM_LAT + ',' + FARM_LNG)).json();
+        const fc = await (await fetch(pt.properties.forecast)).json();
+        periods = fc.properties.periods.slice(0, 5);
+        try { sessionStorage.setItem('lfg-wx', JSON.stringify({ at: Date.now(), periods: periods })); } catch (e) {}
+      }
+      const nowP = periods[0];
+      tempEl.textContent = nowP.temperature + '°' + nowP.temperatureUnit;
+      condEl.textContent = nowP.shortForecast + ' · ' + nowP.name;
+      document.getElementById('alm-wind').textContent = nowP.windSpeed + ' ' + nowP.windDirection;
+      document.getElementById('alm-forecast').innerHTML = periods.slice(1).map(pd =>
+        '<div class="comment-item"><div class="comment-meta">' + pd.name + ' · ' + pd.temperature + '°' + pd.temperatureUnit + '</div>' +
+        '<p>' + pd.detailedForecast + '</p></div>'
+      ).join('');
+    } catch (e) {
+      tempEl.textContent = '—';
+      condEl.textContent = 'Weather service unreachable — sun & moon still accurate';
+      document.getElementById('alm-forecast').innerHTML = '<div class="comment-item"><p>Forecast unavailable right now.</p></div>';
+    }
+  }
+
   // ── FIELD LOG ──
   async function loadFieldLog() {
     const sel = document.getElementById('log-location');
-    if (sel && !sel.options.length) sel.innerHTML = document.getElementById('upload-bed').innerHTML;
     const feed = document.getElementById('log-feed');
     try {
       const res = await fetch(PUBLIC_API + '?view=log');
