@@ -131,8 +131,8 @@
 
   /* OPTION CARDS */
   .option-card {
-    background: var(--white);
-    border: 1.5px solid var(--mist);
+    background: var(--card, var(--white));
+    border: 1.5px solid var(--card-border, var(--mist));
     border-radius: var(--radius);
     padding: 18px 20px;
     cursor: pointer;
@@ -142,12 +142,12 @@
     transition: border-color 0.15s, box-shadow 0.15s;
     box-shadow: var(--shadow);
     text-decoration: none;
-    color: var(--soil);
+    color: var(--on-bg, var(--soil));
   }
   .option-card:active { border-color: var(--sage); box-shadow: 0 1px 6px rgba(44,26,14,0.1); }
   .option-card .card-icon { font-size: 1.8rem; flex-shrink: 0; }
-  .option-card .card-text h3 { font-size: 1rem; font-weight: 600; color: var(--soil); }
-  .option-card .card-text p { font-size: 0.78rem; color: var(--bark); margin-top: 2px; opacity: 0.75; }
+  .option-card .card-text h3 { font-size: 1rem; font-weight: 600; color: var(--on-bg, var(--soil)); }
+  .option-card .card-text p { font-size: 0.78rem; color: var(--on-bg-soft, var(--bark)); margin-top: 2px; opacity: 0.85; }
   .option-card.primary { background: var(--leaf); border-color: var(--leaf); }
   .option-card.primary .card-text h3 { color: var(--white); }
   .option-card.primary .card-text p { color: var(--mist); }

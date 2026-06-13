@@ -18,11 +18,13 @@
   --alert: #C84B2A; --on-alert: #fdeae4;
 }
 [data-theme="night"] {
-  --bg: #0E1810; --surface: #1A2A1E; --surface2: #1A2A1E; --mist: #2c4233;
-  --ink: #DCE8DA; --ink-soft: #8FB896; --on-bg: #DCE8DA; --on-bg-soft: #7d9a83;
-  --accent: #4F7A58; --accent-2: #8FB896; --on-accent: #0E1810;
-  --alert: #D88A5C; --on-alert: #2b1608;
+  --bg: #060B07; --surface: #0F1A12; --surface2: #14241A; --mist: #233a2c;
+  --ink: #B7CDB9; --ink-soft: #5e7864; --on-bg: #B7CDB9; --on-bg-soft: #56705e;
+  --accent: #3A5C44; --accent-2: #5e7864; --on-accent: #DCE8DA;
+  --alert: #B5613A; --on-alert: #f5e4d6;
+  --card: #11201548; --card-border: #233a2c;
 }
+[data-theme="night"] body { color-scheme: dark; }
 [data-theme="phosphor"] {
   --bg: #0A0E0A; --surface: #0A0E0A; --surface2: #102a14; --mist: #1d3b1d;
   --ink: #33FF66; --ink-soft: #1f9e44; --on-bg: #33FF66; --on-bg-soft: #1f9e44;
@@ -41,12 +43,14 @@
 }
 [data-vis="high"][data-theme="inland"]   { --accent: #2e4f34; --accent-2: #2e4f34; }
 [data-vis="high"][data-theme="citrus"]   { --accent: #8a4410; --accent-2: #4a6328; }
-[data-vis="high"][data-theme="night"]    { --accent: #2e5238; --accent-2: #2e5238; }
-[data-vis="high"][data-theme="phosphor"] { --accent: #0c5f28; --accent-2: #0c5f28; --font-head: Georgia, serif; --font-body: 'Source Sans 3', sans-serif; --radius: 10px; }
+[data-vis="high"][data-theme="night"]    { --accent: #4a7356; --accent-2: #4a7356; --card: #182a1d; --on-bg: #D6E6D8; --on-bg-soft: #8aa794; }
+[data-vis="high"][data-theme="night"] body { color-scheme: dark; }
+[data-theme="phosphor"] { --accent: #0c5f28; --accent-2: #0c5f28; --font-head: Georgia, serif; --font-body: 'Source Sans 3', sans-serif; --radius: 10px; }
 [data-vis="high"] body { font-weight: 500; }
 [data-vis="high"] .card, [data-vis="high"] .btn { border-width: 2px !important; }
 [data-vis="high"] .craft-tilt { transform: none !important; }
 
+:root { --card: var(--surface2, #FDFAF4); --card-border: var(--mist, #EAE4D4); }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--bg); }
 body {
