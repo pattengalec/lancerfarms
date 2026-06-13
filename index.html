@@ -1005,7 +1005,7 @@
     </div>
     <div class="form-group">
       <label>What did you notice?</label>
-      <select>
+      <select id="dr-type">
         <option>Damaged structure or materials</option>
         <option>Pest or disease signs</option>
         <option>Irrigation problem</option>
@@ -1015,9 +1015,9 @@
     </div>
     <div class="form-group">
       <label>Description</label>
-      <textarea placeholder="Describe what you observed..."></textarea>
+      <textarea id="dr-desc" placeholder="Describe what you observed..."></textarea>
     </div>
-    <button class="submit-btn" onclick="showToast('✓ Report submitted — thank you'); go('screen-bed-info-guest')">Submit Report</button>
+    <button class="submit-btn" onclick="submitDamageReport()">Submit Report</button>
   </div>
 </div>
 
@@ -1258,7 +1258,7 @@
     <div class="alert-banner">
       <span class="alert-icon">⚠️</span>
       <div>
-        <h3>2 Damage Reports Pending</h3>
+        <h3 id="alert-count">Damage Reports Pending</h3>
         <p>New issues have been submitted by visitors and require your attention before continuing.</p>
         <button onclick="go('screen-damage-inbox')">Review Reports</button>
       </div>
@@ -1283,22 +1283,7 @@
     <p>Pending Review</p>
   </div>
   <div class="screen-body">
-    <div class="inventory-item low-stock">
-      <div>
-        <div class="item-name">Bed Z1-A1 · Irrigation Problem</div>
-        <div class="item-sub">Reported Jun 9, 2026 at 4:22 PM by Guest</div>
-        <div class="item-sub" style="margin-top:4px;">"The drip line on the north side looks disconnected."</div>
-      </div>
-      <button onclick="showToast('✓ Marked resolved')" style="background:var(--leaf);color:white;border:none;border-radius:6px;padding:6px 12px;font-size:0.75rem;cursor:pointer;flex-shrink:0;margin-left:10px;">Resolve</button>
-    </div>
-    <div class="inventory-item low-stock">
-      <div>
-        <div class="item-name">Bed Z3-C1 · Pest Signs</div>
-        <div class="item-sub">Reported Jun 8, 2026 at 11:05 AM by Guest</div>
-        <div class="item-sub" style="margin-top:4px;">"Saw what looked like aphids on the herb bed."</div>
-      </div>
-      <button onclick="showToast('✓ Marked resolved')" style="background:var(--leaf);color:white;border:none;border-radius:6px;padding:6px 12px;font-size:0.75rem;cursor:pointer;flex-shrink:0;margin-left:10px;">Resolve</button>
-    </div>
+    <div id="report-list"><div class="comment-item"><p>Loading reports…</p></div></div>
     <button class="submit-btn" onclick="go('screen-employee-options')">Continue to Dashboard →</button>
   </div>
 </div>
@@ -1732,6 +1717,7 @@
     if (screenId === 'screen-photo-album') { loadAlbum(); }
     if (screenId === 'screen-field-log') { loadFieldLog(); }
     if (screenId === 'screen-almanac') { loadAlmanac(); }
+    if (screenId === 'screen-damage-inbox') { loadReportInbox(); }
     if (screenId === 'screen-photo-album') {
       const btn = document.getElementById('album-upload-btn');
       if (btn) btn.style.display = options.showUpload ? 'flex' : 'none';
@@ -2004,11 +1990,104 @@ password: pw
 const data = await res.json();
 if (data.ok) {
 sessionStorage.setItem('adminToken', pw);
-go('screen-alert');
+enterStaff();
 } else {
 showToast('Incorrect password');
 }
 }
+
+  // ── DAMAGE REPORTS ──
+  async function submitDamageReport() {
+    const desc = document.getElementById('dr-desc').value.trim();
+    if (!desc) { showToast('Please describe what you saw'); return; }
+    showToast('⏳ Sending…');
+    try {
+      const res = await fetch(PUBLIC_API, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'addReport', bedId: currentBed || 'FARM',
+          type: document.getElementById('dr-type').value, description: desc })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        showToast('✓ Report submitted — thank you');
+        document.getElementById('dr-desc').value = '';
+        go(sessionStorage.getItem('adminToken') ? 'screen-bed-info-employee' : 'screen-bed-info-guest');
+      } else showToast('Could not send — try again');
+    } catch (e) { showToast('Could not send — check connection'); }
+  }
+
+  async function fetchOpenReports() {
+    try {
+      const res = await fetch(PUBLIC_API + '?view=reports');
+      const data = await res.json();
+      return (data.ok && data.reports) ? data.reports : [];
+    } catch (e) { return []; }
+  }
+
+  async function enterStaff() {
+    const reports = await fetchOpenReports();
+    if (reports.length) {
+      document.getElementById('alert-count').textContent =
+        reports.length + ' Damage Report' + (reports.length > 1 ? 's' : '') + ' Pending';
+      go('screen-alert');
+    } else {
+      go('screen-employee-options');
+    }
+  }
+
+  async function loadReportInbox() {
+    const box = document.getElementById('report-list');
+    box.innerHTML = '<div class="comment-item"><p>Loading reports…</p></div>';
+    const reports = await fetchOpenReports();
+    if (!reports.length) {
+      box.innerHTML = '<div class="comment-item"><p>🎉 No open reports — the farm is healthy.</p></div>';
+      return;
+    }
+    box.innerHTML = reports.map(r => {
+      const id = String(r.ReportID);
+      const label = (LOCATION_NAMES[r.BedID] || ('Bed ' + r.BedID)) + ' · ' + String(r.Type || 'Issue');
+      const when = r.ReportedAt ? fmtDate(r.ReportedAt) : '';
+      const desc = String(r.Description || '').replace(/</g, '&lt;');
+      return '<div class="inventory-item low-stock" id="rep-' + id + '" style="flex-direction:column;align-items:stretch;gap:8px;">' +
+        '<div><div class="item-name">' + label + '</div>' +
+        '<div class="item-sub">Reported ' + when + '</div>' +
+        '<div class="item-sub" style="margin-top:4px;">&quot;' + desc + '&quot;</div></div>' +
+        '<div id="rep-act-' + id + '"><button onclick="showResolve(&quot;' + id + '&quot;)" ' +
+        'style="background:var(--leaf);color:white;border:none;border-radius:6px;padding:8px 14px;font-size:0.8rem;cursor:pointer;">Resolve</button></div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function showResolve(id) {
+    document.getElementById('rep-act-' + id).innerHTML =
+      '<div class="form-group"><label>Resolution note</label>' +
+      '<textarea id="rn-' + id + '" placeholder="What was done? (e.g. reconnected drip line)" style="min-height:60px;"></textarea></div>' +
+      '<button onclick="confirmResolve(&quot;' + id + '&quot;)" ' +
+      'style="background:var(--leaf);color:white;border:none;border-radius:6px;padding:10px 14px;font-size:0.85rem;cursor:pointer;width:100%;margin-top:6px;">✓ Confirm Resolve</button>';
+  }
+
+  async function confirmResolve(id) {
+    const note = document.getElementById('rn-' + id).value.trim();
+    const pw = sessionStorage.getItem('adminToken');
+    if (!pw) { showToast('Please sign in again'); go('screen-login'); return; }
+    showToast('⏳ Resolving…');
+    try {
+      const res = await fetch(PUBLIC_API, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'resolveReport', password: pw, id: id, note: note })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        showToast('✓ Resolved');
+        const el = document.getElementById('rep-' + id);
+        if (el) el.remove();
+        if (!document.querySelectorAll('#report-list .inventory-item').length)
+          document.getElementById('report-list').innerHTML = '<div class="comment-item"><p>🎉 All reports resolved.</p></div>';
+      } else if (data.error === 'auth') {
+        sessionStorage.removeItem('adminToken'); showToast('Session expired — sign in again'); go('screen-login');
+      } else showToast('Could not resolve — try again');
+    } catch (e) { showToast('Could not resolve — check connection'); }
+  }
 
   // LIGHTBOX
   function openLightbox(src, title, date) {
