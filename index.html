@@ -42,7 +42,6 @@
     justify-content: center;
   }
 
-  /* SCREEN SYSTEM */
   .screen {
     display: none;
     width: 100%;
@@ -56,7 +55,6 @@
   }
   .screen.active { display: flex; }
 
-  /* HEADER */
   .app-header {
     background: var(--surface);
     color: var(--on-accent, var(--straw));
@@ -80,7 +78,6 @@
     text-transform: uppercase;
   }
 
-  /* BODY CONTENT */
   .screen-body {
     flex: 1;
     padding: 24px 20px;
@@ -89,7 +86,6 @@
     gap: 14px;
   }
 
-  /* HERO LANDING */
   .hero-block {
     background: var(--surface);
     border-radius: var(--radius);
@@ -97,11 +93,7 @@
     text-align: center;
     margin-bottom: 8px;
   }
-  .hero-block .farm-emblem {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    display: block;
-  }
+  .hero-block .farm-emblem { font-size: 3rem; margin-bottom: 10px; display: block; }
   .hero-block h2 {
     font-family: 'IM Fell English', serif;
     font-size: 1.6rem;
@@ -109,14 +101,8 @@
     line-height: 1.2;
     margin-bottom: 6px;
   }
-  .hero-block p {
-    font-size: 0.82rem;
-    color: var(--on-bg-soft);
-    opacity: 0.8;
-    font-style: italic;
-  }
+  .hero-block p { font-size: 0.82rem; color: var(--on-bg-soft); opacity: 0.8; font-style: italic; }
 
-  /* OPTION CARDS */
   .option-card {
     background: var(--card, var(--white));
     border: 1.5px solid var(--card-border, var(--mist));
@@ -139,7 +125,6 @@
   .option-card.primary .card-text h3 { color: var(--on-accent, var(--white)); }
   .option-card.primary .card-text p { color: var(--on-bg-soft); }
 
-  /* SECTION LABEL */
   .section-label {
     font-family: 'Courier Prime', monospace;
     font-size: 0.68rem;
@@ -151,7 +136,6 @@
     padding-left: 2px;
   }
 
-  /* ALERT BANNER */
   .alert-banner {
     background: var(--alert);
     color: var(--on-accent, var(--white));
@@ -176,20 +160,13 @@
     font-family: inherit;
   }
 
-  /* BED INFO PAGE */
   .bed-header {
     background: var(--accent);
     color: var(--on-accent, var(--white));
     padding: 20px 20px 16px;
     border-radius: var(--radius);
   }
-  .bed-header .bed-id {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.72rem;
-    opacity: 0.8;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
+  .bed-header .bed-id { font-family: 'Courier Prime', monospace; font-size: 0.72rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.1em; }
   .bed-header h2 { font-family: 'IM Fell English', serif; font-size: 1.4rem; margin: 4px 0 2px; }
   .bed-header .bed-manager { font-size: 0.8rem; opacity: 0.85; }
 
@@ -205,73 +182,21 @@
   .info-row .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--on-bg-soft); opacity: 0.65; font-family: 'Courier Prime', monospace; }
   .info-row .value { font-size: 0.92rem; font-weight: 600; color: var(--on-bg); text-align: right; max-width: 60%; }
 
-  .blessing-block {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    text-align: center;
-  }
-  .blessing-block p {
-    font-family: 'IM Fell English', serif;
-    font-style: italic;
-    font-size: 0.95rem;
-    color: var(--on-accent, var(--straw));
-    line-height: 1.6;
-  }
-  .blessing-block cite {
-    display: block;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.68rem;
-    color: var(--on-accent, var(--straw));
-    opacity: 0.6;
-    margin-top: 8px;
-    font-style: normal;
-    letter-spacing: 0.06em;
-  }
+  .blessing-block { background: var(--surface); border-radius: var(--radius); padding: 18px 20px; text-align: center; }
+  .blessing-block p { font-family: 'IM Fell English', serif; font-style: italic; font-size: 0.95rem; color: var(--on-accent, var(--straw)); line-height: 1.6; }
+  .blessing-block cite { display: block; font-family: 'Courier Prime', monospace; font-size: 0.68rem; color: var(--on-accent, var(--straw)); opacity: 0.6; margin-top: 8px; font-style: normal; letter-spacing: 0.06em; }
 
-  /* COMMENT FEED */
   .comment-feed { display: flex; flex-direction: column; gap: 10px; }
-  .comment-item {
-    background: var(--card, var(--white));
-    border-radius: 8px;
-    padding: 12px 14px;
-    border: 1px solid var(--card-border, var(--mist));
-  }
+  .comment-item { background: var(--card, var(--white)); border-radius: 8px; padding: 12px 14px; border: 1px solid var(--card-border, var(--mist)); }
   .comment-item .comment-meta { font-size: 0.68rem; color: var(--on-bg-soft); opacity: 0.6; font-family: 'Courier Prime', monospace; margin-bottom: 4px; }
   .comment-item p { font-size: 0.85rem; color: var(--on-bg); line-height: 1.5; }
 
-  .report-link {
-    text-align: center;
-    margin-top: 4px;
-    padding: 8px;
-  }
-  .report-link a {
-    font-size: 0.72rem;
-    color: var(--on-bg-soft);
-    opacity: 0.45;
-    text-decoration: none;
-    border-bottom: 1px dashed currentColor;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
+  .report-link { text-align: center; margin-top: 4px; padding: 8px; }
+  .report-link a { font-size: 0.72rem; color: var(--on-bg-soft); opacity: 0.45; text-decoration: none; border-bottom: 1px dashed currentColor; cursor: pointer; transition: opacity 0.15s; }
   .report-link a:hover { opacity: 0.75; }
 
-  /* MANAGE BUTTON */
-  .manage-btn {
-    background: var(--accent);
-    color: var(--on-accent, var(--white));
-    border: none;
-    border-radius: var(--radius);
-    padding: 16px;
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    letter-spacing: 0.03em;
-  }
+  .manage-btn { background: var(--accent); color: var(--on-accent, var(--white)); border: none; border-radius: var(--radius); padding: 16px; font-size: 1rem; font-family: inherit; font-weight: 600; cursor: pointer; width: 100%; letter-spacing: 0.03em; }
 
-  /* FORM STYLES */
   .form-group { display: flex; flex-direction: column; gap: 6px; }
   .form-group label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--on-bg-soft); font-family: 'Courier Prime', monospace; }
   .form-group input, .form-group select, .form-group textarea {
@@ -288,66 +213,16 @@
   .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent-2, var(--sage)); }
   .form-group textarea { resize: vertical; min-height: 80px; }
 
-  .submit-btn {
-    background: var(--surface);
-    color: var(--on-accent, var(--straw));
-    border: none;
-    border-radius: var(--radius);
-    padding: 16px;
-    font-size: 1rem;
-    font-family: 'IM Fell English', serif;
-    cursor: pointer;
-    width: 100%;
-    letter-spacing: 0.04em;
-  }
+  .submit-btn { background: var(--surface); color: var(--on-accent, var(--straw)); border: none; border-radius: var(--radius); padding: 16px; font-size: 1rem; font-family: 'IM Fell English', serif; cursor: pointer; width: 100%; letter-spacing: 0.04em; }
   .submit-btn:active { opacity: 0.85; }
 
-  /* LOGIN */
-  .login-block {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    text-align: center;
-  }
+  .login-block { background: var(--surface); border-radius: var(--radius); padding: 28px 24px; text-align: center; }
   .login-block h2 { font-family: 'IM Fell English', serif; color: var(--on-accent, var(--straw)); font-size: 1.3rem; margin-bottom: 6px; }
   .login-block p { font-size: 0.8rem; color: var(--on-bg-soft); opacity: 0.75; margin-bottom: 20px; }
-  .login-block input {
-    width: 100%;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(200,169,110,0.3);
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 1rem;
-    color: var(--on-accent, var(--white));
-    font-family: inherit;
-    outline: none;
-    margin-bottom: 12px;
-    text-align: center;
-    letter-spacing: 0.1em;
-  }
-  .login-block button {
-    width: 100%;
-    background: var(--straw);
-    color: var(--on-bg);
-    border: none;
-    border-radius: 8px;
-    padding: 13px;
-    font-size: 0.95rem;
-    font-family: 'IM Fell English', serif;
-    cursor: pointer;
-    letter-spacing: 0.04em;
-  }
+  .login-block input { width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(200,169,110,0.3); border-radius: 8px; padding: 12px 16px; font-size: 1rem; color: var(--on-accent, var(--white)); font-family: inherit; outline: none; margin-bottom: 12px; text-align: center; letter-spacing: 0.1em; }
+  .login-block button { width: 100%; background: var(--straw); color: var(--on-bg); border: none; border-radius: 8px; padding: 13px; font-size: 0.95rem; font-family: 'IM Fell English', serif; cursor: pointer; letter-spacing: 0.04em; }
 
-  /* INVENTORY */
-  .inventory-item {
-    background: var(--card, var(--white));
-    border: 1.5px solid var(--card-border, var(--mist));
-    border-radius: 8px;
-    padding: 12px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  .inventory-item { background: var(--card, var(--white)); border: 1.5px solid var(--card-border, var(--mist)); border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
   .inventory-item.low-stock { border-color: var(--alert); }
   .inventory-item .item-name { font-size: 0.9rem; font-weight: 600; color: var(--on-bg); }
   .inventory-item .item-sub { font-size: 0.72rem; color: var(--on-bg-soft); opacity: 0.65; margin-top: 2px; }
@@ -355,287 +230,63 @@
   .inventory-item .qty-num { font-family: 'Courier Prime', monospace; font-size: 1.1rem; font-weight: 600; color: var(--on-bg); }
   .inventory-item.low-stock .qty-num { color: var(--alert); }
   .inventory-item .qty-par { font-size: 0.68rem; color: var(--on-bg-soft); opacity: 0.55; }
-  .stock-flag {
-    background: var(--alert);
-    color: var(--on-accent, var(--white));
-    font-size: 0.62rem;
-    border-radius: 4px;
-    padding: 2px 6px;
-    font-family: 'Courier Prime', monospace;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
+  .stock-flag { background: var(--alert); color: var(--on-accent, var(--white)); font-size: 0.62rem; border-radius: 4px; padding: 2px 6px; font-family: 'Courier Prime', monospace; letter-spacing: 0.06em; text-transform: uppercase; }
 
-  /* ADMIN PANEL */
-  .admin-section {
-    background: var(--card, var(--white));
-    border-radius: var(--radius);
-    border: 1.5px solid var(--card-border, var(--mist));
-    overflow: hidden;
-  }
-  .admin-section-header {
-    background: var(--surface);
-    color: var(--on-accent, var(--straw));
-    padding: 10px 16px;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  .admin-row {
-    padding: 13px 16px;
-    border-bottom: 1px solid var(--mist);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-  }
+  .admin-section { background: var(--card, var(--white)); border-radius: var(--radius); border: 1.5px solid var(--card-border, var(--mist)); overflow: hidden; }
+  .admin-section-header { background: var(--surface); color: var(--on-accent, var(--straw)); padding: 10px 16px; font-family: 'Courier Prime', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; }
+  .admin-row { padding: 13px 16px; border-bottom: 1px solid var(--mist); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
   .admin-row:last-child { border-bottom: none; }
   .admin-row span { font-size: 0.9rem; color: var(--on-bg); }
-  .admin-row .badge {
-    background: var(--alert);
-    color: var(--on-accent, var(--white));
-    font-size: 0.68rem;
-    border-radius: 10px;
-    padding: 2px 8px;
-    font-family: 'Courier Prime', monospace;
-  }
+  .admin-row .badge { background: var(--alert); color: var(--on-accent, var(--white)); font-size: 0.68rem; border-radius: 10px; padding: 2px 8px; font-family: 'Courier Prime', monospace; }
   .admin-row .arrow { color: var(--on-bg-soft); opacity: 0.4; font-size: 1rem; }
 
-  /* BED SELECTOR */
-  .bed-selector {
-    background: var(--card, var(--white));
-    border: 1.5px solid var(--card-border, var(--mist));
-    border-radius: var(--radius);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
+  .bed-selector { background: var(--card, var(--white)); border: 1.5px solid var(--card-border, var(--mist)); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
   .bed-selector h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--on-bg); text-align: center; }
-  .qr-btn {
-    background: var(--surface);
-    color: var(--on-accent, var(--straw));
-    border: none;
-    border-radius: 8px;
-    padding: 13px;
-    font-family: 'IM Fell English', serif;
-    font-size: 0.95rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .divider-or {
-    text-align: center;
-    font-size: 0.72rem;
-    color: var(--on-bg-soft);
-    opacity: 0.5;
-    font-family: 'Courier Prime', monospace;
-    letter-spacing: 0.1em;
-    position: relative;
-  }
-  .divider-or::before, .divider-or::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 38%;
-    height: 1px;
-    background: var(--mist);
-  }
+  .qr-btn { background: var(--surface); color: var(--on-accent, var(--straw)); border: none; border-radius: 8px; padding: 13px; font-family: 'IM Fell English', serif; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .divider-or { text-align: center; font-size: 0.72rem; color: var(--on-bg-soft); opacity: 0.5; font-family: 'Courier Prime', monospace; letter-spacing: 0.1em; position: relative; }
+  .divider-or::before, .divider-or::after { content: ''; position: absolute; top: 50%; width: 38%; height: 1px; background: var(--mist); }
   .divider-or::before { left: 0; }
   .divider-or::after { right: 0; }
 
-  /* ABOUT PAGE */
-  .about-block {
-    background: var(--card, var(--white));
-    border-radius: var(--radius);
-    border: 1px solid var(--card-border, var(--mist));
-    padding: 20px;
-  }
+  .about-block { background: var(--card, var(--white)); border-radius: var(--radius); border: 1px solid var(--card-border, var(--mist)); padding: 20px; }
   .about-block h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--on-bg); margin-bottom: 10px; }
   .about-block p { font-size: 0.88rem; color: var(--on-bg-soft); line-height: 1.65; }
 
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--surface);
-    color: var(--on-accent, var(--straw));
-    padding: 12px 22px;
-    border-radius: 24px;
-    font-size: 0.85rem;
-    font-family: 'Courier Prime', monospace;
-    transition: transform 0.3s ease;
-    z-index: 999;
-    white-space: nowrap;
-  }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface); color: var(--on-accent, var(--straw)); padding: 12px 22px; border-radius: 24px; font-size: 0.85rem; font-family: 'Courier Prime', monospace; transition: transform 0.3s ease; z-index: 999; white-space: nowrap; }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* SCROLLBAR */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 2px; }
 
-  /* PHOTO ALBUM */
-  .zone-header {
-    background: var(--surface);
-    color: var(--on-accent, var(--straw));
-    border-radius: var(--radius);
-    padding: 10px 16px;
-    font-family: 'IM Fell English', serif;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .photo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-  }
-  .photo-thumb {
-    position: relative;
-    aspect-ratio: 1;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    background: var(--mist);
-  }
-  .photo-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .photo-thumb .bed-tag {
-    position: absolute;
-    bottom: 4px;
-    left: 4px;
-    background: rgba(44,26,14,0.75);
-    color: var(--on-accent, var(--straw));
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.6rem;
-    padding: 2px 5px;
-    border-radius: 4px;
-  }
-  .photo-empty {
-    background: var(--card, var(--white));
-    border: 1.5px dashed var(--mist);
-    border-radius: var(--radius);
-    padding: 24px;
-    text-align: center;
-    color: var(--on-bg-soft);
-    font-size: 0.82rem;
-    opacity: 0.6;
-  }
-  .upload-btn {
-    background: var(--accent);
-    color: var(--on-accent, var(--white));
-    border: none;
-    border-radius: var(--radius);
-    padding: 16px;
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
+  .zone-header { background: var(--surface); color: var(--on-accent, var(--straw)); border-radius: var(--radius); padding: 10px 16px; font-family: 'IM Fell English', serif; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .photo-thumb { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; cursor: pointer; background: var(--mist); }
+  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-thumb .bed-tag { position: absolute; bottom: 4px; left: 4px; background: rgba(44,26,14,0.75); color: var(--on-accent, var(--straw)); font-family: 'Courier Prime', monospace; font-size: 0.6rem; padding: 2px 5px; border-radius: 4px; }
+  .photo-empty { background: var(--card, var(--white)); border: 1.5px dashed var(--mist); border-radius: var(--radius); padding: 24px; text-align: center; color: var(--on-bg-soft); font-size: 0.82rem; opacity: 0.6; }
+  .upload-btn { background: var(--accent); color: var(--on-accent, var(--white)); border: none; border-radius: var(--radius); padding: 16px; font-size: 1rem; font-family: inherit; font-weight: 600; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; }
   .upload-btn:active { opacity: 0.85; }
 
-  /* PHOTO LIGHTBOX */
-  .lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(44,26,14,0.95);
-    z-index: 100;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(44,26,14,0.95); z-index: 100; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
   .lightbox.open { display: flex; }
-  .lightbox img {
-    max-width: 100%;
-    max-height: 70vh;
-    border-radius: var(--radius);
-    object-fit: contain;
-  }
-  .lightbox-meta {
-    margin-top: 14px;
-    text-align: center;
-    color: var(--on-accent, var(--straw));
-  }
+  .lightbox img { max-width: 100%; max-height: 70vh; border-radius: var(--radius); object-fit: contain; }
+  .lightbox-meta { margin-top: 14px; text-align: center; color: var(--on-accent, var(--straw)); }
   .lightbox-meta h3 { font-family: 'IM Fell English', serif; font-size: 1rem; }
   .lightbox-meta p { font-size: 0.75rem; opacity: 0.6; font-family: 'Courier Prime', monospace; margin-top: 4px; }
-  .lightbox-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 16px;
-  }
-  .lightbox-actions button {
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 0.85rem;
-    font-family: inherit;
-    cursor: pointer;
-  }
+  .lightbox-actions { display: flex; gap: 10px; margin-top: 16px; }
+  .lightbox-actions button { border: none; border-radius: 8px; padding: 10px 20px; font-size: 0.85rem; font-family: inherit; cursor: pointer; }
   .lightbox-close { background: rgba(255,255,255,0.15); color: var(--on-accent, var(--straw)); }
 
-  /* UPLOAD MODAL */
-  .upload-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(44,26,14,0.92);
-    z-index: 100;
-    align-items: flex-end;
-    justify-content: center;
-  }
+  .upload-modal { display: none; position: fixed; inset: 0; background: rgba(44,26,14,0.92); z-index: 100; align-items: flex-end; justify-content: center; }
   .upload-modal.open { display: flex; }
-  .upload-sheet {
-    background: var(--bg);
-    border-radius: var(--radius) var(--radius) 0 0;
-    padding: 24px 20px 36px;
-    width: 100%;
-    max-width: 420px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
+  .upload-sheet { background: var(--bg); border-radius: var(--radius) var(--radius) 0 0; padding: 24px 20px 36px; width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 14px; }
   .upload-sheet h2 { font-family: 'IM Fell English', serif; font-size: 1.2rem; color: var(--on-bg); text-align: center; }
-  .upload-preview {
-    width: 100%;
-    aspect-ratio: 4/3;
-    background: var(--mist);
-    border-radius: var(--radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border: 2px dashed var(--sage);
-    cursor: pointer;
-    position: relative;
-  }
+  .upload-preview { width: 100%; aspect-ratio: 4/3; background: var(--mist); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px dashed var(--sage); cursor: pointer; position: relative; }
   .upload-preview img { width: 100%; height: 100%; object-fit: cover; display: none; }
   .upload-preview .placeholder { font-size: 0.85rem; color: var(--on-bg-soft); opacity: 0.5; text-align: center; padding: 20px; }
-  .upload-preview input[type=file] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
+  .upload-preview input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+
   @media (min-width: 900px) {
     .screen { max-width: 720px; }
     .upload-sheet { max-width: 720px; }
@@ -644,38 +295,18 @@
   }
 </style>
 <style id="lfg-bridge">
-/* ── THEME BRIDGE: remaps the app's palette per theme ── */
-[data-theme="citrus"] {
-  --soil:#5A3517; --bark:#8a4410; --straw:#F2C879; --sage:#6B8F3D;
-  --cream:#FFF7E8; --mist:#FDEBD2; --leaf:#A65A14; --alert:#C84B2A; --white:#FFFFFF;
-}
-[data-theme="night"] {
-  --soil:#DCE8DA; --bark:#8FB896; --straw:#C9DCC9; --sage:#4F7A58;
-  --cream:#16241A; --mist:#2c4233; --leaf:#3a5c42; --alert:#D88A5C; --white:#1F3326;
-  --shadow:0 2px 16px rgba(0,0,0,0.4);
-}
-[data-theme="phosphor"] {
-  --soil:#33FF66; --bark:#1f9e44; --straw:#33FF66; --sage:#1f9e44;
-  --cream:#0A0E0A; --mist:#1d3b1d; --leaf:#145c2c; --alert:#FFB000; --white:#0F1A10;
-  --radius:3px; --shadow:none;
-}
-/* dark themes: surfaces that used --soil as a background */
+[data-theme="citrus"] { --soil:#5A3517; --bark:#8a4410; --straw:#F2C879; --sage:#6B8F3D; --cream:#FFF7E8; --mist:#FDEBD2; --leaf:#A65A14; --alert:#C84B2A; --white:#FFFFFF; }
+[data-theme="night"] { --soil:#DCE8DA; --bark:#8FB896; --straw:#C9DCC9; --sage:#4F7A58; --cream:#16241A; --mist:#2c4233; --leaf:#3a5c42; --alert:#D88A5C; --white:#1F3326; --shadow:0 2px 16px rgba(0,0,0,0.4); }
+[data-theme="phosphor"] { --soil:#33FF66; --bark:#1f9e44; --straw:#33FF66; --sage:#1f9e44; --cream:#0A0E0A; --mist:#1d3b1d; --leaf:#145c2c; --alert:#FFB000; --white:#0F1A10; --radius:3px; --shadow:none; }
 [data-theme="night"] :is(body,.app-header,.hero-block,.blessing-block,.login-block,.toast,.admin-section-header,.submit-btn),
-[data-theme="phosphor"] :is(body,.app-header,.hero-block,.blessing-block,.login-block,.toast,.admin-section-header,.submit-btn) {
-  background:#0A120C;
-}
+[data-theme="phosphor"] :is(body,.app-header,.hero-block,.blessing-block,.login-block,.toast,.admin-section-header,.submit-btn) { background:#0A120C; }
 [data-theme="phosphor"] :is(body,.app-header,.hero-block,.blessing-block,.login-block,.toast,.admin-section-header,.submit-btn){ background:#050805; }
 [data-theme="night"] .qr-btn, [data-theme="phosphor"] .qr-btn { background:#0A120C; }
 [data-theme="phosphor"] .qr-btn { background:#050805; }
 [data-theme="phosphor"] .screen, [data-theme="phosphor"] body, [data-theme="phosphor"] input, [data-theme="phosphor"] select, [data-theme="phosphor"] textarea, [data-theme="phosphor"] button { font-family:'Courier Prime',monospace; }
 [data-theme="phosphor"] .option-card.primary .card-text h3, [data-theme="phosphor"] .option-card.primary .card-text p { color:#0A0E0A; }
 [data-theme="night"] .option-card.primary .card-text h3 { color:#EAF2E8; }
-/* sun mode: maximum legibility, theme accents darkened by lfg-theme.css */
-[data-vis="high"] {
-  --soil:#141a15; --bark:#2b332d; --straw:#FFFFFF; --sage:#2e5238;
-  --cream:#FDFDFB; --mist:#cfcfc6; --leaf:#1e4226; --alert:#8a1f00; --white:#FFFFFF;
-  --shadow:none; --radius:10px;
-}
+[data-vis="high"] { --soil:#141a15; --bark:#2b332d; --straw:#FFFFFF; --sage:#2e5238; --cream:#FDFDFB; --mist:#cfcfc6; --leaf:#1e4226; --alert:#8a1f00; --white:#FFFFFF; --shadow:none; --radius:10px; }
 [data-vis="high"] :is(body,.app-header,.hero-block,.blessing-block,.login-block,.toast,.admin-section-header,.submit-btn){ background:#141a15; }
 [data-vis="high"] .screen, [data-vis="high"] body { font-family:'Source Sans 3',sans-serif; }
 #gate { z-index:120; }
@@ -684,7 +315,7 @@
 </head>
 <body>
 
-<!-- ── ENTRY VEIL / PASSWORD CURTAIN (config: gate_enabled) ── -->
+<!-- ENTRY VEIL -->
 <section id="gate" class="overlay-screen gate-screen">
   <div class="panel">
     <h1 style="color:var(--on-bg)">Lancer Farms &amp; Gardens</h1>
@@ -697,7 +328,7 @@
   </div>
 </section>
 
-<!-- ── MOOD QUADRANT (config: mood_picker_enabled) ── -->
+<!-- MOOD QUADRANT -->
 <section id="mood" class="overlay-screen mood-screen" hidden>
   <div class="panel">
     <h1 style="font-family:Georgia,serif;font-style:italic;font-size:24px;color:var(--on-bg)">How are you today?</h1>
@@ -705,7 +336,7 @@
     <div class="axis" style="color:#E8D5A8;font-size:12px">energized</div>
     <div class="axis-row">
       <div class="axis flip" style="color:#E8D5A8;font-size:12px">taking it easy</div>
-      <div class="mood-box" role="application" aria-label="Mood picker: tap anywhere. Left is taking it easy, right is on a mission, up is energized, down is mellow.">
+      <div class="mood-box" role="application" aria-label="Mood picker: tap anywhere.">
         <div class="mq mq-tl"></div><div class="mq mq-tr"></div>
         <div class="mq mq-bl"></div><div class="mq mq-br"></div>
         <div class="plot-grid"></div>
@@ -739,7 +370,7 @@
   </div>
 </div>
 
-<!-- UPLOAD MODAL -->
+<!-- UPLOAD PHOTO MODAL -->
 <div class="upload-modal" id="upload-modal">
   <div class="upload-sheet">
     <h2>Add a Photo</h2>
@@ -762,388 +393,6 @@
           <option value="FARM">General Farm</option>
         </optgroup>
         <optgroup label="Zone 1">
-          <option value="1A">1A</option>
-          <option value="1B">1B</option>
-          <option value="1C">1C</option>
-          <option value="1D">1D</option>
-          <option value="1E">1E</option>
-          <option value="1F">1F</option>
-          <option value="1G">1G</option>
-          <option value="1H">1H</option>
-        </optgroup>
-        <optgroup label="Zone 2">
-          <option value="2A">2A</option>
-          <option value="2B">2B</option>
-          <option value="2C">2C</option>
-          <option value="2D">2D</option>
-          <option value="2E">2E</option>
-          <option value="2F">2F</option>
-        </optgroup>
-        <optgroup label="Zone 3">
-          <option value="3A">3A</option>
-          <option value="3B">3B</option>
-          <option value="3C">3C</option>
-          <option value="3D">3D</option>
-          <option value="3E">3E</option>
-          <option value="3F">3F</option>
-          <option value="3G">3G</option>
-        </optgroup>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Caption (optional)</label>
-      <input type="text" id="upload-caption" placeholder="What's growing here?">
-    </div>
-    <button class="submit-btn" onclick="submitPhoto()">Upload Photo</button>
-    <button style="background:none;border:none;color: var(--on-bg-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeUploadModal()">Cancel</button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: LANDING                            -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen active" id="screen-landing">
-  <div class="screen-body" style="justify-content:center; padding-top:40px;">
-    <div class="hero-block">
-      <span class="farm-emblem">🌱</span>
-      <h2>Lancer Farms<br>& Gardens</h2>
-      <p>California Baptist University</p>
-    </div>
-    <p class="section-label">Who are you visiting as?</p>
-    <div class="option-card" onclick="go('screen-guest-options')">
-      <span class="card-icon">👤</span>
-      <div class="card-text">
-        <h3>Guest</h3>
-        <p>Browse the farm, learn about our beds</p>
-      </div>
-    </div>
-    <div class="option-card primary" onclick="go('screen-login')">
-      <span class="card-icon">🔑</span>
-      <div class="card-text">
-        <h3>Employee / Student</h3>
-        <p>Log in to manage your beds</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: GUEST OPTIONS                      -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-guest-options">
-  <div class="app-header">
-    <h1>Lancer Farms & Gardens</h1>
-    <p>Guest Access</p>
-  </div>
-  <div class="screen-body">
-    <div class="option-card" onclick="go('screen-bed-selector-guest')">
-      <span class="card-icon">🌿</span>
-      <div class="card-text">
-        <h3>Explore a Garden Bed</h3>
-        <p>View crop info, manager, and blessings</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-almanac')">
-      <span class="card-icon">🌙</span>
-      <div class="card-text">
-        <h3>Farm Almanac</h3>
-        <p>Live weather, sun &amp; moon over the farm</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-about')">
-      <span class="card-icon">📖</span>
-      <div class="card-text">
-        <h3>About Lancer Farms</h3>
-        <p>Our mission, history, and community</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-comment-donate')">
-      <span class="card-icon">💬</span>
-      <div class="card-text">
-        <h3>Comment or Donate</h3>
-        <p>Leave a message or support the farm</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-photo-album')">
-      <span class="card-icon">📸</span>
-      <div class="card-text">
-        <h3>Photo Album</h3>
-        <p>Browse farm photos by zone and bed</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED SELECTOR (GUEST)               -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-bed-selector-guest">
-  <div class="app-header">
-    <h1>Select a Bed</h1>
-    <p>Guest View</p>
-  </div>
-  <div class="screen-body">
-    <div class="bed-selector">
-      <h3>Find a Garden Bed</h3>
-      <button class="qr-btn" onclick="showToast('📷 QR scanner coming soon')">
-        📷 Scan QR Code
-      </button>
-      <div class="divider-or">OR</div>
-      <div class="form-group">
-        <label>Select from list</label>
-        <select onchange="if(this.value) selectBed(this.value, 'guest')">
-          <option value="">— Choose a bed —</option>
-          <optgroup label="Zone 1">
-            <option value="1A">1A</option>
-            <option value="1B">1B</option>
-            <option value="1C">1C</option>
-            <option value="1D">1D</option>
-            <option value="1E">1E</option>
-            <option value="1F">1F</option>
-            <option value="1G">1G</option>
-            <option value="1H">1H</option>
-          </optgroup>
-          <optgroup label="Zone 2">
-            <option value="2A">2A</option>
-            <option value="2B">2B</option>
-            <option value="2C">2C</option>
-            <option value="2D">2D</option>
-            <option value="2E">2E</option>
-            <option value="2F">2F</option>
-          </optgroup>
-          <optgroup label="Zone 3">
-            <option value="3A">3A</option>
-            <option value="3B">3B</option>
-            <option value="3C">3C</option>
-            <option value="3D">3D</option>
-            <option value="3E">3E</option>
-            <option value="3F">3F</option>
-            <option value="3G">3G</option>
-          </optgroup>
-        </select>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED INFO (GUEST)                   -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-bed-info-guest">
-  <div class="app-header">
-    <h1 id="bi-g-title">Garden Bed</h1>
-    <p id="bi-g-zone"></p>
-  </div>
-  <div class="screen-body">
-    <div class="bed-header">
-      <div class="bed-id" id="bi-g-id"></div>
-      <h2 id="bi-g-crop">—</h2>
-      <div class="bed-manager" id="bi-g-mgr"></div>
-    </div>
-    <div class="info-row">
-      <span class="label">Currently Growing</span>
-      <span class="value" id="bi-g-growing">—</span>
-    </div>
-    <div class="info-row">
-      <span class="label">Date Planted</span>
-      <span class="value" id="bi-g-planted">—</span>
-    </div>
-    <div class="info-row">
-      <span class="label">Est. Harvest</span>
-      <span class="value" id="bi-g-harvest">—</span>
-    </div>
-    <div class="blessing-block">
-      <p id="bi-g-blessing"></p>
-      <cite id="bi-g-cite"></cite>
-    </div>
-    <p class="section-label">Community Comments</p>
-    <div class="comment-feed">
-      <div class="comment-item">
-        <div class="comment-meta">Guest Visitor · Jun 8, 2026 at 2:14 PM</div>
-        <p>These tomatoes are looking incredible! Can't wait to see them at the farmers market.</p>
-      </div>
-      <div class="comment-item">
-        <div class="comment-meta">Guest Visitor · Jun 5, 2026 at 10:32 AM</div>
-        <p>Beautiful work on this bed. The staking system is really well done.</p>
-      </div>
-    </div>
-    <div class="report-link">
-      <a onclick="go('screen-damage-report')">Something wrong with this bed? Click here to report it.</a>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: DAMAGE REPORT                      -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-damage-report">
-  <div class="app-header">
-    <h1>Report an Issue</h1>
-    <p>Bed Z1-A1</p>
-  </div>
-  <div class="screen-body">
-    <div class="about-block">
-      <h3>Help us keep the farm healthy</h3>
-      <p>Noticed something wrong? Let our team know. Your report goes directly to farm staff.</p>
-    </div>
-    <div class="form-group">
-      <label>What did you notice?</label>
-      <select id="dr-type">
-        <option>Damaged structure or materials</option>
-        <option>Pest or disease signs</option>
-        <option>Irrigation problem</option>
-        <option>Vandalism</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Description</label>
-      <textarea id="dr-desc" placeholder="Describe what you observed..."></textarea>
-    </div>
-    <button class="submit-btn" onclick="submitDamageReport()">Submit Report</button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ABOUT LFG                          -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-about">
-  <div class="app-header">
-    <h1>About the Farm</h1>
-    <p>Our Story</p>
-  </div>
-  <div class="screen-body">
-    <div class="about-block">
-      <h3>Lancer Farms & Gardens</h3>
-      <p>Lancer Farms & Gardens is the working farm of California Baptist University in Riverside, CA. Students, faculty, and community volunteers cultivate specialty crops, practice sustainable agriculture, and explore the intersection of faith and stewardship of the land.</p>
-    </div>
-    <div class="about-block">
-      <h3>Our Mission</h3>
-      <p>To educate and equip the next generation of growers, to care for creation faithfully, and to feed our community with intention and love.</p>
-    </div>
-    <div class="blessing-block">
-      <p>"Commit your work to the Lord, and your plans will be established."</p>
-      <cite>— Proverbs 16:3</cite>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: COMMENT / DONATE                   -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-comment-donate">
-  <div class="app-header">
-    <h1>Comment or Donate</h1>
-    <p>Support the Farm</p>
-  </div>
-  <div class="screen-body">
-    <div class="option-card" onclick="go('screen-leave-comment')">
-      <span class="card-icon">💬</span>
-      <div class="card-text">
-        <h3>Leave a Comment</h3>
-        <p>Share a message for a bed or the farm</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="showToast('💛 Donation flow coming soon')">
-      <span class="card-icon">🌻</span>
-      <div class="card-text">
-        <h3>Donate</h3>
-        <p>Support students and the farm program</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: LEAVE COMMENT                      -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-leave-comment">
-  <div class="app-header">
-    <h1>Leave a Comment</h1>
-    <p>For a Bed or the Farm</p>
-  </div>
-  <div class="screen-body">
-    <div class="form-group">
-      <label>Which bed? (optional)</label>
-      <select>
-        <option value="">General comment about the farm</option>
-        <optgroup label="Zone 1">
-          <option value="1A">1A</option>
-          <option value="1B">1B</option>
-          <option value="1C">1C</option>
-          <option value="1D">1D</option>
-          <option value="1E">1E</option>
-          <option value="1F">1F</option>
-          <option value="1G">1G</option>
-          <option value="1H">1H</option>
-        </optgroup>
-        <optgroup label="Zone 2">
-          <option value="2A">2A</option>
-          <option value="2B">2B</option>
-          <option value="2C">2C</option>
-          <option value="2D">2D</option>
-          <option value="2E">2E</option>
-          <option value="2F">2F</option>
-        </optgroup>
-        <optgroup label="Zone 3">
-          <option value="3A">3A</option>
-          <option value="3B">3B</option>
-          <option value="3C">3C</option>
-          <option value="3D">3D</option>
-          <option value="3E">3E</option>
-          <option value="3F">3F</option>
-          <option value="3G">3G</option>
-        </optgroup>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Your Comment</label>
-      <textarea placeholder="Share your thoughts, encouragement, or questions..."></textarea>
-    </div>
-    <button class="submit-btn" onclick="showToast('✓ Comment submitted — thank you!'); go('screen-guest-options')">Post Comment</button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: PHOTO ALBUM                        -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-photo-album">
-  <div class="app-header">
-    <h1>Photo Album</h1>
-    <p>Lancer Farms & Gardens</p>
-  </div>
-  <div class="screen-body">
-
-    <button class="upload-btn" id="album-upload-btn" onclick="openUploadModal()" style="display:none;">
-      📷 Add a Photo
-    </button>
-
-    <div id="album-content">
-      <div class="photo-empty">Loading photos…</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: FIELD LOG                          -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-field-log">
-  <div class="app-header">
-    <h1>Field Log</h1>
-    <p>Farm Journal · Staff</p>
-  </div>
-  <div class="screen-body">
-    <div class="form-group">
-      <label>Location</label>
-      <select id="log-location">
-        <optgroup label="Other Locations">
-          <option value="SEED">Seed Starting Station</option>
-          <option value="ORCH">Orchard Trees</option>
-          <option value="COMP">Compost Area</option>
-          <option value="FARM" selected>General Farm</option>
-        </optgroup>
-        <optgroup label="Zone 1">
           <option value="1A">1A</option><option value="1B">1B</option><option value="1C">1C</option><option value="1D">1D</option>
           <option value="1E">1E</option><option value="1F">1F</option><option value="1G">1G</option><option value="1H">1H</option>
         </optgroup>
@@ -1158,354 +407,14 @@
       </select>
     </div>
     <div class="form-group">
-      <label>What did you observe or do?</label>
-      <textarea id="log-note" placeholder="Transplanted seedlings, watered Zone 2, spotted aphids on 2C…"></textarea>
+      <label>Caption (optional)</label>
+      <input type="text" id="upload-caption" placeholder="What's growing here?">
     </div>
-    <button class="submit-btn" onclick="submitFieldLog()">Add Log Entry</button>
-    <p class="section-label">Recent Entries</p>
-    <div class="comment-feed" id="log-feed">
-      <div class="comment-item"><p>Loading…</p></div>
-    </div>
+    <button class="submit-btn" onclick="submitPhoto()">Upload Photo</button>
+    <button style="background:none;border:none;color:var(--on-bg-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeUploadModal()">Cancel</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ALMANAC                            -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-almanac">
-  <div class="app-header">
-    <h1>Farm Almanac</h1>
-    <p>Lancer Farms · Live Conditions</p>
-  </div>
-  <div class="screen-body">
-
-    <div class="bed-header" id="alm-now">
-      <div class="bed-id">Right now over the farm</div>
-      <h2 id="alm-temp">…</h2>
-      <div class="bed-manager" id="alm-cond">Reaching the National Weather Service…</div>
-    </div>
-
-    <div class="info-row"><span class="label">Wind</span><span class="value" id="alm-wind">—</span></div>
-    <div class="info-row"><span class="label">Sunrise</span><span class="value" id="alm-sunrise">—</span></div>
-    <div class="info-row"><span class="label">Sunset</span><span class="value" id="alm-sunset">—</span></div>
-    <div class="info-row"><span class="label">Daylight</span><span class="value" id="alm-daylight">—</span></div>
-    <div class="info-row"><span class="label">Moon</span><span class="value" id="alm-moon">—</span></div>
-
-    <p class="section-label">Coming Up</p>
-    <div class="comment-feed" id="alm-forecast">
-      <div class="comment-item"><p>Loading forecast…</p></div>
-    </div>
-
-    <div class="blessing-block">
-      <p>"He made the moon to mark the seasons, and the sun knows when to go down."</p>
-      <cite>— Psalm 104:19</cite>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: LOGIN                              -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-login">
-  <div class="app-header">
-    <h1>Lancer Farms & Gardens</h1>
-    <p>Employee / Student</p>
-  </div>
-  <div class="screen-body" style="justify-content:center;">
-    <div class="login-block">
-      <h2>Welcome Back</h2>
-      <p>Enter the staff password to access the farm dashboard</p>
-      <input type="password" id="login-password" placeholder="Password" />
-      <button onclick="handleLogin()">Sign In</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ALERT (DAMAGE REPORTS PENDING)     -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-alert">
-  <div class="app-header">
-    <h1>Lancer Farms & Gardens</h1>
-    <p>Staff Dashboard</p>
-  </div>
-  <div class="screen-body" style="justify-content:center;">
-    <div class="alert-banner">
-      <span class="alert-icon">⚠️</span>
-      <div>
-        <h3 id="alert-count">Damage Reports Pending</h3>
-        <p>New issues have been submitted by visitors and require your attention before continuing.</p>
-        <button onclick="go('screen-damage-inbox')">Review Reports</button>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-employee-options')" style="opacity:0.5; pointer-events:none;">
-      <span class="card-icon">🌿</span>
-      <div class="card-text">
-        <h3>Continue to Dashboard</h3>
-        <p>Review reports above to unlock</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: DAMAGE REPORT INBOX               -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-damage-inbox">
-  <div class="app-header">
-    <h1>Damage Reports</h1>
-    <p>Pending Review</p>
-  </div>
-  <div class="screen-body">
-    <div id="report-list"><div class="comment-item"><p>Loading reports…</p></div></div>
-    <button class="submit-btn" onclick="go('screen-employee-options')">Continue to Dashboard →</button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: EMPLOYEE OPTIONS                   -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-employee-options">
-  <div class="app-header">
-    <h1>Farm Dashboard</h1>
-    <p>Staff & Students</p>
-  </div>
-  <div class="screen-body">
-    <div class="option-card" onclick="go('screen-bed-selector-employee')">
-      <span class="card-icon">🌿</span>
-      <div class="card-text">
-        <h3>Garden Beds</h3>
-        <p>View and manage your assigned beds</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-about')">
-      <span class="card-icon">📖</span>
-      <div class="card-text">
-        <h3>About Lancer Farms</h3>
-        <p>Farm info and mission</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-comment-donate')">
-      <span class="card-icon">💬</span>
-      <div class="card-text">
-        <h3>Comment or Donate</h3>
-        <p>Guest engagement and support</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-almanac')">
-      <span class="card-icon">🌙</span>
-      <div class="card-text">
-        <h3>Farm Almanac</h3>
-        <p>Live weather, sun &amp; moon over the farm</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-field-log')">
-      <span class="card-icon">📓</span>
-      <div class="card-text">
-        <h3>Field Log</h3>
-        <p>Record observations anywhere on the farm</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-photo-album', {showUpload: true})">
-      <span class="card-icon">📸</span>
-      <div class="card-text">
-        <h3>Photo Album</h3>
-        <p>Browse and upload farm photos</p>
-      </div>
-    </div>
-    <p class="section-label">Staff Tools</p>
-    <div class="option-card" onclick="go('screen-tools-inventory')">
-      <span class="card-icon">🔧</span>
-      <div class="card-text">
-        <h3>Tool Inventory</h3>
-        <p>View available farm equipment</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-consumables')">
-      <span class="card-icon">📦</span>
-      <div class="card-text">
-        <h3>Supplies & Consumables</h3>
-        <p>Track stock levels and par flags</p>
-      </div>
-    </div>
-    <div class="option-card" onclick="go('screen-requests')">
-      <span class="card-icon">📋</span>
-      <div class="card-text">
-        <h3>Submit a Request</h3>
-        <p>Resupply, repairs, and outside assistance</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED SELECTOR (EMPLOYEE)            -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-bed-selector-employee">
-  <div class="app-header">
-    <h1>Select a Bed</h1>
-    <p>Staff Access</p>
-  </div>
-  <div class="screen-body">
-    <div class="bed-selector">
-      <h3>Find a Garden Bed</h3>
-      <button class="qr-btn" onclick="showToast('📷 QR scanner coming soon')">
-        📷 Scan QR Code
-      </button>
-      <div class="divider-or">OR</div>
-      <div class="form-group">
-        <label>Select from list</label>
-        <select onchange="if(this.value) selectBed(this.value, 'employee')">
-          <option value="">— Choose a bed —</option>
-          <optgroup label="Zone 1">
-            <option value="1A">1A</option>
-            <option value="1B">1B</option>
-            <option value="1C">1C</option>
-            <option value="1D">1D</option>
-            <option value="1E">1E</option>
-            <option value="1F">1F</option>
-            <option value="1G">1G</option>
-            <option value="1H">1H</option>
-          </optgroup>
-          <optgroup label="Zone 2">
-            <option value="2A">2A</option>
-            <option value="2B">2B</option>
-            <option value="2C">2C</option>
-            <option value="2D">2D</option>
-            <option value="2E">2E</option>
-            <option value="2F">2F</option>
-          </optgroup>
-          <optgroup label="Zone 3">
-            <option value="3A">3A</option>
-            <option value="3B">3B</option>
-            <option value="3C">3C</option>
-            <option value="3D">3D</option>
-            <option value="3E">3E</option>
-            <option value="3F">3F</option>
-            <option value="3G">3G</option>
-          </optgroup>
-        </select>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED INFO (EMPLOYEE)                -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-bed-info-employee">
-  <div class="app-header">
-    <h1 id="bi-e-title">Garden Bed</h1>
-    <p id="bi-e-zone"></p>
-  </div>
-  <div class="screen-body">
-    <div class="bed-header">
-      <div class="bed-id" id="bi-e-id"></div>
-      <h2 id="bi-e-crop">—</h2>
-      <div class="bed-manager" id="bi-e-mgr"></div>
-    </div>
-    <div class="info-row">
-      <span class="label">Currently Growing</span>
-      <span class="value" id="bi-e-growing">—</span>
-    </div>
-    <div class="info-row">
-      <span class="label">Date Planted</span>
-      <span class="value" id="bi-e-planted">—</span>
-    </div>
-    <div class="info-row">
-      <span class="label">Est. Harvest</span>
-      <span class="value" id="bi-e-harvest">—</span>
-    </div>
-    <div class="blessing-block">
-      <p id="bi-e-blessing"></p>
-      <cite id="bi-e-cite"></cite>
-    </div>
-    <button class="manage-btn" onclick="go('screen-bed-password')">🔓 Manage This Bed</button>
-    <div class="report-link">
-      <a onclick="go('screen-damage-report')">Something wrong with this bed? Click here to report it.</a>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED PASSWORD                       -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-bed-password">
-  <div class="app-header">
-    <h1>Bed Access</h1>
-    <p id="bp-title">Bed Password Required</p>
-  </div>
-  <div class="screen-body" style="justify-content:center;">
-    <div class="login-block">
-      <h2>Enter Bed Password</h2>
-      <p>Each bed has its own password. Contact your supervisor if you need access. Staff password also works.</p>
-      <input type="password" id="bp-password" placeholder="Bed password" />
-      <button onclick="checkBedPassword()">Unlock Configurator</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED CONFIGURATOR                   -->
-<!-- ═══════════════════════════════════════════ -->
-<div class="screen" id="screen-bed-configurator">
-  <div class="app-header">
-    <h1 id="bc-title">Manage Bed</h1>
-    <p>Configurator Unlocked</p>
-  </div>
-  <div class="screen-body">
-    <div class="form-group">
-      <label>Bed Designator</label>
-      <input type="text" id="bc-id" disabled />
-    </div>
-    <div class="form-group">
-      <label>Bed Manager Name</label>
-      <input type="text" id="bc-manager" />
-    </div>
-    <div class="form-group">
-      <label>Currently Growing</label>
-      <input type="text" id="bc-growing" placeholder="Auto-updated from Plants section below" style="opacity:0.5;" readonly />
-    </div>
-    <div class="form-group">
-      <label>Date Planted</label>
-      <input type="date" id="bc-planted" />
-    </div>
-    <div class="form-group">
-      <label>Estimated Harvest Date</label>
-      <input type="date" id="bc-harvest" />
-    </div>
-    <div class="form-group">
-      <label>Bible Passage or Blessing</label>
-      <textarea id="bc-blessing" placeholder="The verse or words shown on this bed's page"></textarea>
-    </div>
-    <div class="form-group">
-      <label>Reference (e.g. Psalm 24:1)</label>
-      <input type="text" id="bc-blessing-ref" placeholder="Psalm 24:1" />
-    </div>
-    <button class="submit-btn" onclick="saveBedChanges()">Save Changes</button>
-    <button class="manage-btn" onclick="go('screen-bed-photos'); loadBedPhotos();" style="margin-top:10px;">📷 View Photos for This Bed</button>
-
-    <!-- PLANTS SECTION -->
-    <div style="margin-top:24px;">
-      <p class="section-label" style="margin-bottom:10px;">🌱 Plants in This Bed</p>
-      <div id="bc-plants-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
-        <div class="comment-item"><p>Loading plants…</p></div>
-      </div>
-      <button class="submit-btn" id="bc-add-plant-btn" onclick="toggleAddPlantForm()" style="margin-bottom:0;">+ Add a Plant</button>
-
-      <!-- ADD PLANT FORM (hidden by default) -->
-      <div id="bc-add-plant-form" style="display:none;margin-top:14px;background:var(--card,var(--white));border:1.5px solid var(--card-border,var(--mist));border-radius:var(--radius);padding:18px;flex-direction:column;gap:12px;"></div>
-        <div class="form-group">
-          <label>Plant</label>
-          <select id="bc-plant-select" onchange="handlePlantSelectChange()">
-            <option value="">— Loading plants… —</option>
-          </select>
-        </div>
-        
-    </div>
-  </div>
-</div>
 <!-- ADD PLANT MODAL -->
 <div class="upload-modal" id="add-plant-modal">
   <div class="upload-sheet">
@@ -1550,15 +459,380 @@
     <button style="background:none;border:none;color:var(--on-bg-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeAddPlantModal()">Cancel</button>
   </div>
 </div>
-<div class="screen" id="screen-bed-photos">
-  <div class="app-header">
-    <h1 id="bp-photos-title">Bed Photos</h1>
-    <p>Tap a photo to enlarge</p>
-  </div>
-  <div class="screen-body">
-    <div id="bed-photos-content">
-      <div class="photo-empty">Loading…</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LANDING                            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen active" id="screen-landing">
+  <div class="screen-body" style="justify-content:center; padding-top:40px;">
+    <div class="hero-block">
+      <span class="farm-emblem">🌱</span>
+      <h2>Lancer Farms<br>& Gardens</h2>
+      <p>California Baptist University</p>
     </div>
+    <p class="section-label">Who are you visiting as?</p>
+    <div class="option-card" onclick="go('screen-guest-options')">
+      <span class="card-icon">👤</span>
+      <div class="card-text"><h3>Guest</h3><p>Browse the farm, learn about our beds</p></div>
+    </div>
+    <div class="option-card primary" onclick="go('screen-login')">
+      <span class="card-icon">🔑</span>
+      <div class="card-text"><h3>Employee / Student</h3><p>Log in to manage your beds</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: GUEST OPTIONS                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-guest-options">
+  <div class="app-header"><h1>Lancer Farms & Gardens</h1><p>Guest Access</p></div>
+  <div class="screen-body">
+    <div class="option-card" onclick="go('screen-bed-selector-guest')"><span class="card-icon">🌿</span><div class="card-text"><h3>Explore a Garden Bed</h3><p>View crop info, manager, and blessings</p></div></div>
+    <div class="option-card" onclick="go('screen-almanac')"><span class="card-icon">🌙</span><div class="card-text"><h3>Farm Almanac</h3><p>Live weather, sun &amp; moon over the farm</p></div></div>
+    <div class="option-card" onclick="go('screen-about')"><span class="card-icon">📖</span><div class="card-text"><h3>About Lancer Farms</h3><p>Our mission, history, and community</p></div></div>
+    <div class="option-card" onclick="go('screen-comment-donate')"><span class="card-icon">💬</span><div class="card-text"><h3>Comment or Donate</h3><p>Leave a message or support the farm</p></div></div>
+    <div class="option-card" onclick="go('screen-photo-album')"><span class="card-icon">📸</span><div class="card-text"><h3>Photo Album</h3><p>Browse farm photos by zone and bed</p></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED SELECTOR (GUEST)               -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-selector-guest">
+  <div class="app-header"><h1>Select a Bed</h1><p>Guest View</p></div>
+  <div class="screen-body">
+    <div class="bed-selector">
+      <h3>Find a Garden Bed</h3>
+      <button class="qr-btn" onclick="showToast('📷 QR scanner coming soon')">📷 Scan QR Code</button>
+      <div class="divider-or">OR</div>
+      <div class="form-group">
+        <label>Select from list</label>
+        <select onchange="if(this.value) selectBed(this.value, 'guest')">
+          <option value="">— Choose a bed —</option>
+          <optgroup label="Zone 1"><option value="1A">1A</option><option value="1B">1B</option><option value="1C">1C</option><option value="1D">1D</option><option value="1E">1E</option><option value="1F">1F</option><option value="1G">1G</option><option value="1H">1H</option></optgroup>
+          <optgroup label="Zone 2"><option value="2A">2A</option><option value="2B">2B</option><option value="2C">2C</option><option value="2D">2D</option><option value="2E">2E</option><option value="2F">2F</option></optgroup>
+          <optgroup label="Zone 3"><option value="3A">3A</option><option value="3B">3B</option><option value="3C">3C</option><option value="3D">3D</option><option value="3E">3E</option><option value="3F">3F</option><option value="3G">3G</option></optgroup>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED INFO (GUEST)                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-info-guest">
+  <div class="app-header"><h1 id="bi-g-title">Garden Bed</h1><p id="bi-g-zone"></p></div>
+  <div class="screen-body">
+    <div class="bed-header">
+      <div class="bed-id" id="bi-g-id"></div>
+      <h2 id="bi-g-crop">—</h2>
+      <div class="bed-manager" id="bi-g-mgr"></div>
+    </div>
+    <div class="info-row"><span class="label">Currently Growing</span><span class="value" id="bi-g-growing">—</span></div>
+    <div class="info-row"><span class="label">Date Planted</span><span class="value" id="bi-g-planted">—</span></div>
+    <div class="info-row"><span class="label">Est. Harvest</span><span class="value" id="bi-g-harvest">—</span></div>
+    <div class="blessing-block"><p id="bi-g-blessing"></p><cite id="bi-g-cite"></cite></div>
+    <p class="section-label">Community Comments</p>
+    <div class="comment-feed">
+      <div class="comment-item"><div class="comment-meta">Guest Visitor · Jun 8, 2026 at 2:14 PM</div><p>These tomatoes are looking incredible! Can't wait to see them at the farmers market.</p></div>
+      <div class="comment-item"><div class="comment-meta">Guest Visitor · Jun 5, 2026 at 10:32 AM</div><p>Beautiful work on this bed. The staking system is really well done.</p></div>
+    </div>
+    <div class="report-link"><a onclick="go('screen-damage-report')">Something wrong with this bed? Click here to report it.</a></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: DAMAGE REPORT                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-damage-report">
+  <div class="app-header"><h1>Report an Issue</h1><p>Bed Z1-A1</p></div>
+  <div class="screen-body">
+    <div class="about-block"><h3>Help us keep the farm healthy</h3><p>Noticed something wrong? Let our team know. Your report goes directly to farm staff.</p></div>
+    <div class="form-group"><label>What did you notice?</label><select id="dr-type"><option>Damaged structure or materials</option><option>Pest or disease signs</option><option>Irrigation problem</option><option>Vandalism</option><option>Other</option></select></div>
+    <div class="form-group"><label>Description</label><textarea id="dr-desc" placeholder="Describe what you observed..."></textarea></div>
+    <button class="submit-btn" onclick="submitDamageReport()">Submit Report</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ABOUT LFG                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-about">
+  <div class="app-header"><h1>About the Farm</h1><p>Our Story</p></div>
+  <div class="screen-body">
+    <div class="about-block"><h3>Lancer Farms & Gardens</h3><p>Lancer Farms & Gardens is the working farm of California Baptist University in Riverside, CA. Students, faculty, and community volunteers cultivate specialty crops, practice sustainable agriculture, and explore the intersection of faith and stewardship of the land.</p></div>
+    <div class="about-block"><h3>Our Mission</h3><p>To educate and equip the next generation of growers, to care for creation faithfully, and to feed our community with intention and love.</p></div>
+    <div class="blessing-block"><p>"Commit your work to the Lord, and your plans will be established."</p><cite>— Proverbs 16:3</cite></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: COMMENT / DONATE                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-comment-donate">
+  <div class="app-header"><h1>Comment or Donate</h1><p>Support the Farm</p></div>
+  <div class="screen-body">
+    <div class="option-card" onclick="go('screen-leave-comment')"><span class="card-icon">💬</span><div class="card-text"><h3>Leave a Comment</h3><p>Share a message for a bed or the farm</p></div></div>
+    <div class="option-card" onclick="showToast('💛 Donation flow coming soon')"><span class="card-icon">🌻</span><div class="card-text"><h3>Donate</h3><p>Support students and the farm program</p></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LEAVE COMMENT                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-leave-comment">
+  <div class="app-header"><h1>Leave a Comment</h1><p>For a Bed or the Farm</p></div>
+  <div class="screen-body">
+    <div class="form-group">
+      <label>Which bed? (optional)</label>
+      <select>
+        <option value="">General comment about the farm</option>
+        <optgroup label="Zone 1"><option value="1A">1A</option><option value="1B">1B</option><option value="1C">1C</option><option value="1D">1D</option><option value="1E">1E</option><option value="1F">1F</option><option value="1G">1G</option><option value="1H">1H</option></optgroup>
+        <optgroup label="Zone 2"><option value="2A">2A</option><option value="2B">2B</option><option value="2C">2C</option><option value="2D">2D</option><option value="2E">2E</option><option value="2F">2F</option></optgroup>
+        <optgroup label="Zone 3"><option value="3A">3A</option><option value="3B">3B</option><option value="3C">3C</option><option value="3D">3D</option><option value="3E">3E</option><option value="3F">3F</option><option value="3G">3G</option></optgroup>
+      </select>
+    </div>
+    <div class="form-group"><label>Your Comment</label><textarea placeholder="Share your thoughts, encouragement, or questions..."></textarea></div>
+    <button class="submit-btn" onclick="showToast('✓ Comment submitted — thank you!'); go('screen-guest-options')">Post Comment</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: PHOTO ALBUM                        -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-photo-album">
+  <div class="app-header"><h1>Photo Album</h1><p>Lancer Farms & Gardens</p></div>
+  <div class="screen-body">
+    <button class="upload-btn" id="album-upload-btn" onclick="openUploadModal()" style="display:none;">📷 Add a Photo</button>
+    <div id="album-content"><div class="photo-empty">Loading photos…</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: FIELD LOG                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-field-log">
+  <div class="app-header"><h1>Field Log</h1><p>Farm Journal · Staff</p></div>
+  <div class="screen-body">
+    <div class="form-group">
+      <label>Location</label>
+      <select id="log-location">
+        <optgroup label="Other Locations"><option value="SEED">Seed Starting Station</option><option value="ORCH">Orchard Trees</option><option value="COMP">Compost Area</option><option value="FARM" selected>General Farm</option></optgroup>
+        <optgroup label="Zone 1"><option value="1A">1A</option><option value="1B">1B</option><option value="1C">1C</option><option value="1D">1D</option><option value="1E">1E</option><option value="1F">1F</option><option value="1G">1G</option><option value="1H">1H</option></optgroup>
+        <optgroup label="Zone 2"><option value="2A">2A</option><option value="2B">2B</option><option value="2C">2C</option><option value="2D">2D</option><option value="2E">2E</option><option value="2F">2F</option></optgroup>
+        <optgroup label="Zone 3"><option value="3A">3A</option><option value="3B">3B</option><option value="3C">3C</option><option value="3D">3D</option><option value="3E">3E</option><option value="3F">3F</option><option value="3G">3G</option></optgroup>
+      </select>
+    </div>
+    <div class="form-group"><label>What did you observe or do?</label><textarea id="log-note" placeholder="Transplanted seedlings, watered Zone 2, spotted aphids on 2C…"></textarea></div>
+    <button class="submit-btn" onclick="submitFieldLog()">Add Log Entry</button>
+    <p class="section-label">Recent Entries</p>
+    <div class="comment-feed" id="log-feed"><div class="comment-item"><p>Loading…</p></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ALMANAC                            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-almanac">
+  <div class="app-header"><h1>Farm Almanac</h1><p>Lancer Farms · Live Conditions</p></div>
+  <div class="screen-body">
+    <div class="bed-header" id="alm-now">
+      <div class="bed-id">Right now over the farm</div>
+      <h2 id="alm-temp">…</h2>
+      <div class="bed-manager" id="alm-cond">Reaching the National Weather Service…</div>
+    </div>
+    <div class="info-row"><span class="label">Wind</span><span class="value" id="alm-wind">—</span></div>
+    <div class="info-row"><span class="label">Sunrise</span><span class="value" id="alm-sunrise">—</span></div>
+    <div class="info-row"><span class="label">Sunset</span><span class="value" id="alm-sunset">—</span></div>
+    <div class="info-row"><span class="label">Daylight</span><span class="value" id="alm-daylight">—</span></div>
+    <div class="info-row"><span class="label">Moon</span><span class="value" id="alm-moon">—</span></div>
+    <p class="section-label">Coming Up</p>
+    <div class="comment-feed" id="alm-forecast"><div class="comment-item"><p>Loading forecast…</p></div></div>
+    <div class="blessing-block"><p>"He made the moon to mark the seasons, and the sun knows when to go down."</p><cite>— Psalm 104:19</cite></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LOGIN                              -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-login">
+  <div class="app-header"><h1>Lancer Farms & Gardens</h1><p>Employee / Student</p></div>
+  <div class="screen-body" style="justify-content:center;">
+    <div class="login-block">
+      <h2>Welcome Back</h2>
+      <p>Enter the staff password to access the farm dashboard</p>
+      <input type="password" id="login-password" placeholder="Password" autocomplete="off" />
+      <button onclick="handleLogin()">Sign In</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ALERT                              -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-alert">
+  <div class="app-header"><h1>Lancer Farms & Gardens</h1><p>Staff Dashboard</p></div>
+  <div class="screen-body" style="justify-content:center;">
+    <div class="alert-banner">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <h3 id="alert-count">Damage Reports Pending</h3>
+        <p>New issues have been submitted by visitors and require your attention before continuing.</p>
+        <button onclick="go('screen-damage-inbox')">Review Reports</button>
+      </div>
+    </div>
+    <div class="option-card" onclick="go('screen-employee-options')" style="opacity:0.5; pointer-events:none;">
+      <span class="card-icon">🌿</span>
+      <div class="card-text"><h3>Continue to Dashboard</h3><p>Review reports above to unlock</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: DAMAGE REPORT INBOX               -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-damage-inbox">
+  <div class="app-header"><h1>Damage Reports</h1><p>Pending Review</p></div>
+  <div class="screen-body">
+    <div id="report-list"><div class="comment-item"><p>Loading reports…</p></div></div>
+    <button class="submit-btn" onclick="go('screen-employee-options')">Continue to Dashboard →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: EMPLOYEE OPTIONS                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-employee-options">
+  <div class="app-header"><h1>Farm Dashboard</h1><p>Staff & Students</p></div>
+  <div class="screen-body">
+    <div class="option-card" onclick="go('screen-bed-selector-employee')"><span class="card-icon">🌿</span><div class="card-text"><h3>Garden Beds</h3><p>View and manage your assigned beds</p></div></div>
+    <div class="option-card" onclick="go('screen-about')"><span class="card-icon">📖</span><div class="card-text"><h3>About Lancer Farms</h3><p>Farm info and mission</p></div></div>
+    <div class="option-card" onclick="go('screen-comment-donate')"><span class="card-icon">💬</span><div class="card-text"><h3>Comment or Donate</h3><p>Guest engagement and support</p></div></div>
+    <div class="option-card" onclick="go('screen-almanac')"><span class="card-icon">🌙</span><div class="card-text"><h3>Farm Almanac</h3><p>Live weather, sun &amp; moon over the farm</p></div></div>
+    <div class="option-card" onclick="go('screen-field-log')"><span class="card-icon">📓</span><div class="card-text"><h3>Field Log</h3><p>Record observations anywhere on the farm</p></div></div>
+    <div class="option-card" onclick="go('screen-photo-album', {showUpload: true})"><span class="card-icon">📸</span><div class="card-text"><h3>Photo Album</h3><p>Browse and upload farm photos</p></div></div>
+    <p class="section-label">Staff Tools</p>
+    <div class="option-card" onclick="go('screen-tools-inventory')"><span class="card-icon">🔧</span><div class="card-text"><h3>Tool Inventory</h3><p>View available farm equipment</p></div></div>
+    <div class="option-card" onclick="go('screen-consumables')"><span class="card-icon">📦</span><div class="card-text"><h3>Supplies & Consumables</h3><p>Track stock levels and par flags</p></div></div>
+    <div class="option-card" onclick="go('screen-requests')"><span class="card-icon">📋</span><div class="card-text"><h3>Submit a Request</h3><p>Resupply, repairs, and outside assistance</p></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED SELECTOR (EMPLOYEE)            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-selector-employee">
+  <div class="app-header"><h1>Select a Bed</h1><p>Staff Access</p></div>
+  <div class="screen-body">
+    <div class="bed-selector">
+      <h3>Find a Garden Bed</h3>
+      <button class="qr-btn" onclick="showToast('📷 QR scanner coming soon')">📷 Scan QR Code</button>
+      <div class="divider-or">OR</div>
+      <div class="form-group">
+        <label>Select from list</label>
+        <select onchange="if(this.value) selectBed(this.value, 'employee')">
+          <option value="">— Choose a bed —</option>
+          <optgroup label="Zone 1"><option value="1A">1A</option><option value="1B">1B</option><option value="1C">1C</option><option value="1D">1D</option><option value="1E">1E</option><option value="1F">1F</option><option value="1G">1G</option><option value="1H">1H</option></optgroup>
+          <optgroup label="Zone 2"><option value="2A">2A</option><option value="2B">2B</option><option value="2C">2C</option><option value="2D">2D</option><option value="2E">2E</option><option value="2F">2F</option></optgroup>
+          <optgroup label="Zone 3"><option value="3A">3A</option><option value="3B">3B</option><option value="3C">3C</option><option value="3D">3D</option><option value="3E">3E</option><option value="3F">3F</option><option value="3G">3G</option></optgroup>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED INFO (EMPLOYEE)                -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-info-employee">
+  <div class="app-header"><h1 id="bi-e-title">Garden Bed</h1><p id="bi-e-zone"></p></div>
+  <div class="screen-body">
+    <div class="bed-header">
+      <div class="bed-id" id="bi-e-id"></div>
+      <h2 id="bi-e-crop">—</h2>
+      <div class="bed-manager" id="bi-e-mgr"></div>
+    </div>
+    <div class="info-row"><span class="label">Currently Growing</span><span class="value" id="bi-e-growing">—</span></div>
+    <div class="info-row"><span class="label">Date Planted</span><span class="value" id="bi-e-planted">—</span></div>
+    <div class="info-row"><span class="label">Est. Harvest</span><span class="value" id="bi-e-harvest">—</span></div>
+    <div class="blessing-block"><p id="bi-e-blessing"></p><cite id="bi-e-cite"></cite></div>
+    <button class="manage-btn" onclick="go('screen-bed-password')">🔓 Manage This Bed</button>
+    <div class="report-link"><a onclick="go('screen-damage-report')">Something wrong with this bed? Click here to report it.</a></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED PASSWORD                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-password">
+  <div class="app-header"><h1>Bed Access</h1><p id="bp-title">Bed Password Required</p></div>
+  <div class="screen-body" style="justify-content:center;">
+    <div class="login-block">
+      <h2>Enter Bed Password</h2>
+      <p>Each bed has its own password. Contact your supervisor if you need access. Staff password also works.</p>
+      <input type="password" id="bp-password" placeholder="Bed password" autocomplete="off" />
+      <button onclick="checkBedPassword()">Unlock Configurator</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED CONFIGURATOR                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-configurator">
+  <div class="app-header"><h1 id="bc-title">Manage Bed</h1><p>Configurator Unlocked</p></div>
+  <div class="screen-body">
+    <div class="form-group">
+      <label>Bed Designator</label>
+      <input type="text" id="bc-id" disabled />
+    </div>
+    <div class="form-group">
+      <label>Bed Manager Name</label>
+      <input type="text" id="bc-manager" />
+    </div>
+    <div class="form-group">
+      <label>Currently Growing</label>
+      <input type="text" id="bc-growing" placeholder="Auto-updated from Plants section below" style="opacity:0.5;" readonly />
+    </div>
+    <div class="form-group">
+      <label>Date Planted</label>
+      <input type="date" id="bc-planted" />
+    </div>
+    <div class="form-group">
+      <label>Estimated Harvest Date</label>
+      <input type="date" id="bc-harvest" />
+    </div>
+    <div class="form-group">
+      <label>Bible Passage or Blessing</label>
+      <textarea id="bc-blessing" placeholder="The verse or words shown on this bed's page"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Reference (e.g. Psalm 24:1)</label>
+      <input type="text" id="bc-blessing-ref" placeholder="Psalm 24:1" />
+    </div>
+    <button class="submit-btn" onclick="saveBedChanges()">Save Changes</button>
+    <button class="manage-btn" onclick="go('screen-bed-photos'); loadBedPhotos();" style="margin-top:10px;">📷 View Photos for This Bed</button>
+
+    <!-- PLANTS SECTION -->
+    <div style="margin-top:24px;">
+      <p class="section-label" style="margin-bottom:10px;">🌱 Plants in This Bed</p>
+      <div id="bc-plants-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
+        <div class="comment-item"><p>Loading plants…</p></div>
+      </div>
+      <button class="submit-btn" id="bc-add-plant-btn" onclick="openAddPlantModal()">+ Add a Plant</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED PHOTOS                         -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="screen" id="screen-bed-photos">
+  <div class="app-header"><h1 id="bp-photos-title">Bed Photos</h1><p>Tap a photo to enlarge</p></div>
+  <div class="screen-body">
+    <div id="bed-photos-content"><div class="photo-empty">Loading…</div></div>
   </div>
 </div>
 
@@ -1566,10 +840,7 @@
 <!-- SCREEN: TOOLS INVENTORY                    -->
 <!-- ═══════════════════════════════════════════ -->
 <div class="screen" id="screen-tools-inventory">
-  <div class="app-header">
-    <h1>Tool Inventory</h1>
-    <p>Reference List · Admin Managed</p>
-  </div>
+  <div class="app-header"><h1>Tool Inventory</h1><p>Reference List · Admin Managed</p></div>
   <div class="screen-body">
     <p class="section-label">Hand Tools</p>
     <div class="inventory-item"><div><div class="item-name">Garden Hoe</div><div class="item-sub">Long-handled · stored in shed</div></div><div class="item-qty"><div class="qty-num">4</div></div></div>
@@ -1587,40 +858,16 @@
 <!-- SCREEN: CONSUMABLES                        -->
 <!-- ═══════════════════════════════════════════ -->
 <div class="screen" id="screen-consumables">
-  <div class="app-header">
-    <h1>Supplies & Consumables</h1>
-    <p>Live Inventory</p>
-  </div>
+  <div class="app-header"><h1>Supplies & Consumables</h1><p>Live Inventory</p></div>
   <div class="screen-body">
     <p class="section-label">Soil & Amendments</p>
-    <div class="inventory-item low-stock">
-      <div>
-        <div class="item-name">Compost <span class="stock-flag">Low Stock</span></div>
-        <div class="item-sub">Par level: 10 bags</div>
-      </div>
-      <div class="item-qty"><div class="qty-num" style="color:var(--alert)">3</div><div class="qty-par">bags</div></div>
-    </div>
-    <div class="inventory-item">
-      <div><div class="item-name">Perlite</div><div class="item-sub">Par level: 5 bags</div></div>
-      <div class="item-qty"><div class="qty-num">7</div><div class="qty-par">bags</div></div>
-    </div>
-    <div class="inventory-item low-stock">
-      <div>
-        <div class="item-name">Fertilizer (10-10-10) <span class="stock-flag">Low Stock</span></div>
-        <div class="item-sub">Par level: 4 bags</div>
-      </div>
-      <div class="item-qty"><div class="qty-num" style="color:var(--alert)">1</div><div class="qty-par">bags</div></div>
-    </div>
+    <div class="inventory-item low-stock"><div><div class="item-name">Compost <span class="stock-flag">Low Stock</span></div><div class="item-sub">Par level: 10 bags</div></div><div class="item-qty"><div class="qty-num" style="color:var(--alert)">3</div><div class="qty-par">bags</div></div></div>
+    <div class="inventory-item"><div><div class="item-name">Perlite</div><div class="item-sub">Par level: 5 bags</div></div><div class="item-qty"><div class="qty-num">7</div><div class="qty-par">bags</div></div></div>
+    <div class="inventory-item low-stock"><div><div class="item-name">Fertilizer (10-10-10) <span class="stock-flag">Low Stock</span></div><div class="item-sub">Par level: 4 bags</div></div><div class="item-qty"><div class="qty-num" style="color:var(--alert)">1</div><div class="qty-par">bags</div></div></div>
     <p class="section-label">Seeds & Starts</p>
-    <div class="inventory-item">
-      <div><div class="item-name">Seed Packets (mixed)</div><div class="item-sub">Par level: 20 packets</div></div>
-      <div class="item-qty"><div class="qty-num">34</div><div class="qty-par">pkts</div></div>
-    </div>
+    <div class="inventory-item"><div><div class="item-name">Seed Packets (mixed)</div><div class="item-sub">Par level: 20 packets</div></div><div class="item-qty"><div class="qty-num">34</div><div class="qty-par">pkts</div></div></div>
     <p class="section-label">Irrigation Consumables</p>
-    <div class="inventory-item">
-      <div><div class="item-name">Drip Emitters</div><div class="item-sub">Par level: 50 units</div></div>
-      <div class="item-qty"><div class="qty-num">82</div><div class="qty-par">units</div></div>
-    </div>
+    <div class="inventory-item"><div><div class="item-name">Drip Emitters</div><div class="item-sub">Par level: 50 units</div></div><div class="item-qty"><div class="qty-num">82</div><div class="qty-par">units</div></div></div>
     <button class="submit-btn" style="background:var(--sage); color: var(--on-bg); margin-top:8px;" onclick="showToast('Par change request sent to admin')">Request Par Level Change</button>
   </div>
 </div>
@@ -1629,27 +876,12 @@
 <!-- SCREEN: REQUESTS                           -->
 <!-- ═══════════════════════════════════════════ -->
 <div class="screen" id="screen-requests">
-  <div class="app-header">
-    <h1>Submit a Request</h1>
-    <p>Outside Assistance</p>
-  </div>
+  <div class="app-header"><h1>Submit a Request</h1><p>Outside Assistance</p></div>
   <div class="screen-body">
-    <div class="option-card" onclick="go('screen-request-form')">
-      <span class="card-icon">🛒</span>
-      <div class="card-text"><h3>Resupply Request</h3><p>Request soil, amendments, seeds, or supplies</p></div>
-    </div>
-    <div class="option-card" onclick="go('screen-request-form')">
-      <span class="card-icon">🔨</span>
-      <div class="card-text"><h3>Repair Request</h3><p>Report structural or equipment repairs needed</p></div>
-    </div>
-    <div class="option-card" onclick="go('screen-request-form')">
-      <span class="card-icon">🌱</span>
-      <div class="card-text"><h3>Planting Assistance</h3><p>Request help with planting or bed prep</p></div>
-    </div>
-    <div class="option-card" onclick="go('screen-request-form')">
-      <span class="card-icon">📐</span>
-      <div class="card-text"><h3>Infrastructure Request</h3><p>New beds, irrigation, or site improvements</p></div>
-    </div>
+    <div class="option-card" onclick="go('screen-request-form')"><span class="card-icon">🛒</span><div class="card-text"><h3>Resupply Request</h3><p>Request soil, amendments, seeds, or supplies</p></div></div>
+    <div class="option-card" onclick="go('screen-request-form')"><span class="card-icon">🔨</span><div class="card-text"><h3>Repair Request</h3><p>Report structural or equipment repairs needed</p></div></div>
+    <div class="option-card" onclick="go('screen-request-form')"><span class="card-icon">🌱</span><div class="card-text"><h3>Planting Assistance</h3><p>Request help with planting or bed prep</p></div></div>
+    <div class="option-card" onclick="go('screen-request-form')"><span class="card-icon">📐</span><div class="card-text"><h3>Infrastructure Request</h3><p>New beds, irrigation, or site improvements</p></div></div>
   </div>
 </div>
 
@@ -1657,45 +889,20 @@
 <!-- SCREEN: REQUEST FORM                       -->
 <!-- ═══════════════════════════════════════════ -->
 <div class="screen" id="screen-request-form">
-  <div class="app-header">
-    <h1>Resupply Request</h1>
-    <p>Sent to Admin</p>
-  </div>
+  <div class="app-header"><h1>Resupply Request</h1><p>Sent to Admin</p></div>
   <div class="screen-body">
-    <div class="form-group">
-      <label>Your Name</label>
-      <input type="text" placeholder="First Last" />
-    </div>
+    <div class="form-group"><label>Your Name</label><input type="text" placeholder="First Last" /></div>
     <div class="form-group">
       <label>Bed or Zone (if applicable)</label>
       <select>
         <option>Not bed-specific</option>
-        <optgroup label="Zone 1">
-          <option>1A</option><option>1B</option><option>1C</option><option>1D</option>
-          <option>1E</option><option>1F</option><option>1G</option><option>1H</option>
-        </optgroup>
-        <optgroup label="Zone 2">
-          <option>2A</option><option>2B</option><option>2C</option>
-          <option>2D</option><option>2E</option><option>2F</option>
-        </optgroup>
-        <optgroup label="Zone 3">
-          <option>3A</option><option>3B</option><option>3C</option><option>3D</option>
-          <option>3E</option><option>3F</option><option>3G</option>
-        </optgroup>
+        <optgroup label="Zone 1"><option>1A</option><option>1B</option><option>1C</option><option>1D</option><option>1E</option><option>1F</option><option>1G</option><option>1H</option></optgroup>
+        <optgroup label="Zone 2"><option>2A</option><option>2B</option><option>2C</option><option>2D</option><option>2E</option><option>2F</option></optgroup>
+        <optgroup label="Zone 3"><option>3A</option><option>3B</option><option>3C</option><option>3D</option><option>3E</option><option>3F</option><option>3G</option></optgroup>
       </select>
     </div>
-    <div class="form-group">
-      <label>What do you need?</label>
-      <textarea placeholder="Describe the items or assistance needed, including quantity if known..."></textarea>
-    </div>
-    <div class="form-group">
-      <label>Priority</label>
-      <select>
-        <option>Normal — within the week</option>
-        <option>Urgent — within 48 hours</option>
-        <option>Low — when available</option>
-      </select>
-    </div>
+    <div class="form-group"><label>What do you need?</label><textarea placeholder="Describe the items or assistance needed, including quantity if known..."></textarea></div>
+    <div class="form-group"><label>Priority</label><select><option>Normal — within the week</option><option>Urgent — within 48 hours</option><option>Low — when available</option></select></div>
     <button class="submit-btn" onclick="showToast('✓ Request submitted to admin'); go('screen-employee-options')">Submit Request</button>
   </div>
 </div>
@@ -1704,21 +911,12 @@
 <!-- SCREEN: ADMIN PANEL                        -->
 <!-- ═══════════════════════════════════════════ -->
 <div class="screen" id="screen-admin">
-  <div class="app-header">
-    <h1>Admin Panel</h1>
-    <p>Master Access</p>
-  </div>
+  <div class="app-header"><h1>Admin Panel</h1><p>Master Access</p></div>
   <div class="screen-body">
     <div class="admin-section">
       <div class="admin-section-header">Alerts & Reports</div>
-      <div class="admin-row" onclick="go('screen-damage-inbox')">
-        <span>Damage Report Inbox</span>
-        <span><span class="badge">2</span> <span class="arrow">›</span></span>
-      </div>
-      <div class="admin-row" onclick="showToast('Request inbox coming soon')">
-        <span>Request Submissions</span>
-        <span><span class="badge">1</span> <span class="arrow">›</span></span>
-      </div>
+      <div class="admin-row" onclick="go('screen-damage-inbox')"><span>Damage Report Inbox</span><span><span class="badge">2</span> <span class="arrow">›</span></span></div>
+      <div class="admin-row" onclick="showToast('Request inbox coming soon')"><span>Request Submissions</span><span><span class="badge">1</span> <span class="arrow">›</span></span></div>
     </div>
     <div class="admin-section">
       <div class="admin-section-header">Bed Management</div>
@@ -1748,16 +946,15 @@
 
 <script>
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwseMinOKfwzdSoxkL89o7YtGq2KrOD0FDemKwgkIsVhK-JU7lhGfOVAuDvUv3Qiefz_Q/exec';
-  const CLOUD_NAME = 'ddbsuxerb';
+  const PUBLIC_API  = WEB_APP_URL;
+  const CLOUD_NAME  = 'ddbsuxerb';
   const UPLOAD_PRESET = 'lfg-photos';
-  
+
+  // ── NAVIGATION ──
   function go(screenId, options = {}) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(screenId);
-    if (target) {
-      target.classList.add('active');
-      target.scrollTop = 0;
-    }
+    if (target) { target.classList.add('active'); target.scrollTop = 0; }
     if (screenId === 'screen-photo-album') { loadAlbum(); }
     if (screenId === 'screen-field-log') { loadFieldLog(); }
     if (screenId === 'screen-almanac') { loadAlmanac(); }
@@ -1766,8 +963,6 @@
       const btn = document.getElementById('album-upload-btn');
       if (btn) btn.style.display = options.showUpload ? 'flex' : 'none';
     }
-  
-
     if (!options.fromHistory) {
       history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
     }
@@ -1782,8 +977,7 @@
   });
   history.replaceState({ lfgScreen: 'screen-landing', lfgOptions: {} }, '', '#screen-landing');
 
-
-  // TOAST
+  // ── TOAST ──
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -1791,8 +985,7 @@
     setTimeout(() => t.classList.remove('show'), 2500);
   }
 
-  const PUBLIC_API = 'https://script.google.com/macros/s/AKfycbwseMinOKfwzdSoxkL89o7YtGq2KrOD0FDemKwgkIsVhK-JU7lhGfOVAuDvUv3Qiefz_Q/exec';
-
+  // ── UTILITIES ──
   function fmtDate(iso) {
     try { return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
     catch (e) { return ''; }
@@ -1806,7 +999,7 @@
     return null;
   }
 
-  // ── REAL BED DATA ──
+  // ── BED DATA ──
   let bedsCache = null, currentBed = null;
   const LOCATION_NAMES = { SEED: 'Seed Starting Station', ORCH: 'Orchard Trees', COMP: 'Compost Area', FARM: 'General Farm' };
 
@@ -1827,7 +1020,6 @@
     set('crop', '…'); set('mgr', ''); set('growing', '…'); set('planted', '…'); set('harvest', '…');
     set('blessing', ''); set('cite', '');
     go('screen-bed-info-' + (mode === 'guest' ? 'guest' : 'employee'));
-
     try {
       const beds = await fetchBeds();
       const idKey = beds.length ? findKey(beds[0], [/^bed\s*id$/i, /bedid/i, /^bed$/i, /^id$/i]) : null;
@@ -1849,12 +1041,10 @@
       set('blessing', bless);
       const citeV = v([/cite/i, /reference/i]);
       set('cite', citeV ? '— ' + citeV : '');
-    } catch (e) {
-      set('crop', 'Could not load bed data');
-    }
+    } catch (e) { set('crop', 'Could not load bed data'); }
   }
 
-  // ── REAL ALBUM ──
+  // ── PHOTO ALBUM ──
   async function loadBedPhotos() {
     const box = document.getElementById('bed-photos-content');
     const titleEl = document.getElementById('bp-photos-title');
@@ -1867,10 +1057,7 @@
       const data = await res.json();
       const photos = (data.ok && data.photos) ? data.photos : [];
       const mine = photos.filter(ph => String(ph.BedID || '').trim().toUpperCase() === String(bed).trim().toUpperCase());
-      if (!mine.length) {
-        box.innerHTML = '<div class="photo-empty">No photos yet for this bed — add one from the Photo Album!</div>';
-        return;
-      }
+      if (!mine.length) { box.innerHTML = '<div class="photo-empty">No photos yet for this bed — add one from the Photo Album!</div>'; return; }
       let html = '<div class="photo-grid">';
       mine.forEach(ph => {
         const full = String(ph.CloudinaryURL || '');
@@ -1884,9 +1071,7 @@
       });
       html += '</div>';
       box.innerHTML = html;
-    } catch (e) {
-      box.innerHTML = '<div class="photo-empty">Could not load photos — check connection.</div>';
-    }
+    } catch (e) { box.innerHTML = '<div class="photo-empty">Could not load photos — check connection.</div>'; }
   }
 
   async function loadAlbum() {
@@ -1896,15 +1081,9 @@
       const res = await fetch(PUBLIC_API + '?view=photos');
       const data = await res.json();
       const photos = (data.ok && data.photos) ? data.photos : [];
-      if (!photos.length) {
-        box.innerHTML = '<div class="photo-empty">No photos yet — staff can add the first one!</div>';
-        return;
-      }
+      if (!photos.length) { box.innerHTML = '<div class="photo-empty">No photos yet — staff can add the first one!</div>'; return; }
       const groups = { '1': [], '2': [], '3': [], other: [] };
-      photos.forEach(ph => {
-        const bed = String(ph.BedID || '');
-        (groups[bed.charAt(0)] || groups.other).push(ph);
-      });
+      photos.forEach(ph => { const bed = String(ph.BedID || ''); (groups[bed.charAt(0)] || groups.other).push(ph); });
       let html = '';
       const section = (title, list) => {
         if (!list.length) return '';
@@ -1918,8 +1097,7 @@
           const cap = String(ph.Caption || label).replace(/"/g, '&quot;').replace(/'/g, "\\'");
           const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
           h += '<div class="photo-thumb" onclick="openLightbox(\'' + full + '\', \'' + cap + '\', \'' + when + '\')">' +
-               '<img src="' + thumb + '" alt="' + label + '" loading="lazy">' +
-               '<span class="bed-tag">' + bed + '</span></div>';
+               '<img src="' + thumb + '" alt="' + label + '" loading="lazy"><span class="bed-tag">' + bed + '</span></div>';
         });
         return h + '</div>';
       };
@@ -1928,21 +1106,17 @@
       html += section('Zone 3', groups['3']);
       html += section('Around the Farm', groups.other);
       box.innerHTML = html || '<div class="photo-empty">No photos yet.</div>';
-    } catch (e) {
-      box.innerHTML = '<div class="photo-empty">Could not load photos — check connection.</div>';
-    }
+    } catch (e) { box.innerHTML = '<div class="photo-empty">Could not load photos — check connection.</div>'; }
   }
 
   // ── ALMANAC ──
   const FARM_LAT = 33.9281417, FARM_LNG = -117.4301472;
 
   function sunTimes(date, lat, lng) {
-    // NOAA simplified sunrise/sunset
     const rad = Math.PI / 180;
     const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 86400000);
     function calc(rising) {
-      const zenith = 90.833;
-      const lngHour = lng / 15;
+      const zenith = 90.833, lngHour = lng / 15;
       const t = dayOfYear + ((rising ? 6 : 18) - lngHour) / 24;
       const M = (0.9856 * t) - 3.289;
       let L = M + (1.916 * Math.sin(M * rad)) + (0.020 * Math.sin(2 * M * rad)) + 282.634;
@@ -1972,22 +1146,15 @@
     const known = Date.UTC(2000, 0, 6, 18, 14);
     let age = ((date.getTime() - known) / 86400000) % synodic;
     if (age < 0) age += synodic;
-    const names = [
-      [1.85, '🌑 New Moon'], [5.54, '🌒 Waxing Crescent'], [9.23, '🌓 First Quarter'],
-      [12.91, '🌔 Waxing Gibbous'], [16.61, '🌕 Full Moon'], [20.30, '🌖 Waning Gibbous'],
-      [23.99, '🌗 Last Quarter'], [27.68, '🌘 Waning Crescent'], [99, '🌑 New Moon']
-    ];
+    const names = [[1.85,'🌑 New Moon'],[5.54,'🌒 Waxing Crescent'],[9.23,'🌓 First Quarter'],[12.91,'🌔 Waxing Gibbous'],[16.61,'🌕 Full Moon'],[20.30,'🌖 Waning Gibbous'],[23.99,'🌗 Last Quarter'],[27.68,'🌘 Waning Crescent'],[99,'🌑 New Moon']];
     for (const [limit, name] of names) if (age < limit) return name;
     return '🌙';
   }
 
-  function fmtTime(d) {
-    return d ? d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '—';
-  }
+  function fmtTime(d) { return d ? d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '—'; }
 
   async function loadAlmanac() {
     const now = new Date();
-    // sun & moon: pure math, instant, always fresh
     const sun = sunTimes(now, FARM_LAT, FARM_LNG);
     document.getElementById('alm-sunrise').textContent = fmtTime(sun.sunrise);
     document.getElementById('alm-sunset').textContent = fmtTime(sun.sunset);
@@ -1996,8 +1163,6 @@
       document.getElementById('alm-daylight').textContent = Math.floor(mins / 60) + 'h ' + (mins % 60) + 'm';
     }
     document.getElementById('alm-moon').textContent = moonPhase(now);
-
-    // weather: NWS, refreshed automatically on every visit (30-min courtesy cache)
     const tempEl = document.getElementById('alm-temp'), condEl = document.getElementById('alm-cond');
     try {
       let cached = null;
@@ -2009,15 +1174,14 @@
         const pt = await (await fetch('https://api.weather.gov/points/' + FARM_LAT + ',' + FARM_LNG)).json();
         const fc = await (await fetch(pt.properties.forecast)).json();
         periods = fc.properties.periods.slice(0, 5);
-        try { sessionStorage.setItem('lfg-wx', JSON.stringify({ at: Date.now(), periods: periods })); } catch (e) {}
+        try { sessionStorage.setItem('lfg-wx', JSON.stringify({ at: Date.now(), periods })); } catch (e) {}
       }
       const nowP = periods[0];
       tempEl.textContent = nowP.temperature + '°' + nowP.temperatureUnit;
       condEl.textContent = nowP.shortForecast + ' · ' + nowP.name;
       document.getElementById('alm-wind').textContent = nowP.windSpeed + ' ' + nowP.windDirection;
       document.getElementById('alm-forecast').innerHTML = periods.slice(1).map(pd =>
-        '<div class="comment-item"><div class="comment-meta">' + pd.name + ' · ' + pd.temperature + '°' + pd.temperatureUnit + '</div>' +
-        '<p>' + pd.detailedForecast + '</p></div>'
+        '<div class="comment-item"><div class="comment-meta">' + pd.name + ' · ' + pd.temperature + '°' + pd.temperatureUnit + '</div><p>' + pd.detailedForecast + '</p></div>'
       ).join('');
     } catch (e) {
       tempEl.textContent = '—';
@@ -2028,7 +1192,6 @@
 
   // ── FIELD LOG ──
   async function loadFieldLog() {
-    const sel = document.getElementById('log-location');
     const feed = document.getElementById('log-feed');
     try {
       const res = await fetch(PUBLIC_API + '?view=log');
@@ -2042,9 +1205,7 @@
         const note = String(en.What || '').replace(/</g, '&lt;');
         return '<div class="comment-item"><div class="comment-meta">' + label + ' · ' + when + '</div><p>' + note + '</p></div>';
       }).join('');
-    } catch (e) {
-      feed.innerHTML = '<div class="comment-item"><p>Could not load entries.</p></div>';
-    }
+    } catch (e) { feed.innerHTML = '<div class="comment-item"><p>Could not load entries.</p></div>'; }
   }
 
   async function submitFieldLog() {
@@ -2054,40 +1215,22 @@
     if (!pw) { showToast('Please sign in again'); go('screen-login'); return; }
     showToast('⏳ Saving…');
     try {
-      const res = await fetch(PUBLIC_API, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'addLog', password: pw, location: document.getElementById('log-location').value, note: note })
-      });
+      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addLog', password: pw, location: document.getElementById('log-location').value, note }) });
       const data = await res.json();
-      if (data.ok) {
-        showToast('✓ Logged');
-        document.getElementById('log-note').value = '';
-        loadFieldLog();
-      } else if (data.error === 'auth') {
-        sessionStorage.removeItem('adminToken'); showToast('Session expired — sign in again'); go('screen-login');
-      } else showToast('Could not save — try again');
+      if (data.ok) { showToast('✓ Logged'); document.getElementById('log-note').value = ''; loadFieldLog(); }
+      else if (data.error === 'auth') { sessionStorage.removeItem('adminToken'); showToast('Session expired — sign in again'); go('screen-login'); }
+      else showToast('Could not save — try again');
     } catch (e) { showToast('Could not save — check connection'); }
   }
 
-  // LOGIN
-async function handleLogin() {
-const pw = document.getElementById('login-password').value;
-const res = await fetch(WEB_APP_URL, {
-method: 'POST',
-body: JSON.stringify({
-action: 'checkPassword',
-bedId: 'MASTER',
-password: pw
-})
-});
-const data = await res.json();
-if (data.ok) {
-sessionStorage.setItem('adminToken', pw);
-enterStaff();
-} else {
-showToast('Incorrect password');
-}
-}
+  // ── LOGIN ──
+  async function handleLogin() {
+    const pw = document.getElementById('login-password').value;
+    const res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw }) });
+    const data = await res.json();
+    if (data.ok) { sessionStorage.setItem('adminToken', pw); enterStaff(); }
+    else showToast('Incorrect password');
+  }
 
   // ── BED CONFIGURATOR ──
   function toISO(v) {
@@ -2103,16 +1246,10 @@ showToast('Incorrect password');
     if (!pw) { showToast('Enter a password'); return; }
     showToast('⏳ Checking…');
     try {
-      let res = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'checkPassword', bedId: currentBed, password: pw })
-      });
+      let res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkPassword', bedId: currentBed, password: pw }) });
       let data = await res.json();
       if (!data.ok) {
-        res = await fetch(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw })
-        });
+        res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw }) });
         data = await res.json();
       }
       if (data.ok) {
@@ -2120,9 +1257,7 @@ showToast('Incorrect password');
         document.getElementById('bp-password').value = '';
         prefillConfigurator();
         go('screen-bed-configurator');
-      } else {
-        showToast('⛔ Incorrect password');
-      }
+      } else showToast('⛔ Incorrect password');
     } catch (e) { showToast('Could not verify — check connection'); }
   }
 
@@ -2162,231 +1297,14 @@ showToast('Incorrect password');
       BlessingRef: document.getElementById('bc-blessing-ref').value
     };
     try {
-      const res = await fetch(PUBLIC_API, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields: fields })
-      });
+      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields }) });
       const data = await res.json();
-      if (data.ok) {
-        showToast('✓ Bed updated successfully');
-        bedsCache = null; // force fresh fetch so the bed page reflects the edit
-        await selectBed(currentBed, 'employee');
-      } else if (data.error === 'auth') {
-        sessionStorage.removeItem('bedToken'); showToast('Session expired — re-enter bed password'); go('screen-bed-password');
-      } else showToast('Could not save — try again');
+      if (data.ok) { showToast('✓ Bed updated successfully'); bedsCache = null; await selectBed(currentBed, 'employee'); }
+      else if (data.error === 'auth') { sessionStorage.removeItem('bedToken'); showToast('Session expired — re-enter bed password'); go('screen-bed-password'); }
+      else showToast('Could not save — try again');
     } catch (e) { showToast('Could not save — check connection'); }
   }
 
-  // ── DAMAGE REPORTS ──
-  async function submitDamageReport() {
-    const desc = document.getElementById('dr-desc').value.trim();
-    if (!desc) { showToast('Please describe what you saw'); return; }
-    showToast('⏳ Sending…');
-    try {
-      const res = await fetch(PUBLIC_API, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'addReport', bedId: currentBed || 'FARM',
-          type: document.getElementById('dr-type').value, description: desc })
-      });
-      const data = await res.json();
-      if (data.ok) {
-        showToast('✓ Report submitted — thank you');
-        document.getElementById('dr-desc').value = '';
-        go(sessionStorage.getItem('adminToken') ? 'screen-bed-info-employee' : 'screen-bed-info-guest');
-      } else showToast('Could not send — try again');
-    } catch (e) { showToast('Could not send — check connection'); }
-  }
-
-  async function fetchOpenReports() {
-    try {
-      const res = await fetch(PUBLIC_API + '?view=reports');
-      const data = await res.json();
-      return (data.ok && data.reports) ? data.reports : [];
-    } catch (e) { return []; }
-  }
-
-  async function enterStaff() {
-    const reports = await fetchOpenReports();
-    if (reports.length) {
-      document.getElementById('alert-count').textContent =
-        reports.length + ' Damage Report' + (reports.length > 1 ? 's' : '') + ' Pending';
-      go('screen-alert');
-    } else {
-      go('screen-employee-options');
-    }
-  }
-
-  async function loadReportInbox() {
-    const box = document.getElementById('report-list');
-    box.innerHTML = '<div class="comment-item"><p>Loading reports…</p></div>';
-    const reports = await fetchOpenReports();
-    if (!reports.length) {
-      box.innerHTML = '<div class="comment-item"><p>🎉 No open reports — the farm is healthy.</p></div>';
-      return;
-    }
-    box.innerHTML = reports.map(r => {
-      const id = String(r.ReportID);
-      const label = (LOCATION_NAMES[r.BedID] || ('Bed ' + r.BedID)) + ' · ' + String(r.Type || 'Issue');
-      const when = r.ReportedAt ? fmtDate(r.ReportedAt) : '';
-      const desc = String(r.Description || '').replace(/</g, '&lt;');
-      return '<div class="inventory-item low-stock" id="rep-' + id + '" style="flex-direction:column;align-items:stretch;gap:8px;">' +
-        '<div><div class="item-name">' + label + '</div>' +
-        '<div class="item-sub">Reported ' + when + '</div>' +
-        '<div class="item-sub" style="margin-top:4px;">&quot;' + desc + '&quot;</div></div>' +
-        '<div id="rep-act-' + id + '"><button onclick="showResolve(&quot;' + id + '&quot;)" ' +
-        'style="background: var(--accent);color:white;border:none;border-radius:6px;padding:8px 14px;font-size:0.8rem;cursor:pointer;">Resolve</button></div>' +
-        '</div>';
-    }).join('');
-  }
-
-  function showResolve(id) {
-    document.getElementById('rep-act-' + id).innerHTML =
-      '<div class="form-group"><label>Resolution note</label>' +
-      '<textarea id="rn-' + id + '" placeholder="What was done? (e.g. reconnected drip line)" style="min-height:60px;"></textarea></div>' +
-      '<button onclick="confirmResolve(&quot;' + id + '&quot;)" ' +
-      'style="background: var(--accent);color:white;border:none;border-radius:6px;padding:10px 14px;font-size:0.85rem;cursor:pointer;width:100%;margin-top:6px;">✓ Confirm Resolve</button>';
-  }
-
-  async function confirmResolve(id) {
-    const note = document.getElementById('rn-' + id).value.trim();
-    const pw = sessionStorage.getItem('adminToken');
-    if (!pw) { showToast('Please sign in again'); go('screen-login'); return; }
-    showToast('⏳ Resolving…');
-    try {
-      const res = await fetch(PUBLIC_API, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'resolveReport', password: pw, id: id, note: note })
-      });
-      const data = await res.json();
-      if (data.ok) {
-        showToast('✓ Resolved');
-        const el = document.getElementById('rep-' + id);
-        if (el) el.remove();
-        if (!document.querySelectorAll('#report-list .inventory-item').length)
-          document.getElementById('report-list').innerHTML = '<div class="comment-item"><p>🎉 All reports resolved.</p></div>';
-      } else if (data.error === 'auth') {
-        sessionStorage.removeItem('adminToken'); showToast('Session expired — sign in again'); go('screen-login');
-      } else showToast('Could not resolve — try again');
-    } catch (e) { showToast('Could not resolve — check connection'); }
-  }
-
-  // LIGHTBOX
-  function openLightbox(src, title, date) {
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox-title').textContent = title;
-    document.getElementById('lightbox-date').textContent = date;
-    document.getElementById('lightbox').classList.add('open');
-  }
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-  }
-
-  // UPLOAD MODAL
-  function openUploadModal() {
-    document.getElementById('upload-password').style.display = sessionStorage.getItem('adminToken') ? 'none' : '';
-    document.getElementById('upload-modal').classList.add('open');
-  }
-  function closeUploadModal() {
-    document.getElementById('upload-modal').classList.remove('open');
-    document.getElementById('preview-img').style.display = 'none';
-    document.getElementById('preview-placeholder').style.display = 'block';
-    document.getElementById('preview-img').src = '';
-    document.getElementById('upload-caption').value = '';
-    document.getElementById('upload-password').value = '';
-  }
-  function previewPhoto(input) {
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const img = document.getElementById('preview-img');
-        img.src = e.target.result;
-        img.style.display = 'block';
-        document.getElementById('preview-placeholder').style.display = 'none';
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-  async function submitPhoto() {
-    const fileInput = document.querySelector('#upload-preview input[type=file]');
-    const bed = document.getElementById('upload-bed').value;
-    const caption = document.getElementById('upload-caption').value;
-    const stored = sessionStorage.getItem('adminToken');
-    const password = stored || document.getElementById('upload-password').value;
-
-    const pwRes = await fetch(WEB_APP_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: password })
-    });
-    const pwData = await pwRes.json();
-    if (!pwData.ok) {
-      if (stored) {
-        sessionStorage.removeItem('adminToken');
-        document.getElementById('upload-password').style.display = '';
-        showToast('Session expired — enter password');
-      } else {
-        showToast('⛔ Incorrect password');
-      }
-      return;
-    }
-    if (!fileInput.files || !fileInput.files[0]) {
-      showToast('📷 Please select a photo first');
-      return;
-    }
-
-    showToast('⏳ Uploading...');
-
-    const formData = new FormData();
-    formData.append('file', fileInput.files[0]);
-    formData.append('upload_preset', UPLOAD_PRESET);
-    formData.append('folder', 'lfg-photos');
-    formData.append('context', `bed=${bed}|caption=${caption}`);
-
-    try {
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
-      if (data.secure_url) {
-        try {
-          await fetch(PUBLIC_API, {
-            method: 'POST',
-            body: JSON.stringify({
-              action: 'addPhoto', password: password, bedId: bed, caption: caption,
-              url: data.secure_url,
-              thumb: data.secure_url.replace('/upload/', '/upload/w_300,h_300,c_fill/')
-            })
-          });
-        } catch (e) {}
-        showToast('✓ Photo uploaded!');
-        closeUploadModal();
-        loadAlbum();
-      } else {
-        showToast('Upload failed — try again');
-      }
-    } catch(e) {
-      showToast('Upload failed — check connection');
-    }
-  }
-
-  // SECRET ADMIN ACCESS — tap header 5 times on employee dashboard
-  let tapCount = 0;
-  document.addEventListener('DOMContentLoaded', () => {
-    const headers = document.querySelectorAll('.app-header h1');
-    headers.forEach(h => {
-      h.addEventListener('click', () => {
-        const current = document.querySelector('.screen.active');
-        if (current && current.id === 'screen-employee-options') {
-          tapCount++;
-          if (tapCount >= 5) {
-            tapCount = 0;
-            showToast('🔐 Admin access granted');
-            setTimeout(() => go('screen-admin'), 800);
-          }
-        }
-      });
-    });
-  });
   // ── PLANTS IN BED ──
   let masterPlantsCache = null;
 
@@ -2414,6 +1332,7 @@ showToast('Incorrect password');
       );
       if (!active.length) {
         box.innerHTML = '<div class="comment-item"><p style="opacity:0.6;">No plants logged yet — add one below.</p></div>';
+        updateCurrentlyGrowing('');
         return;
       }
       box.innerHTML = active.map(p => {
@@ -2450,33 +1369,27 @@ showToast('Incorrect password');
           </div>
         </div>`;
       }).join('');
-      // update Currently Growing field
-     const growingNames = active.map(p => String(p['Plant Name'] || '')).filter(Boolean).join(', ');
-      const growEl = document.getElementById('bc-growing');
-      if (growEl) growEl.value = growingNames;
-      if (window._plantActionInProgress && currentBed) {
-        const pw = sessionStorage.getItem('bedToken');
-        if (pw) {
-          fetch(PUBLIC_API, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields: { CurrentlyGrowing: growingNames } })
-          }).catch(() => {});
-        }
-        window._plantActionInProgress = false;
-      }
+      const growingNames = active.map(p => String(p['Plant Name'] || '')).filter(Boolean).join(', ');
+      updateCurrentlyGrowing(growingNames);
     } catch(e) {
       box.innerHTML = '<div class="comment-item"><p>Could not load plants.</p></div>';
     }
   }
 
-  function showRemovePlant(id) {
-    const form = document.getElementById('remove-form-' + id);
-    if (form) form.style.display = 'flex';
+  function updateCurrentlyGrowing(names) {
+    const growEl = document.getElementById('bc-growing');
+    if (growEl) growEl.value = names;
+    if (window._plantActionInProgress && currentBed) {
+      const pw = sessionStorage.getItem('bedToken');
+      if (pw) {
+        fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields: { CurrentlyGrowing: names } }) }).catch(() => {});
+      }
+      window._plantActionInProgress = false;
+    }
   }
-  function hideRemovePlant(id) {
-    const form = document.getElementById('remove-form-' + id);
-    if (form) form.style.display = 'none';
-  }
+
+  function showRemovePlant(id) { const f = document.getElementById('remove-form-' + id); if (f) f.style.display = 'flex'; }
+  function hideRemovePlant(id) { const f = document.getElementById('remove-form-' + id); if (f) f.style.display = 'none'; }
 
   async function confirmRemovePlant(id) {
     const pw = sessionStorage.getItem('bedToken');
@@ -2485,36 +1398,38 @@ showToast('Incorrect password');
     window._plantActionInProgress = true;
     showToast('⏳ Removing…');
     try {
-      const res = await fetch(PUBLIC_API, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'removeActivePlant', password: pw, recordId: id, disposition: disp })
-      });
+      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'removeActivePlant', password: pw, recordId: id, disposition: disp }) });
       const data = await res.json();
-      if (data.ok) {
-        showToast('✓ Plant removed');
-        loadBedPlants();
-      } else if (data.error === 'auth') {
-        sessionStorage.removeItem('bedToken'); showToast('Session expired'); go('screen-bed-password');
-      } else showToast('Could not remove — try again');
+      if (data.ok) { showToast('✓ Plant removed'); loadBedPlants(); }
+      else if (data.error === 'auth') { sessionStorage.removeItem('bedToken'); showToast('Session expired'); go('screen-bed-password'); }
+      else showToast('Could not remove — try again');
     } catch(e) { showToast('Could not remove — check connection'); }
   }
-function closeAddPlantModal() {
-    document.getElementById('add-plant-modal').classList.remove('open');
-  }
 
-  async function toggleAddPlantForm() {
+  // ── ADD PLANT MODAL ──
+  function openAddPlantModal() {
     const modal = document.getElementById('add-plant-modal');
     modal.classList.add('open');
     const dateEl = document.getElementById('bc-plant-date');
     if (dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0, 10);
-    await populatePlantDropdown();
+    populatePlantDropdown();
+  }
+
+  function closeAddPlantModal() {
+    document.getElementById('add-plant-modal').classList.remove('open');
+    document.getElementById('bc-plant-select').value = '';
+    document.getElementById('bc-plant-quantity').value = '';
+    document.getElementById('bc-plant-note').value = '';
+    document.getElementById('bc-plant-date').value = '';
+    document.getElementById('bc-other-plant-fields').style.display = 'none';
+    document.getElementById('bc-other-plant-name').value = '';
   }
 
   async function populatePlantDropdown() {
     const sel = document.getElementById('bc-plant-select');
     if (!sel) return;
+    sel.innerHTML = '<option value="">— Loading… —</option>';
     const plants = await fetchMasterPlants();
-    // group by category
     const groups = {};
     plants.forEach(p => {
       const cat = String(p.Category || 'Other').trim();
@@ -2524,9 +1439,7 @@ function closeAddPlantModal() {
     let html = '<option value="">— Select a plant —</option>';
     Object.keys(groups).sort().forEach(cat => {
       html += `<optgroup label="${cat}">`;
-      groups[cat].sort().forEach(name => {
-        html += `<option value="${name}">${name}</option>`;
-      });
+      groups[cat].sort().forEach(name => { html += `<option value="${name}">${name}</option>`; });
       html += '</optgroup>';
     });
     html += '<option value="__other__">＋ Other (not listed)</option>';
@@ -2545,9 +1458,7 @@ function closeAddPlantModal() {
     if (!pw) { showToast('Session expired'); go('screen-bed-password'); return; }
     const sel = document.getElementById('bc-plant-select');
     const isOther = sel.value === '__other__';
-    let plantName = isOther
-      ? document.getElementById('bc-other-plant-name').value.trim()
-      : sel.value;
+    let plantName = isOther ? document.getElementById('bc-other-plant-name').value.trim() : sel.value;
     if (!plantName) { showToast('Select or enter a plant name'); return; }
     const qty = document.getElementById('bc-plant-quantity').value.trim();
     const note = document.getElementById('bc-plant-note').value.trim();
@@ -2555,36 +1466,172 @@ function closeAddPlantModal() {
     window._plantActionInProgress = true;
     showToast('⏳ Logging plant…');
     try {
-      // if Other, add to master list first
       if (isOther) {
         const category = document.getElementById('bc-other-plant-category').value;
-        await fetch(PUBLIC_API, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'addToMasterPlantList', password: pw, plantName: plantName, category: category })
-        });
-        masterPlantsCache = null; // bust cache so dropdown refreshes
+        await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addToMasterPlantList', password: pw, plantName, category }) });
+        masterPlantsCache = null;
       }
-      // add to active plants
-      const res = await fetch(PUBLIC_API, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'addActivePlant', password: pw, bedId: currentBed, plantName: plantName, quantity: qty, note: note, datePlanted: datePlanted })
-      });
+      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addActivePlant', password: pw, bedId: currentBed, plantName, quantity: qty, note, datePlanted }) });
       const data = await res.json();
       if (data.ok) {
         showToast('✓ Plant logged!');
-        // reset form
-        document.getElementById('bc-plant-select').value = '';
-        document.getElementById('bc-plant-quantity').value = '';
-        document.getElementById('bc-plant-note').value = '';
-        document.getElementById('bc-plant-date').value = '';
-        document.getElementById('bc-other-plant-fields').style.display = 'none';
-       closeAddPlantModal();
+        closeAddPlantModal();
         loadBedPlants();
       } else if (data.error === 'auth') {
         sessionStorage.removeItem('bedToken'); showToast('Session expired'); go('screen-bed-password');
       } else showToast('Could not log plant — try again');
     } catch(e) { showToast('Could not log plant — check connection'); }
   }
+
+  // ── DAMAGE REPORTS ──
+  async function submitDamageReport() {
+    const desc = document.getElementById('dr-desc').value.trim();
+    if (!desc) { showToast('Please describe what you saw'); return; }
+    showToast('⏳ Sending…');
+    try {
+      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addReport', bedId: currentBed || 'FARM', type: document.getElementById('dr-type').value, description: desc }) });
+      const data = await res.json();
+      if (data.ok) { showToast('✓ Report submitted — thank you'); document.getElementById('dr-desc').value = ''; go(sessionStorage.getItem('adminToken') ? 'screen-bed-info-employee' : 'screen-bed-info-guest'); }
+      else showToast('Could not send — try again');
+    } catch (e) { showToast('Could not send — check connection'); }
+  }
+
+  async function fetchOpenReports() {
+    try {
+      const res = await fetch(PUBLIC_API + '?view=reports');
+      const data = await res.json();
+      return (data.ok && data.reports) ? data.reports : [];
+    } catch (e) { return []; }
+  }
+
+  async function enterStaff() {
+    const reports = await fetchOpenReports();
+    if (reports.length) {
+      document.getElementById('alert-count').textContent = reports.length + ' Damage Report' + (reports.length > 1 ? 's' : '') + ' Pending';
+      go('screen-alert');
+    } else go('screen-employee-options');
+  }
+
+  async function loadReportInbox() {
+    const box = document.getElementById('report-list');
+    box.innerHTML = '<div class="comment-item"><p>Loading reports…</p></div>';
+    const reports = await fetchOpenReports();
+    if (!reports.length) { box.innerHTML = '<div class="comment-item"><p>🎉 No open reports — the farm is healthy.</p></div>'; return; }
+    box.innerHTML = reports.map(r => {
+      const id = String(r.ReportID);
+      const label = (LOCATION_NAMES[r.BedID] || ('Bed ' + r.BedID)) + ' · ' + String(r.Type || 'Issue');
+      const when = r.ReportedAt ? fmtDate(r.ReportedAt) : '';
+      const desc = String(r.Description || '').replace(/</g, '&lt;');
+      return '<div class="inventory-item low-stock" id="rep-' + id + '" style="flex-direction:column;align-items:stretch;gap:8px;">' +
+        '<div><div class="item-name">' + label + '</div><div class="item-sub">Reported ' + when + '</div><div class="item-sub" style="margin-top:4px;">&quot;' + desc + '&quot;</div></div>' +
+        '<div id="rep-act-' + id + '"><button onclick="showResolve(&quot;' + id + '&quot;)" style="background:var(--accent);color:white;border:none;border-radius:6px;padding:8px 14px;font-size:0.8rem;cursor:pointer;">Resolve</button></div></div>';
+    }).join('');
+  }
+
+  function showResolve(id) {
+    document.getElementById('rep-act-' + id).innerHTML =
+      '<div class="form-group"><label>Resolution note</label><textarea id="rn-' + id + '" placeholder="What was done?" style="min-height:60px;"></textarea></div>' +
+      '<button onclick="confirmResolve(&quot;' + id + '&quot;)" style="background:var(--accent);color:white;border:none;border-radius:6px;padding:10px 14px;font-size:0.85rem;cursor:pointer;width:100%;margin-top:6px;">✓ Confirm Resolve</button>';
+  }
+
+  async function confirmResolve(id) {
+    const note = document.getElementById('rn-' + id).value.trim();
+    const pw = sessionStorage.getItem('adminToken');
+    if (!pw) { showToast('Please sign in again'); go('screen-login'); return; }
+    showToast('⏳ Resolving…');
+    try {
+      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'resolveReport', password: pw, id, note }) });
+      const data = await res.json();
+      if (data.ok) {
+        showToast('✓ Resolved');
+        const el = document.getElementById('rep-' + id);
+        if (el) el.remove();
+        if (!document.querySelectorAll('#report-list .inventory-item').length)
+          document.getElementById('report-list').innerHTML = '<div class="comment-item"><p>🎉 All reports resolved.</p></div>';
+      } else if (data.error === 'auth') { sessionStorage.removeItem('adminToken'); showToast('Session expired — sign in again'); go('screen-login'); }
+      else showToast('Could not resolve — try again');
+    } catch (e) { showToast('Could not resolve — check connection'); }
+  }
+
+  // ── LIGHTBOX ──
+  function openLightbox(src, title, date) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-title').textContent = title;
+    document.getElementById('lightbox-date').textContent = date;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+  // ── UPLOAD MODAL ──
+  function openUploadModal() {
+    document.getElementById('upload-password').style.display = sessionStorage.getItem('adminToken') ? 'none' : '';
+    document.getElementById('upload-modal').classList.add('open');
+  }
+  function closeUploadModal() {
+    document.getElementById('upload-modal').classList.remove('open');
+    document.getElementById('preview-img').style.display = 'none';
+    document.getElementById('preview-placeholder').style.display = 'block';
+    document.getElementById('preview-img').src = '';
+    document.getElementById('upload-caption').value = '';
+    document.getElementById('upload-password').value = '';
+  }
+  function previewPhoto(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.getElementById('preview-img');
+        img.src = e.target.result;
+        img.style.display = 'block';
+        document.getElementById('preview-placeholder').style.display = 'none';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  async function submitPhoto() {
+    const fileInput = document.querySelector('#upload-preview input[type=file]');
+    const bed = document.getElementById('upload-bed').value;
+    const caption = document.getElementById('upload-caption').value;
+    const stored = sessionStorage.getItem('adminToken');
+    const password = stored || document.getElementById('upload-password').value;
+    const pwRes = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password }) });
+    const pwData = await pwRes.json();
+    if (!pwData.ok) {
+      if (stored) { sessionStorage.removeItem('adminToken'); document.getElementById('upload-password').style.display = ''; showToast('Session expired — enter password'); }
+      else showToast('⛔ Incorrect password');
+      return;
+    }
+    if (!fileInput.files || !fileInput.files[0]) { showToast('📷 Please select a photo first'); return; }
+    showToast('⏳ Uploading...');
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+    formData.append('upload_preset', UPLOAD_PRESET);
+    formData.append('folder', 'lfg-photos');
+    formData.append('context', `bed=${bed}|caption=${caption}`);
+    try {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
+      const data = await res.json();
+      if (data.secure_url) {
+        try { await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addPhoto', password, bedId: bed, caption, url: data.secure_url, thumb: data.secure_url.replace('/upload/', '/upload/w_300,h_300,c_fill/') }) }); } catch (e) {}
+        showToast('✓ Photo uploaded!');
+        closeUploadModal();
+        loadAlbum();
+      } else showToast('Upload failed — try again');
+    } catch(e) { showToast('Upload failed — check connection'); }
+  }
+
+  // ── SECRET ADMIN ACCESS ──
+  let tapCount = 0;
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.app-header h1').forEach(h => {
+      h.addEventListener('click', () => {
+        const current = document.querySelector('.screen.active');
+        if (current && current.id === 'screen-employee-options') {
+          tapCount++;
+          if (tapCount >= 5) { tapCount = 0; showToast('🔐 Admin access granted'); setTimeout(() => go('screen-admin'), 800); }
+        }
+      });
+    });
+  });
 </script>
 <script src="lfg-site.js" defer></script>
 </body>
