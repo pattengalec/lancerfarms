@@ -786,7 +786,10 @@
 <!-- SCREEN: MANAGE PLANTS                      -->
 <!-- ═══════════════════════════════════════════ -->
 <div class="screen" id="screen-manage-plants">
-  <div class="app-header"><h1 id="mp-title">Plants</h1><p>Add or Remove</p></div>
+<div class="app-header">
+    <button onclick="go('screen-bed-configurator')" style="position:absolute;left:16px;top:18px;background:none;border:none;color:var(--on-accent,var(--straw));font-size:1.2rem;cursor:pointer;">‹</button>
+    <h1 id="mp-title">Plants</h1><p>Add or Remove</p>
+  </div>
   <div class="screen-body">
     <button class="manage-btn" onclick="go('screen-add-plant'); loadAddPlantScreen();">＋ Add a Plant</button>
     <p class="section-label" style="margin-top:8px;margin-bottom:4px;">Current Plants</p>
@@ -800,7 +803,10 @@
 <!-- SCREEN: ADD PLANT                          -->
 <!-- ═══════════════════════════════════════════ -->
 <div class="screen" id="screen-add-plant">
-  <div class="app-header"><h1>Add a Plant</h1><p id="ap-bed-label">Bed</p></div>
+<div class="app-header">
+    <button onclick="go('screen-manage-plants'); loadManagePlants();" style="position:absolute;left:16px;top:18px;background:none;border:none;color:var(--on-accent,var(--straw));font-size:1.2rem;cursor:pointer;">‹</button>
+    <h1>Add a Plant</h1><p id="ap-bed-label">Bed</p>
+  </div>
   <div class="screen-body">
     <div class="form-group">
       <label>Plant</label>
@@ -1365,7 +1371,7 @@
       box.innerHTML = active.map(p => {
         const name = String(p['Plant Name'] || '');
         const qty = String(p.Quantity || '');
-        const harvest = String(p.EstHarvest || '');
+      const harvest = p.EstHarvest ? fmtDate(p.EstHarvest) : '';
         return `<div class="info-row">
           <span class="label">${name}</span>
           <span class="value">${qty ? qty + (harvest ? ' · Est: ' + harvest : '') : (harvest ? 'Est: ' + harvest : '—')}</span>
@@ -1408,8 +1414,8 @@
         const name = String(p['Plant Name'] || '');
         const qty = String(p.Quantity || '');
         const note = String(p.Note || '');
-        const planted = String(p.DatePlanted || '');
-        const harvest = String(p.EstHarvest || '');
+     const planted = p.DatePlanted ? fmtDate(p.DatePlanted) : '';
+      const harvest = p.EstHarvest ? fmtDate(p.EstHarvest) : '';
         return `<div class="inventory-item" id="mp-row-${id}" style="flex-direction:column;align-items:stretch;gap:6px;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div>
