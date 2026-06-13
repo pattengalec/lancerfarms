@@ -34,8 +34,8 @@
 
   body {
     font-family: 'Source Sans 3', sans-serif;
-    background: var(--soil);
-    color: var(--cream);
+    background: var(--surface);
+    color: var(--on-bg);
     min-height: 100vh;
     display: flex;
     align-items: flex-start;
@@ -48,8 +48,8 @@
     width: 100%;
     max-width: 420px;
     min-height: 100vh;
-    background: var(--cream);
-    color: var(--soil);
+    background: var(--bg);
+    color: var(--on-bg);
     flex-direction: column;
     position: relative;
     overflow-y: auto;
@@ -58,8 +58,8 @@
 
   /* HEADER */
   .app-header {
-    background: var(--soil);
-    color: var(--straw);
+    background: var(--surface);
+    color: var(--on-accent, var(--straw));
     padding: 18px 20px 14px;
     text-align: center;
     position: relative;
@@ -73,7 +73,7 @@
   .app-header p {
     font-family: 'Courier Prime', monospace;
     font-size: 0.7rem;
-    color: var(--straw);
+    color: var(--on-accent, var(--straw));
     opacity: 0.7;
     margin-top: 2px;
     letter-spacing: 0.08em;
@@ -86,7 +86,7 @@
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: var(--straw);
+    color: var(--on-accent, var(--straw));
     font-size: 1.4rem;
     cursor: pointer;
     padding: 4px 8px;
@@ -104,7 +104,7 @@
 
   /* HERO LANDING */
   .hero-block {
-    background: var(--soil);
+    background: var(--surface);
     border-radius: var(--radius);
     padding: 32px 24px 28px;
     text-align: center;
@@ -118,13 +118,13 @@
   .hero-block h2 {
     font-family: 'IM Fell English', serif;
     font-size: 1.6rem;
-    color: var(--straw);
+    color: var(--on-accent, var(--straw));
     line-height: 1.2;
     margin-bottom: 6px;
   }
   .hero-block p {
     font-size: 0.82rem;
-    color: var(--mist);
+    color: var(--on-bg-soft);
     opacity: 0.8;
     font-style: italic;
   }
@@ -144,13 +144,13 @@
     text-decoration: none;
     color: var(--on-bg, var(--soil));
   }
-  .option-card:active { border-color: var(--sage); box-shadow: 0 1px 6px rgba(44,26,14,0.1); }
+  .option-card:active { border-color: var(--accent-2, var(--sage)); box-shadow: 0 1px 6px rgba(44,26,14,0.1); }
   .option-card .card-icon { font-size: 1.8rem; flex-shrink: 0; }
   .option-card .card-text h3 { font-size: 1rem; font-weight: 600; color: var(--on-bg, var(--soil)); }
   .option-card .card-text p { font-size: 0.78rem; color: var(--on-bg-soft, var(--bark)); margin-top: 2px; opacity: 0.85; }
-  .option-card.primary { background: var(--leaf); border-color: var(--leaf); }
-  .option-card.primary .card-text h3 { color: var(--white); }
-  .option-card.primary .card-text p { color: var(--mist); }
+  .option-card.primary { background: var(--accent); border-color: var(--accent); }
+  .option-card.primary .card-text h3 { color: var(--on-accent, var(--white)); }
+  .option-card.primary .card-text p { color: var(--on-bg-soft); }
 
   /* SECTION LABEL */
   .section-label {
@@ -158,7 +158,7 @@
     font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--bark);
+    color: var(--on-bg-soft);
     opacity: 0.6;
     margin-bottom: -6px;
     padding-left: 2px;
@@ -167,7 +167,7 @@
   /* ALERT BANNER */
   .alert-banner {
     background: var(--alert);
-    color: var(--white);
+    color: var(--on-accent, var(--white));
     border-radius: var(--radius);
     padding: 16px 18px;
     display: flex;
@@ -181,7 +181,7 @@
     margin-top: 10px;
     background: rgba(255,255,255,0.2);
     border: 1px solid rgba(255,255,255,0.4);
-    color: var(--white);
+    color: var(--on-accent, var(--white));
     border-radius: 6px;
     padding: 6px 14px;
     font-size: 0.78rem;
@@ -191,8 +191,8 @@
 
   /* BED INFO PAGE */
   .bed-header {
-    background: var(--leaf);
-    color: var(--white);
+    background: var(--accent);
+    color: var(--on-accent, var(--white));
     padding: 20px 20px 16px;
     border-radius: var(--radius);
   }
@@ -207,19 +207,19 @@
   .bed-header .bed-manager { font-size: 0.8rem; opacity: 0.85; }
 
   .info-row {
-    background: var(--white);
+    background: var(--card, var(--white));
     border-radius: 8px;
     padding: 12px 16px;
-    border: 1px solid var(--mist);
+    border: 1px solid var(--card-border, var(--mist));
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .info-row .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bark); opacity: 0.65; font-family: 'Courier Prime', monospace; }
-  .info-row .value { font-size: 0.92rem; font-weight: 600; color: var(--soil); text-align: right; max-width: 60%; }
+  .info-row .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--on-bg-soft); opacity: 0.65; font-family: 'Courier Prime', monospace; }
+  .info-row .value { font-size: 0.92rem; font-weight: 600; color: var(--on-bg); text-align: right; max-width: 60%; }
 
   .blessing-block {
-    background: var(--soil);
+    background: var(--surface);
     border-radius: var(--radius);
     padding: 18px 20px;
     text-align: center;
@@ -228,14 +228,14 @@
     font-family: 'IM Fell English', serif;
     font-style: italic;
     font-size: 0.95rem;
-    color: var(--straw);
+    color: var(--on-accent, var(--straw));
     line-height: 1.6;
   }
   .blessing-block cite {
     display: block;
     font-family: 'Courier Prime', monospace;
     font-size: 0.68rem;
-    color: var(--straw);
+    color: var(--on-accent, var(--straw));
     opacity: 0.6;
     margin-top: 8px;
     font-style: normal;
@@ -245,13 +245,13 @@
   /* COMMENT FEED */
   .comment-feed { display: flex; flex-direction: column; gap: 10px; }
   .comment-item {
-    background: var(--white);
+    background: var(--card, var(--white));
     border-radius: 8px;
     padding: 12px 14px;
-    border: 1px solid var(--mist);
+    border: 1px solid var(--card-border, var(--mist));
   }
-  .comment-item .comment-meta { font-size: 0.68rem; color: var(--bark); opacity: 0.6; font-family: 'Courier Prime', monospace; margin-bottom: 4px; }
-  .comment-item p { font-size: 0.85rem; color: var(--soil); line-height: 1.5; }
+  .comment-item .comment-meta { font-size: 0.68rem; color: var(--on-bg-soft); opacity: 0.6; font-family: 'Courier Prime', monospace; margin-bottom: 4px; }
+  .comment-item p { font-size: 0.85rem; color: var(--on-bg); line-height: 1.5; }
 
   .report-link {
     text-align: center;
@@ -260,7 +260,7 @@
   }
   .report-link a {
     font-size: 0.72rem;
-    color: var(--bark);
+    color: var(--on-bg-soft);
     opacity: 0.45;
     text-decoration: none;
     border-bottom: 1px dashed currentColor;
@@ -271,8 +271,8 @@
 
   /* MANAGE BUTTON */
   .manage-btn {
-    background: var(--leaf);
-    color: var(--white);
+    background: var(--accent);
+    color: var(--on-accent, var(--white));
     border: none;
     border-radius: var(--radius);
     padding: 16px;
@@ -286,24 +286,24 @@
 
   /* FORM STYLES */
   .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--bark); font-family: 'Courier Prime', monospace; }
+  .form-group label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--on-bg-soft); font-family: 'Courier Prime', monospace; }
   .form-group input, .form-group select, .form-group textarea {
-    background: var(--white);
-    border: 1.5px solid var(--mist);
+    background: var(--card, var(--white));
+    border: 1.5px solid var(--card-border, var(--mist));
     border-radius: 8px;
     padding: 11px 14px;
     font-size: 0.92rem;
     font-family: inherit;
-    color: var(--soil);
+    color: var(--on-bg);
     outline: none;
     transition: border-color 0.15s;
   }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--sage); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent-2, var(--sage)); }
   .form-group textarea { resize: vertical; min-height: 80px; }
 
   .submit-btn {
-    background: var(--soil);
-    color: var(--straw);
+    background: var(--surface);
+    color: var(--on-accent, var(--straw));
     border: none;
     border-radius: var(--radius);
     padding: 16px;
@@ -317,13 +317,13 @@
 
   /* LOGIN */
   .login-block {
-    background: var(--soil);
+    background: var(--surface);
     border-radius: var(--radius);
     padding: 28px 24px;
     text-align: center;
   }
-  .login-block h2 { font-family: 'IM Fell English', serif; color: var(--straw); font-size: 1.3rem; margin-bottom: 6px; }
-  .login-block p { font-size: 0.8rem; color: var(--mist); opacity: 0.75; margin-bottom: 20px; }
+  .login-block h2 { font-family: 'IM Fell English', serif; color: var(--on-accent, var(--straw)); font-size: 1.3rem; margin-bottom: 6px; }
+  .login-block p { font-size: 0.8rem; color: var(--on-bg-soft); opacity: 0.75; margin-bottom: 20px; }
   .login-block input {
     width: 100%;
     background: rgba(255,255,255,0.1);
@@ -331,7 +331,7 @@
     border-radius: 8px;
     padding: 12px 16px;
     font-size: 1rem;
-    color: var(--white);
+    color: var(--on-accent, var(--white));
     font-family: inherit;
     outline: none;
     margin-bottom: 12px;
@@ -341,7 +341,7 @@
   .login-block button {
     width: 100%;
     background: var(--straw);
-    color: var(--soil);
+    color: var(--on-bg);
     border: none;
     border-radius: 8px;
     padding: 13px;
@@ -353,8 +353,8 @@
 
   /* INVENTORY */
   .inventory-item {
-    background: var(--white);
-    border: 1.5px solid var(--mist);
+    background: var(--card, var(--white));
+    border: 1.5px solid var(--card-border, var(--mist));
     border-radius: 8px;
     padding: 12px 16px;
     display: flex;
@@ -362,15 +362,15 @@
     align-items: center;
   }
   .inventory-item.low-stock { border-color: var(--alert); }
-  .inventory-item .item-name { font-size: 0.9rem; font-weight: 600; color: var(--soil); }
-  .inventory-item .item-sub { font-size: 0.72rem; color: var(--bark); opacity: 0.65; margin-top: 2px; }
+  .inventory-item .item-name { font-size: 0.9rem; font-weight: 600; color: var(--on-bg); }
+  .inventory-item .item-sub { font-size: 0.72rem; color: var(--on-bg-soft); opacity: 0.65; margin-top: 2px; }
   .inventory-item .item-qty { text-align: right; }
-  .inventory-item .qty-num { font-family: 'Courier Prime', monospace; font-size: 1.1rem; font-weight: 600; color: var(--soil); }
+  .inventory-item .qty-num { font-family: 'Courier Prime', monospace; font-size: 1.1rem; font-weight: 600; color: var(--on-bg); }
   .inventory-item.low-stock .qty-num { color: var(--alert); }
-  .inventory-item .qty-par { font-size: 0.68rem; color: var(--bark); opacity: 0.55; }
+  .inventory-item .qty-par { font-size: 0.68rem; color: var(--on-bg-soft); opacity: 0.55; }
   .stock-flag {
     background: var(--alert);
-    color: var(--white);
+    color: var(--on-accent, var(--white));
     font-size: 0.62rem;
     border-radius: 4px;
     padding: 2px 6px;
@@ -381,14 +381,14 @@
 
   /* ADMIN PANEL */
   .admin-section {
-    background: var(--white);
+    background: var(--card, var(--white));
     border-radius: var(--radius);
-    border: 1.5px solid var(--mist);
+    border: 1.5px solid var(--card-border, var(--mist));
     overflow: hidden;
   }
   .admin-section-header {
-    background: var(--soil);
-    color: var(--straw);
+    background: var(--surface);
+    color: var(--on-accent, var(--straw));
     padding: 10px 16px;
     font-family: 'Courier Prime', monospace;
     font-size: 0.72rem;
@@ -404,31 +404,31 @@
     cursor: pointer;
   }
   .admin-row:last-child { border-bottom: none; }
-  .admin-row span { font-size: 0.9rem; color: var(--soil); }
+  .admin-row span { font-size: 0.9rem; color: var(--on-bg); }
   .admin-row .badge {
     background: var(--alert);
-    color: var(--white);
+    color: var(--on-accent, var(--white));
     font-size: 0.68rem;
     border-radius: 10px;
     padding: 2px 8px;
     font-family: 'Courier Prime', monospace;
   }
-  .admin-row .arrow { color: var(--bark); opacity: 0.4; font-size: 1rem; }
+  .admin-row .arrow { color: var(--on-bg-soft); opacity: 0.4; font-size: 1rem; }
 
   /* BED SELECTOR */
   .bed-selector {
-    background: var(--white);
-    border: 1.5px solid var(--mist);
+    background: var(--card, var(--white));
+    border: 1.5px solid var(--card-border, var(--mist));
     border-radius: var(--radius);
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
-  .bed-selector h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--soil); text-align: center; }
+  .bed-selector h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--on-bg); text-align: center; }
   .qr-btn {
-    background: var(--soil);
-    color: var(--straw);
+    background: var(--surface);
+    color: var(--on-accent, var(--straw));
     border: none;
     border-radius: 8px;
     padding: 13px;
@@ -443,7 +443,7 @@
   .divider-or {
     text-align: center;
     font-size: 0.72rem;
-    color: var(--bark);
+    color: var(--on-bg-soft);
     opacity: 0.5;
     font-family: 'Courier Prime', monospace;
     letter-spacing: 0.1em;
@@ -462,13 +462,13 @@
 
   /* ABOUT PAGE */
   .about-block {
-    background: var(--white);
+    background: var(--card, var(--white));
     border-radius: var(--radius);
-    border: 1px solid var(--mist);
+    border: 1px solid var(--card-border, var(--mist));
     padding: 20px;
   }
-  .about-block h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--soil); margin-bottom: 10px; }
-  .about-block p { font-size: 0.88rem; color: var(--bark); line-height: 1.65; }
+  .about-block h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--on-bg); margin-bottom: 10px; }
+  .about-block p { font-size: 0.88rem; color: var(--on-bg-soft); line-height: 1.65; }
 
   /* TOAST */
   .toast {
@@ -476,8 +476,8 @@
     bottom: 24px;
     left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: var(--soil);
-    color: var(--straw);
+    background: var(--surface);
+    color: var(--on-accent, var(--straw));
     padding: 12px 22px;
     border-radius: 24px;
     font-size: 0.85rem;
@@ -495,8 +495,8 @@
 
   /* PHOTO ALBUM */
   .zone-header {
-    background: var(--soil);
-    color: var(--straw);
+    background: var(--surface);
+    color: var(--on-accent, var(--straw));
     border-radius: var(--radius);
     padding: 10px 16px;
     font-family: 'IM Fell English', serif;
@@ -529,25 +529,25 @@
     bottom: 4px;
     left: 4px;
     background: rgba(44,26,14,0.75);
-    color: var(--straw);
+    color: var(--on-accent, var(--straw));
     font-family: 'Courier Prime', monospace;
     font-size: 0.6rem;
     padding: 2px 5px;
     border-radius: 4px;
   }
   .photo-empty {
-    background: var(--white);
+    background: var(--card, var(--white));
     border: 1.5px dashed var(--mist);
     border-radius: var(--radius);
     padding: 24px;
     text-align: center;
-    color: var(--bark);
+    color: var(--on-bg-soft);
     font-size: 0.82rem;
     opacity: 0.6;
   }
   .upload-btn {
-    background: var(--leaf);
-    color: var(--white);
+    background: var(--accent);
+    color: var(--on-accent, var(--white));
     border: none;
     border-radius: var(--radius);
     padding: 16px;
@@ -585,7 +585,7 @@
   .lightbox-meta {
     margin-top: 14px;
     text-align: center;
-    color: var(--straw);
+    color: var(--on-accent, var(--straw));
   }
   .lightbox-meta h3 { font-family: 'IM Fell English', serif; font-size: 1rem; }
   .lightbox-meta p { font-size: 0.75rem; opacity: 0.6; font-family: 'Courier Prime', monospace; margin-top: 4px; }
@@ -602,7 +602,7 @@
     font-family: inherit;
     cursor: pointer;
   }
-  .lightbox-close { background: rgba(255,255,255,0.15); color: var(--straw); }
+  .lightbox-close { background: rgba(255,255,255,0.15); color: var(--on-accent, var(--straw)); }
 
   /* UPLOAD MODAL */
   .upload-modal {
@@ -616,7 +616,7 @@
   }
   .upload-modal.open { display: flex; }
   .upload-sheet {
-    background: var(--cream);
+    background: var(--bg);
     border-radius: var(--radius) var(--radius) 0 0;
     padding: 24px 20px 36px;
     width: 100%;
@@ -625,7 +625,7 @@
     flex-direction: column;
     gap: 14px;
   }
-  .upload-sheet h2 { font-family: 'IM Fell English', serif; font-size: 1.2rem; color: var(--soil); text-align: center; }
+  .upload-sheet h2 { font-family: 'IM Fell English', serif; font-size: 1.2rem; color: var(--on-bg); text-align: center; }
   .upload-preview {
     width: 100%;
     aspect-ratio: 4/3;
@@ -640,7 +640,7 @@
     position: relative;
   }
   .upload-preview img { width: 100%; height: 100%; object-fit: cover; display: none; }
-  .upload-preview .placeholder { font-size: 0.85rem; color: var(--bark); opacity: 0.5; text-align: center; padding: 20px; }
+  .upload-preview .placeholder { font-size: 0.85rem; color: var(--on-bg-soft); opacity: 0.5; text-align: center; padding: 20px; }
   .upload-preview input[type=file] {
     position: absolute;
     inset: 0;
@@ -808,7 +808,7 @@
       <input type="text" id="upload-caption" placeholder="What's growing here?">
     </div>
     <button class="submit-btn" onclick="submitPhoto()">Upload Photo</button>
-    <button style="background:none;border:none;color:var(--bark);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeUploadModal()">Cancel</button>
+    <button style="background:none;border:none;color: var(--on-bg-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeUploadModal()">Cancel</button>
   </div>
 </div>
 
@@ -1463,14 +1463,14 @@
   <div class="app-header">
     <button class="back-btn" onclick="go('screen-bed-info-employee')">‹</button>
     <h1>Bed Access</h1>
-    <p>Z1-A1 Password Required</p>
+    <p id="bp-title">Bed Password Required</p>
   </div>
   <div class="screen-body" style="justify-content:center;">
     <div class="login-block">
       <h2>Enter Bed Password</h2>
-      <p>Each bed has its own password. Contact your supervisor if you need access.</p>
-      <input type="password" placeholder="Bed password" />
-      <button onclick="go('screen-bed-configurator')">Unlock Configurator</button>
+      <p>Each bed has its own password. Contact your supervisor if you need access. Staff password also works.</p>
+      <input type="password" id="bp-password" placeholder="Bed password" />
+      <button onclick="checkBedPassword()">Unlock Configurator</button>
     </div>
   </div>
 </div>
@@ -1481,35 +1481,39 @@
 <div class="screen" id="screen-bed-configurator">
   <div class="app-header">
     <button class="back-btn" onclick="go('screen-bed-info-employee')">‹</button>
-    <h1>Manage Bed Z1-A1</h1>
+    <h1 id="bc-title">Manage Bed</h1>
     <p>Configurator Unlocked</p>
   </div>
   <div class="screen-body">
     <div class="form-group">
       <label>Bed Designator</label>
-      <input type="text" value="Z1-A1" />
+      <input type="text" id="bc-id" disabled />
     </div>
     <div class="form-group">
       <label>Bed Manager Name</label>
-      <input type="text" value="Sarah M." />
+      <input type="text" id="bc-manager" />
     </div>
     <div class="form-group">
       <label>Currently Growing</label>
-      <input type="text" value="Heirloom Tomatoes" />
+      <input type="text" id="bc-growing" />
     </div>
     <div class="form-group">
       <label>Date Planted</label>
-      <input type="date" value="2026-03-12" />
+      <input type="date" id="bc-planted" />
     </div>
     <div class="form-group">
       <label>Estimated Harvest Date</label>
-      <input type="date" value="2026-06-20" />
+      <input type="date" id="bc-harvest" />
     </div>
     <div class="form-group">
       <label>Bible Passage or Blessing</label>
-      <textarea>"The earth is the Lord's, and everything in it, the world, and all who live in it." — Psalm 24:1</textarea>
+      <textarea id="bc-blessing" placeholder="The verse or words shown on this bed's page"></textarea>
     </div>
-    <button class="submit-btn" onclick="showToast('✓ Bed updated successfully'); go('screen-bed-info-employee')">Save Changes</button>
+    <div class="form-group">
+      <label>Reference (e.g. Psalm 24:1)</label>
+      <input type="text" id="bc-blessing-ref" placeholder="Psalm 24:1" />
+    </div>
+    <button class="submit-btn" onclick="saveBedChanges()">Save Changes</button>
   </div>
 </div>
 
@@ -1574,7 +1578,7 @@
       <div><div class="item-name">Drip Emitters</div><div class="item-sub">Par level: 50 units</div></div>
       <div class="item-qty"><div class="qty-num">82</div><div class="qty-par">units</div></div>
     </div>
-    <button class="submit-btn" style="background:var(--sage); color:var(--soil); margin-top:8px;" onclick="showToast('Par change request sent to admin')">Request Par Level Change</button>
+    <button class="submit-btn" style="background:var(--sage); color: var(--on-bg); margin-top:8px;" onclick="showToast('Par change request sent to admin')">Request Par Level Change</button>
   </div>
 </div>
 
@@ -1996,6 +2000,93 @@ showToast('Incorrect password');
 }
 }
 
+  // ── BED CONFIGURATOR ──
+  function toISO(v) {
+    if (!v) return '';
+    var s = String(v);
+    if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+    var d = new Date(s);
+    return isNaN(d) ? '' : d.toISOString().slice(0, 10);
+  }
+
+  async function checkBedPassword() {
+    const pw = document.getElementById('bp-password').value;
+    if (!pw) { showToast('Enter a password'); return; }
+    showToast('⏳ Checking…');
+    try {
+      let res = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'checkPassword', bedId: currentBed, password: pw })
+      });
+      let data = await res.json();
+      if (!data.ok) {
+        res = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw })
+        });
+        data = await res.json();
+      }
+      if (data.ok) {
+        sessionStorage.setItem('bedToken', pw);
+        document.getElementById('bp-password').value = '';
+        prefillConfigurator();
+        go('screen-bed-configurator');
+      } else {
+        showToast('⛔ Incorrect password');
+      }
+    } catch (e) { showToast('Could not verify — check connection'); }
+  }
+
+  async function prefillConfigurator() {
+    document.getElementById('bc-title').textContent = 'Manage Bed ' + (currentBed || '');
+    document.getElementById('bp-title').textContent = (currentBed || 'Bed') + ' Password Required';
+    document.getElementById('bc-id').value = currentBed || '';
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+    set('bc-manager', ''); set('bc-growing', ''); set('bc-planted', ''); set('bc-harvest', '');
+    set('bc-blessing', ''); set('bc-blessing-ref', '');
+    try {
+      const beds = await fetchBeds();
+      const idKey = beds.length ? findKey(beds[0], [/^bed\s*id$/i, /bedid/i, /^bed$/i, /^id$/i]) : null;
+      const row = beds.find(b => idKey && String(b[idKey]).trim().toUpperCase() === String(currentBed).toUpperCase());
+      if (!row) return;
+      const v = pats => { const k = findKey(row, pats); return k ? String(row[k]) : ''; };
+      set('bc-manager', v([/manager/i, /steward/i, /caretaker/i, /assigned/i]));
+      set('bc-growing', v([/crop/i, /grow/i, /plant(?!ed)/i]));
+      set('bc-planted', toISO(v([/planted/i, /sow/i])));
+      set('bc-harvest', toISO(v([/harvest/i])));
+      set('bc-blessing', v([/bless/i, /verse/i, /scripture/i, /passage/i]));
+      set('bc-blessing-ref', v([/cite/i, /reference/i]));
+    } catch (e) {}
+  }
+
+  async function saveBedChanges() {
+    const pw = sessionStorage.getItem('bedToken');
+    if (!pw) { showToast('Session expired — re-enter bed password'); go('screen-bed-password'); return; }
+    showToast('⏳ Saving…');
+    const fields = {
+      Manager: document.getElementById('bc-manager').value,
+      CurrentlyGrowing: document.getElementById('bc-growing').value,
+      DatePlanted: document.getElementById('bc-planted').value,
+      EstHarvest: document.getElementById('bc-harvest').value,
+      Blessing: document.getElementById('bc-blessing').value,
+      BlessingRef: document.getElementById('bc-blessing-ref').value
+    };
+    try {
+      const res = await fetch(PUBLIC_API, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields: fields })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        showToast('✓ Bed updated successfully');
+        bedsCache = null; // force fresh fetch so the bed page reflects the edit
+        await selectBed(currentBed, 'employee');
+      } else if (data.error === 'auth') {
+        sessionStorage.removeItem('bedToken'); showToast('Session expired — re-enter bed password'); go('screen-bed-password');
+      } else showToast('Could not save — try again');
+    } catch (e) { showToast('Could not save — check connection'); }
+  }
+
   // ── DAMAGE REPORTS ──
   async function submitDamageReport() {
     const desc = document.getElementById('dr-desc').value.trim();
@@ -2053,7 +2144,7 @@ showToast('Incorrect password');
         '<div class="item-sub">Reported ' + when + '</div>' +
         '<div class="item-sub" style="margin-top:4px;">&quot;' + desc + '&quot;</div></div>' +
         '<div id="rep-act-' + id + '"><button onclick="showResolve(&quot;' + id + '&quot;)" ' +
-        'style="background:var(--leaf);color:white;border:none;border-radius:6px;padding:8px 14px;font-size:0.8rem;cursor:pointer;">Resolve</button></div>' +
+        'style="background: var(--accent);color:white;border:none;border-radius:6px;padding:8px 14px;font-size:0.8rem;cursor:pointer;">Resolve</button></div>' +
         '</div>';
     }).join('');
   }
@@ -2063,7 +2154,7 @@ showToast('Incorrect password');
       '<div class="form-group"><label>Resolution note</label>' +
       '<textarea id="rn-' + id + '" placeholder="What was done? (e.g. reconnected drip line)" style="min-height:60px;"></textarea></div>' +
       '<button onclick="confirmResolve(&quot;' + id + '&quot;)" ' +
-      'style="background:var(--leaf);color:white;border:none;border-radius:6px;padding:10px 14px;font-size:0.85rem;cursor:pointer;width:100%;margin-top:6px;">✓ Confirm Resolve</button>';
+      'style="background: var(--accent);color:white;border:none;border-radius:6px;padding:10px 14px;font-size:0.85rem;cursor:pointer;width:100%;margin-top:6px;">✓ Confirm Resolve</button>';
   }
 
   async function confirmResolve(id) {
