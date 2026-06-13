@@ -2451,9 +2451,19 @@ showToast('Incorrect password');
         </div>`;
       }).join('');
       // update Currently Growing field
-      const growingNames = active.map(p => String(p['Plant Name'] || '')).filter(Boolean).join(', ');
+     const growingNames = active.map(p => String(p['Plant Name'] || '')).filter(Boolean).join(', ');
       const growEl = document.getElementById('bc-growing');
       if (growEl) growEl.value = growingNames;
+      if (window._plantActionInProgress && currentBed) {
+        const pw = sessionStorage.getItem('bedToken');
+        if (pw) {
+          fetch(PUBLIC_API, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields: { CurrentlyGrowing: growingNames } })
+          }).catch(() => {});
+        }
+        window._plantActionInProgress = false;
+      }
     } catch(e) {
       box.innerHTML = '<div class="comment-item"><p>Could not load plants.</p></div>';
     }
@@ -2472,6 +2482,7 @@ showToast('Incorrect password');
     const pw = sessionStorage.getItem('bedToken');
     if (!pw) { showToast('Session expired'); go('screen-bed-password'); return; }
     const disp = document.getElementById('disp-' + id).value;
+    window._plantActionInProgress = true;
     showToast('⏳ Removing…');
     try {
       const res = await fetch(PUBLIC_API, {
@@ -2541,6 +2552,7 @@ function closeAddPlantModal() {
     const qty = document.getElementById('bc-plant-quantity').value.trim();
     const note = document.getElementById('bc-plant-note').value.trim();
     const datePlanted = document.getElementById('bc-plant-date').value;
+    window._plantActionInProgress = true;
     showToast('⏳ Logging plant…');
     try {
       // if Other, add to master list first
