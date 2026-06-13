@@ -1465,7 +1465,7 @@
     </div>
     <div class="form-group">
       <label>Currently Growing</label>
-      <input type="text" id="bc-growing" />
+      <input type="text" id="bc-growing" placeholder="Auto-updated from Plants section below" style="opacity:0.5;" readonly />
     </div>
     <div class="form-group">
       <label>Date Planted</label>
@@ -1485,6 +1485,57 @@
     </div>
     <button class="submit-btn" onclick="saveBedChanges()">Save Changes</button>
     <button class="manage-btn" onclick="go('screen-bed-photos'); loadBedPhotos();" style="margin-top:10px;">📷 View Photos for This Bed</button>
+
+    <!-- PLANTS SECTION -->
+    <div style="margin-top:24px;">
+      <p class="section-label" style="margin-bottom:10px;">🌱 Plants in This Bed</p>
+      <div id="bc-plants-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
+        <div class="comment-item"><p>Loading plants…</p></div>
+      </div>
+      <button class="submit-btn" id="bc-add-plant-btn" onclick="toggleAddPlantForm()" style="margin-bottom:0;">+ Add a Plant</button>
+
+      <!-- ADD PLANT FORM (hidden by default) -->
+      <div id="bc-add-plant-form" style="display:none;margin-top:14px;background:var(--card,var(--white));border:1.5px solid var(--card-border,var(--mist));border-radius:var(--radius);padding:18px;display:none;flex-direction:column;gap:12px;">
+        <div class="form-group">
+          <label>Plant</label>
+          <select id="bc-plant-select" onchange="handlePlantSelectChange()">
+            <option value="">— Loading plants… —</option>
+          </select>
+        </div>
+        <div id="bc-other-plant-fields" style="display:none;flex-direction:column;gap:12px;">
+          <div class="form-group">
+            <label>Plant Name</label>
+            <input type="text" id="bc-other-plant-name" placeholder="e.g. Armenian Cucumber" />
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="bc-other-plant-category">
+              <option value="Vegetable">Vegetable</option>
+              <option value="Fruit">Fruit</option>
+              <option value="Herb">Herb</option>
+              <option value="Flower">Flower</option>
+              <option value="Cactus/Succulent">Cactus/Succulent</option>
+              <option value="Tree">Tree</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="text" id="bc-plant-quantity" placeholder="e.g. 6 starts, 1 row, 3 seeds" />
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="bc-plant-note" placeholder="Variety name, spacing, any other notes…" style="min-height:70px;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Date Planted</label>
+          <input type="date" id="bc-plant-date" />
+        </div>
+        <button class="submit-btn" onclick="submitAddPlant()">✓ Log Plant</button>
+        <button onclick="toggleAddPlantForm()" style="background:none;border:none;color:var(--on-bg-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;">Cancel</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2068,6 +2119,7 @@ showToast('Incorrect password');
     document.getElementById('bc-title').textContent = 'Manage Bed ' + (currentBed || '');
     document.getElementById('bp-title').textContent = (currentBed || 'Bed') + ' Password Required';
     document.getElementById('bc-id').value = currentBed || '';
+    loadBedPlants();
     const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
     set('bc-manager', ''); set('bc-growing', ''); set('bc-planted', ''); set('bc-harvest', '');
     set('bc-blessing', ''); set('bc-blessing-ref', '');
@@ -2324,6 +2376,197 @@ showToast('Incorrect password');
       });
     });
   });
+  // ── PLANTS IN BED ──
+  let masterPlantsCache = null;
+
+  async function fetchMasterPlants() {
+    if (masterPlantsCache) return masterPlantsCache;
+    try {
+      const res = await fetch(PUBLIC_API + '?view=plants');
+      const data = await res.json();
+      masterPlantsCache = (data.ok && data.plants) ? data.plants : [];
+    } catch(e) { masterPlantsCache = []; }
+    return masterPlantsCache;
+  }
+
+  async function loadBedPlants() {
+    const box = document.getElementById('bc-plants-list');
+    if (!box) return;
+    box.innerHTML = '<div class="comment-item"><p>Loading…</p></div>';
+    try {
+      const res = await fetch(PUBLIC_API + '?view=activeplants');
+      const data = await res.json();
+      const all = (data.ok && data.activeplants) ? data.activeplants : [];
+      const active = all.filter(p =>
+        String(p.BedID || '').trim().toUpperCase() === String(currentBed || '').toUpperCase() &&
+        !p.RemovedDate
+      );
+      if (!active.length) {
+        box.innerHTML = '<div class="comment-item"><p style="opacity:0.6;">No plants logged yet — add one below.</p></div>';
+        return;
+      }
+      box.innerHTML = active.map(p => {
+        const id = String(p.RecordID || '');
+        const name = String(p['Plant Name'] || '');
+        const qty = String(p.Quantity || '');
+        const note = String(p.Note || '');
+        const planted = String(p.DatePlanted || '');
+        const idSafe = id.replace(/"/g, '');
+        return `<div class="inventory-item" id="plant-row-${idSafe}" style="flex-direction:column;align-items:stretch;gap:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div class="item-name">${name}</div>
+              ${qty ? `<div class="item-sub">Qty: ${qty}</div>` : ''}
+              ${note ? `<div class="item-sub">${note}</div>` : ''}
+              ${planted ? `<div class="item-sub">Planted: ${planted}</div>` : ''}
+            </div>
+            <button onclick="showRemovePlant('${idSafe}')" style="background:var(--alert);color:white;border:none;border-radius:6px;padding:6px 12px;font-size:0.78rem;cursor:pointer;flex-shrink:0;margin-left:10px;">Remove</button>
+          </div>
+          <div id="remove-form-${idSafe}" style="display:none;flex-direction:column;gap:8px;padding-top:8px;border-top:1px solid var(--mist);">
+            <div class="form-group">
+              <label>What was done with it?</label>
+              <select id="disp-${idSafe}">
+                <option value="Harvested">Harvested</option>
+                <option value="Composted">Composted</option>
+                <option value="Donated">Donated</option>
+                <option value="Replanted elsewhere">Replanted elsewhere</option>
+                <option value="Lost to pests/disease">Lost to pests/disease</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <button onclick="confirmRemovePlant('${idSafe}')" style="background:var(--alert);color:white;border:none;border-radius:6px;padding:8px;font-size:0.82rem;cursor:pointer;width:100%;">✓ Confirm Removal</button>
+            <button onclick="hideRemovePlant('${idSafe}')" style="background:none;border:none;color:var(--on-bg-soft);font-size:0.8rem;cursor:pointer;">Cancel</button>
+          </div>
+        </div>`;
+      }).join('');
+      // update Currently Growing field
+      const growingNames = active.map(p => String(p['Plant Name'] || '')).filter(Boolean).join(', ');
+      const growEl = document.getElementById('bc-growing');
+      if (growEl) growEl.value = growingNames;
+    } catch(e) {
+      box.innerHTML = '<div class="comment-item"><p>Could not load plants.</p></div>';
+    }
+  }
+
+  function showRemovePlant(id) {
+    const form = document.getElementById('remove-form-' + id);
+    if (form) form.style.display = 'flex';
+  }
+  function hideRemovePlant(id) {
+    const form = document.getElementById('remove-form-' + id);
+    if (form) form.style.display = 'none';
+  }
+
+  async function confirmRemovePlant(id) {
+    const pw = sessionStorage.getItem('bedToken');
+    if (!pw) { showToast('Session expired'); go('screen-bed-password'); return; }
+    const disp = document.getElementById('disp-' + id).value;
+    showToast('⏳ Removing…');
+    try {
+      const res = await fetch(PUBLIC_API, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'removeActivePlant', password: pw, recordId: id, disposition: disp })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        showToast('✓ Plant removed');
+        loadBedPlants();
+      } else if (data.error === 'auth') {
+        sessionStorage.removeItem('bedToken'); showToast('Session expired'); go('screen-bed-password');
+      } else showToast('Could not remove — try again');
+    } catch(e) { showToast('Could not remove — check connection'); }
+  }
+
+  async function toggleAddPlantForm() {
+    const form = document.getElementById('bc-add-plant-form');
+    if (!form) return;
+    const isHidden = form.style.display === 'none' || form.style.display === '';
+    if (isHidden) {
+      form.style.display = 'flex';
+      // set today's date
+      const dateEl = document.getElementById('bc-plant-date');
+      if (dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
+      // populate dropdown
+      await populatePlantDropdown();
+    } else {
+      form.style.display = 'none';
+    }
+  }
+
+  async function populatePlantDropdown() {
+    const sel = document.getElementById('bc-plant-select');
+    if (!sel) return;
+    const plants = await fetchMasterPlants();
+    // group by category
+    const groups = {};
+    plants.forEach(p => {
+      const cat = String(p.Category || 'Other').trim();
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(String(p['Plant Name'] || '').trim());
+    });
+    let html = '<option value="">— Select a plant —</option>';
+    Object.keys(groups).sort().forEach(cat => {
+      html += `<optgroup label="${cat}">`;
+      groups[cat].sort().forEach(name => {
+        html += `<option value="${name}">${name}</option>`;
+      });
+      html += '</optgroup>';
+    });
+    html += '<option value="__other__">＋ Other (not listed)</option>';
+    sel.innerHTML = html;
+  }
+
+  function handlePlantSelectChange() {
+    const sel = document.getElementById('bc-plant-select');
+    const otherFields = document.getElementById('bc-other-plant-fields');
+    if (!sel || !otherFields) return;
+    otherFields.style.display = sel.value === '__other__' ? 'flex' : 'none';
+  }
+
+  async function submitAddPlant() {
+    const pw = sessionStorage.getItem('bedToken');
+    if (!pw) { showToast('Session expired'); go('screen-bed-password'); return; }
+    const sel = document.getElementById('bc-plant-select');
+    const isOther = sel.value === '__other__';
+    let plantName = isOther
+      ? document.getElementById('bc-other-plant-name').value.trim()
+      : sel.value;
+    if (!plantName) { showToast('Select or enter a plant name'); return; }
+    const qty = document.getElementById('bc-plant-quantity').value.trim();
+    const note = document.getElementById('bc-plant-note').value.trim();
+    const datePlanted = document.getElementById('bc-plant-date').value;
+    showToast('⏳ Logging plant…');
+    try {
+      // if Other, add to master list first
+      if (isOther) {
+        const category = document.getElementById('bc-other-plant-category').value;
+        await fetch(PUBLIC_API, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'addToMasterPlantList', password: pw, plantName: plantName, category: category })
+        });
+        masterPlantsCache = null; // bust cache so dropdown refreshes
+      }
+      // add to active plants
+      const res = await fetch(PUBLIC_API, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'addActivePlant', password: pw, bedId: currentBed, plantName: plantName, quantity: qty, note: note, datePlanted: datePlanted })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        showToast('✓ Plant logged!');
+        // reset form
+        document.getElementById('bc-plant-select').value = '';
+        document.getElementById('bc-plant-quantity').value = '';
+        document.getElementById('bc-plant-note').value = '';
+        document.getElementById('bc-plant-date').value = '';
+        document.getElementById('bc-other-plant-fields').style.display = 'none';
+        document.getElementById('bc-add-plant-form').style.display = 'none';
+        loadBedPlants();
+      } else if (data.error === 'auth') {
+        sessionStorage.removeItem('bedToken'); showToast('Session expired'); go('screen-bed-password');
+      } else showToast('Could not log plant — try again');
+    } catch(e) { showToast('Could not log plant — check connection'); }
+  }
 </script>
 <script src="lfg-site.js" defer></script>
 </body>
