@@ -124,7 +124,10 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
       var blw = el.querySelector('.mw-bl');
       if (blw) {
         var hr = new Date().getHours();
-        blw.textContent = 'quiet ' + (hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : hr < 21 ? 'evening' : 'night');
+        var isNight = (hr >= 21 || hr < 6);
+        var label = isNight ? 'quiet night (try night mode)' : 'quiet ' + (hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : 'evening');
+        blw.textContent = label;
+        blw.style.fontSize = isNight ? '11px' : '';
       }
       if (prompt) prompt.textContent = val('welcome_line', 'Plot your mood for a custom theme and recommended activities');
       function pick(x, y, rect) {
@@ -230,4 +233,56 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
     fetchConfig().then(function (f) { cfg = f; boot(); })
       .catch(function () { cfg = {}; boot(); }); /* offline fail-soft: defaults, gate skipped only if disabled */
   }
+})();
+
+
+/* ════════════════════════════════════════════════
+   LFG CREATURES — bees & butterflies drift across
+   the page from time to time. Site-wide, harmless,
+   click-through, reduced-motion aware. On the
+   phosphor theme they render terminal-green.
+   ════════════════════════════════════════════════ */
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var style = document.createElement('style');
+  style.textContent =
+    '.lfg-creature{position:fixed;left:-70px;font-size:22px;z-index:60;pointer-events:none;' +
+    'will-change:transform;animation:lfg-cross linear forwards;}' +
+    '.lfg-creature span{display:inline-block;animation:lfg-bob ease-in-out infinite alternate;}' +
+    '.lfg-creature.flip{left:auto;right:-70px;animation-name:lfg-cross-back;}' +
+    '.lfg-creature.flip span{transform:scaleX(-1);}' +
+    '@keyframes lfg-cross{to{transform:translateX(calc(100vw + 140px));}}' +
+    '@keyframes lfg-cross-back{to{transform:translateX(calc(-100vw - 140px));}}' +
+    '@keyframes lfg-bob{from{transform:translateY(-7px);}to{transform:translateY(7px);}}' +
+    '[data-theme="phosphor"] .lfg-creature{filter:grayscale(1) sepia(1) hue-rotate(70deg) saturate(5) brightness(1.15);}';
+  document.head.appendChild(style);
+
+  var CREATURES = ['🐝', '🦋', '🐝', '🦋', '🐞', '🦋'];
+
+  function visit() {
+    var el = document.createElement('div');
+    el.className = 'lfg-creature' + (Math.random() < 0.5 ? ' flip' : '');
+    el.setAttribute('aria-hidden', 'true');
+    var inner = document.createElement('span');
+    inner.textContent = CREATURES[Math.floor(Math.random() * CREATURES.length)];
+    el.appendChild(inner);
+    el.style.top = (12 + Math.random() * 60) + 'vh';
+    var travel = 14 + Math.random() * 12;             // 14–26s across the screen
+    el.style.animationDuration = travel + 's';
+    inner.style.animationDuration = (0.8 + Math.random() * 0.9).toFixed(2) + 's';
+    document.body.appendChild(el);
+    setTimeout(function () { el.remove(); }, travel * 1000 + 500);
+  }
+
+  function schedule() {
+    var wait = 45000 + Math.random() * 75000;          // every 45s–2min
+    setTimeout(function () {
+      if (!document.hidden) visit();
+      schedule();
+    }, wait);
+  }
+
+  setTimeout(visit, 12000 + Math.random() * 8000);     // first visitor ~12–20s in
+  schedule();
 })();
