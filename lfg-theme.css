@@ -181,6 +181,14 @@ body:not(.craft) .rule { height: 1px; background: var(--mist); border: none; }
 }
 [data-vis="high"] .sun-toggle { background: #141a15; color: #FDFDFB; border-color: #141a15; }
 
+.theme-toggle {
+  position: fixed; top: 14px; left: 14px; z-index: 50;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--surface2); color: var(--ink); border: var(--border-w) solid var(--ink);
+  font-size: 19px; cursor: pointer; line-height: 1;
+}
+[data-vis="high"] .theme-toggle { background: #141a15; color: #FDFDFB; border-color: #141a15; }
+
 .fb-tab {
   position: fixed; bottom: 18px; right: 14px; z-index: 50;
   background: var(--surface2); color: var(--ink); border: var(--border-w) solid var(--ink);

@@ -61,13 +61,68 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
     if (saved === 'high' || (saved === null && auto)) doc.setAttribute('data-vis', 'high');
     var b = document.createElement('button');
     b.className = 'sun-toggle'; b.setAttribute('aria-label', 'Toggle high-visibility sun mode');
-    b.textContent = doc.getAttribute('data-vis') === 'high' ? '\u263E' : '\u2600';
+    b.textContent = doc.getAttribute('data-vis') === 'high' ? '\u2600' : '\ud83d\udd06';
     b.onclick = function () {
       var on = doc.getAttribute('data-vis') !== 'high';
       if (on) doc.setAttribute('data-vis', 'high'); else doc.removeAttribute('data-vis');
       localStorage.setItem('lfg-vis', on ? 'high' : 'normal');
-      b.textContent = on ? '\u263E' : '\u2600';
+      b.textContent = on ? '\u2600' : '\ud83d\udd06';
       announce(on ? 'Sun mode on' : 'Sun mode off');
+    };
+    document.body.appendChild(b);
+  }
+
+  /* ── persistent theme picker re-open ── */
+  function initThemeButton() {
+    var b = document.createElement('button');
+    b.className = 'theme-toggle';
+    b.setAttribute('aria-label', 'Change mood / color theme');
+    b.textContent = '\ud83c\udfa8';
+    b.onclick = function () {
+      var el = document.getElementById('mood');
+      if (!el) return;
+      el.hidden = false;
+      el.classList.remove('leaving');
+      var dot = el.querySelector('.dot');
+      if (dot) dot.classList.remove('show');
+      var greet = el.querySelector('.mood-greet');
+      if (greet) greet.textContent = 'tap anywhere in the garden';
+      var blw = el.querySelector('.mw-bl');
+      if (blw) {
+        var hr = new Date().getHours();
+        var isNight = (hr >= 21 || hr < 6);
+        blw.textContent = isNight ? 'quiet night (try night mode)' : 'quiet ' + (hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : 'evening');
+        blw.style.fontSize = isNight ? '11px' : '';
+      }
+      var box = el.querySelector('.mood-box');
+      var skip = el.querySelector('.mood-skip');
+      if (skip) skip.onclick = function () { el.classList.add('leaving'); setTimeout(function () { el.hidden = true; }, 420); };
+      if (box) {
+        var fresh = box.cloneNode(true);
+        box.parentNode.replaceChild(fresh, box);
+        fresh.addEventListener('pointerdown', function (e) {
+          var rect = fresh.getBoundingClientRect();
+          var nx = (e.clientX - rect.left) / rect.width * 2 - 1;
+          var ny = 1 - (e.clientY - rect.top) / rect.height * 2;
+          var dot2 = fresh.querySelector('.dot');
+          dot2.style.left = ((nx + 1) / 2 * 100) + '%'; dot2.style.top = ((1 - ny) / 2 * 100) + '%';
+          dot2.classList.add('show');
+          var quad = (nx >= 0 ? 'P' : 'L') + (ny >= 0 ? 'E' : 'C');
+          var GREET = { PE: 'sunny and bright \u2014 let\u2019s go', PC: 'good steady soil under your boots', LE: 'a little mischief it is\u2026', LC: 'soft light coming right up' };
+          var MOOD_MAP = { PE: 'citrus', PC: 'inland', LE: 'phosphor', LC: 'night' };
+          if (greet && GREET[quad]) greet.textContent = GREET[quad];
+          var theme;
+          if (Math.sqrt(nx * nx + ny * ny) < 0.15) theme = val('default_theme', 'inland');
+          else theme = MOOD_MAP[quad];
+          var enabled = String(val('themes_enabled', 'inland,citrus,night,phosphor')).split(',');
+          if (enabled.indexOf(theme) === -1) theme = val('default_theme', 'inland');
+          setTimeout(function () {
+            el.classList.add('leaving');
+            applyTheme(theme, { animate: true });
+            setTimeout(function () { el.hidden = true; }, 420);
+          }, 650);
+        }, { once: true });
+      }
     };
     document.body.appendChild(b);
   }
@@ -224,7 +279,7 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
     if (saved) applyTheme(saved, { animate: false });
     runGate().then(runMood).then(function () {
       if (!sessionStorage.getItem('lfg-theme')) applyTheme(val('default_theme', 'inland'), { animate: false });
-      initSun(); initFeedback(); initFooterMood();
+      initSun(); initThemeButton(); initFeedback(); initFooterMood();
       var h = document.getElementById('home'); if (h) h.hidden = false;
     });
   }
