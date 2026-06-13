@@ -1502,43 +1502,54 @@
             <option value="">— Loading plants… —</option>
           </select>
         </div>
-        <div id="bc-other-plant-fields" style="display:none;flex-direction:column;gap:12px;">
-          <div class="form-group">
-            <label>Plant Name</label>
-            <input type="text" id="bc-other-plant-name" placeholder="e.g. Armenian Cucumber" />
-          </div>
-          <div class="form-group">
-            <label>Category</label>
-            <select id="bc-other-plant-category">
-              <option value="Vegetable">Vegetable</option>
-              <option value="Fruit">Fruit</option>
-              <option value="Herb">Herb</option>
-              <option value="Flower">Flower</option>
-              <option value="Cactus/Succulent">Cactus/Succulent</option>
-              <option value="Tree">Tree</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Quantity</label>
-          <input type="text" id="bc-plant-quantity" placeholder="e.g. 6 starts, 1 row, 3 seeds" />
-        </div>
-        <div class="form-group">
-          <label>Notes</label>
-          <textarea id="bc-plant-note" placeholder="Variety name, spacing, any other notes…" style="min-height:70px;"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Date Planted</label>
-          <input type="date" id="bc-plant-date" />
-        </div>
-        <button class="submit-btn" onclick="submitAddPlant()">✓ Log Plant</button>
-        <button onclick="toggleAddPlantForm()" style="background:none;border:none;color:var(--on-bg-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;">Cancel</button>
-      </div>
+        
     </div>
   </div>
 </div>
-
+<!-- ADD PLANT MODAL -->
+<div class="upload-modal" id="add-plant-modal">
+  <div class="upload-sheet">
+    <h2>Add a Plant</h2>
+    <div class="form-group">
+      <label>Plant</label>
+      <select id="bc-plant-select" onchange="handlePlantSelectChange()">
+        <option value="">— Loading plants… —</option>
+      </select>
+    </div>
+    <div id="bc-other-plant-fields" style="display:none;flex-direction:column;gap:12px;">
+      <div class="form-group">
+        <label>Plant Name</label>
+        <input type="text" id="bc-other-plant-name" placeholder="e.g. Armenian Cucumber" />
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select id="bc-other-plant-category">
+          <option value="Vegetable">Vegetable</option>
+          <option value="Fruit">Fruit</option>
+          <option value="Herb">Herb</option>
+          <option value="Flower">Flower</option>
+          <option value="Cactus/Succulent">Cactus/Succulent</option>
+          <option value="Tree">Tree</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Quantity</label>
+      <input type="text" id="bc-plant-quantity" placeholder="e.g. 6 starts, 1 row, 3 seeds" />
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea id="bc-plant-note" placeholder="Variety name, spacing, any other notes…" style="min-height:70px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Date Planted</label>
+      <input type="date" id="bc-plant-date" />
+    </div>
+    <button class="submit-btn" onclick="submitAddPlant()">✓ Log Plant</button>
+    <button style="background:none;border:none;color:var(--on-bg-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeAddPlantModal()">Cancel</button>
+  </div>
+</div>
 <div class="screen" id="screen-bed-photos">
   <div class="app-header">
     <h1 id="bp-photos-title">Bed Photos</h1>
@@ -2476,21 +2487,16 @@ showToast('Incorrect password');
       } else showToast('Could not remove — try again');
     } catch(e) { showToast('Could not remove — check connection'); }
   }
+function closeAddPlantModal() {
+    document.getElementById('add-plant-modal').classList.remove('open');
+  }
 
   async function toggleAddPlantForm() {
-    const form = document.getElementById('bc-add-plant-form');
-    if (!form) return;
-    const isHidden = form.style.display === 'none' || form.style.display === '';
-    if (isHidden) {
-      form.style.display = 'flex';
-      // set today's date
-      const dateEl = document.getElementById('bc-plant-date');
-      if (dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
-      // populate dropdown
-      await populatePlantDropdown();
-    } else {
-      form.style.display = 'none';
-    }
+    const modal = document.getElementById('add-plant-modal');
+    modal.classList.add('open');
+    const dateEl = document.getElementById('bc-plant-date');
+    if (dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0, 10);
+    await populatePlantDropdown();
   }
 
   async function populatePlantDropdown() {
@@ -2560,7 +2566,7 @@ showToast('Incorrect password');
         document.getElementById('bc-plant-note').value = '';
         document.getElementById('bc-plant-date').value = '';
         document.getElementById('bc-other-plant-fields').style.display = 'none';
-        document.getElementById('bc-add-plant-form').style.display = 'none';
+       closeAddPlantModal();
         loadBedPlants();
       } else if (data.error === 'auth') {
         sessionStorage.removeItem('bedToken'); showToast('Session expired'); go('screen-bed-password');
