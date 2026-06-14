@@ -1012,7 +1012,7 @@ margin: 24px auto;
     if (e.state && e.state.lfgScreen) {
       go(e.state.lfgScreen, Object.assign({}, e.state.lfgOptions, { fromHistory: true }));
     } else {
-      go('screen-landing', { fromHistory: true });
+      location.reload();
     }
   });
   history.replaceState({ lfgScreen: 'screen-landing', lfgOptions: {} }, '', '#screen-landing');
