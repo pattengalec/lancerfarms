@@ -2,7 +2,7 @@
    Load deferred at end of <body>. Pre-paint theme snippet lives inline in <head>.
    INTEGRATION SLOT 1: set CONFIG_URL to the "LFG Public Config API" /exec URL. */
 
-https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8Wufk3exdLqxc_kcyJuF4cvAZKenBXihb1398Ovp2fCAw1/exec
+var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8Wufk3exdLqxc_kcyJuF4cvAZKenBXihb1398Ovp2fCAw1/exec';
 
 
 (function () {
@@ -152,7 +152,7 @@ https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8Wufk3exdLqxc_kcyJu
   function runMood() {
     return new Promise(function (resolve) {
       var el = document.getElementById('mood'); if (!el) return resolve();
-      if (!val('mood_picker_enabled', true) || sessionStorage.getItem('lfg-theme')) return resolve();
+      if (!val('mood_picker_enabled', true)) return resolve();
       el.hidden = false;
       var box = el.querySelector('.mood-box'), dot = el.querySelector('.dot');
       var greet = el.querySelector('.mood-greet');
