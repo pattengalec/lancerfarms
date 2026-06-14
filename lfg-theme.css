@@ -41,14 +41,7 @@
   --on-accent: #FFFFFF; --alert: #8a1f00; --on-alert: #FFFFFF;
   --border-w: 2px;
 }
-[data-vis="high"][data-theme="inland"]   { --accent: #2e4f34; --accent-2: #2e4f34; }
-[data-vis="high"][data-theme="citrus"]   { --accent: #8a4410; --accent-2: #4a6328; }
-[data-vis="high"][data-theme="night"]    { --accent: #4a7356; --accent-2: #4a7356; --card: #182a1d; --on-bg: #D6E6D8; --on-bg-soft: #8aa794; }
-[data-vis="high"][data-theme="night"] body { color-scheme: dark; }
-[data-theme="phosphor"] { --accent: #0c5f28; --accent-2: #0c5f28; --font-head: Georgia, serif; --font-body: 'Source Sans 3', sans-serif; --radius: 10px; }
-[data-vis="high"] body { font-weight: 500; }
-[data-vis="high"] .card, [data-vis="high"] .btn { border-width: 2px !important; }
-[data-vis="high"] .craft-tilt { transform: none !important; }
+
 
 :root { --card: var(--surface2, #FDFAF4); --card-border: var(--mist, #EAE4D4); }
 * { box-sizing: border-box; margin: 0; padding: 0; }
