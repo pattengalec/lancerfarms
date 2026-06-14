@@ -33,16 +33,6 @@
   --font-head: 'Courier New', monospace; --font-body: 'Courier New', monospace;
   --radius: 3px;
 }
-
-/* Sun mode — high-visibility override. Theme accent survives, surfaces go max-contrast. */
-[data-vis="high"] {
-  --bg: #FDFDFB; --surface: #FFFFFF; --surface2: #FFFFFF; --mist: #e8e8e2;
-  --ink: #141a15; --ink-soft: #2b332d; --on-bg: #141a15; --on-bg-soft: #3a463d;
-  --on-accent: #FFFFFF; --alert: #8a1f00; --on-alert: #FFFFFF;
-  --border-w: 2px;
-}
-
-
 :root { --card: var(--surface2, #FDFAF4); --card-border: var(--mist, #EAE4D4); }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--bg); }
