@@ -2,7 +2,8 @@
    Load deferred at end of <body>. Pre-paint theme snippet lives inline in <head>.
    INTEGRATION SLOT 1: set CONFIG_URL to the "LFG Public Config API" /exec URL. */
 
-var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQRmcTyhqDQVj1eDAEXXJcyNwBFW6B33P4Q5JIkaAEfp_7HBIw/exec';
+https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8Wufk3exdLqxc_kcyJuF4cvAZKenBXihb1398Ovp2fCAw1/exec
+
 
 (function () {
   'use strict';
