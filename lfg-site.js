@@ -313,7 +313,7 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
     '[data-theme="phosphor"] .lfg-creature{filter:grayscale(1) sepia(1) hue-rotate(70deg) saturate(5) brightness(1.15);}';
   document.head.appendChild(style);
 
-  var CREATURES = ['🐝', '🦋', '🐝', '🦋', '🐞', '🦋'];
+  var CREATURES = ['🐝', '🦋', '🐞', '🪲', '🪳', '🦗', '🪰', '🦟', '🐜', '🪱', '🕷️', '🐿️', '👼'];
 
   function visit() {
     var el = document.createElement('div');
