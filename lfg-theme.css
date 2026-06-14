@@ -206,8 +206,8 @@ body:not(.craft) .rule { height: 1px; background: var(--mist); border: none; }
     background-size: cover;
     background-position: 30% center;
     background-attachment: fixed;
-     body {
-  background: transparent;
-}
+  }
+  body {
+    background: transparent;
   }
 }
