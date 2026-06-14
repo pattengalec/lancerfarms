@@ -52,26 +52,6 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
     announce('Theme set to ' + (THEME_NAMES[t] || t));
   }
 
-  /* ── sun mode ── */
-  function initSun() {
-    if (!val('sun_mode_available', true)) return;
-    var doc = document.documentElement;
-    var saved = localStorage.getItem('lfg-vis');
-    var auto = window.matchMedia('(prefers-contrast: more)').matches;
-    if (saved === 'high' || (saved === null && auto)) doc.setAttribute('data-vis', 'high');
-    var b = document.createElement('button');
-    b.className = 'sun-toggle'; b.setAttribute('aria-label', 'Toggle high-visibility sun mode');
-    b.textContent = doc.getAttribute('data-vis') === 'high' ? '\u2600' : '\ud83d\udd06';
-    b.onclick = function () {
-      var on = doc.getAttribute('data-vis') !== 'high';
-      if (on) doc.setAttribute('data-vis', 'high'); else doc.removeAttribute('data-vis');
-      localStorage.setItem('lfg-vis', on ? 'high' : 'normal');
-      b.textContent = on ? '\u2600' : '\ud83d\udd06';
-      announce(on ? 'Sun mode on' : 'Sun mode off');
-    };
-    document.body.appendChild(b);
-  }
-
   /* ── persistent theme picker re-open ── */
   function initThemeButton() {
     var b = document.createElement('button');
@@ -186,8 +166,8 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
       }
       if (prompt) prompt.textContent = val('welcome_line', 'Plot your mood for a custom theme and recommended activities');
       function pick(x, y, rect) {
-        var nx = (x - rect.left) / rect.width * 2 - 1;   /* -1 easygoing … +1 productive */
-        var ny = 1 - (y - rect.top) / rect.height * 2;   /* -1 calm … +1 energetic  */
+        var nx = (x - rect.left) / rect.width * 2 - 1;
+        var ny = 1 - (y - rect.top) / rect.height * 2;
         dot.style.left = ((nx + 1) / 2 * 100) + '%'; dot.style.top = ((1 - ny) / 2 * 100) + '%';
         dot.classList.add('show');
         var quad = (nx >= 0 ? 'P' : 'L') + (ny >= 0 ? 'E' : 'C');
@@ -234,7 +214,7 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
       var msg = panel.querySelector('textarea').value.trim();
       var status = panel.querySelector('.fb-status');
       if (!msg) { status.textContent = 'Write something first.'; return; }
-      if (panel.querySelector('.hp').value || Date.now() - openedAt < 3000) { status.textContent = 'Thanks!'; return; } /* silent bot drop */
+      if (panel.querySelector('.hp').value || Date.now() - openedAt < 3000) { status.textContent = 'Thanks!'; return; }
       status.textContent = 'Sending\u2026';
       fetch(CONFIG_URL, {
         method: 'POST',
@@ -243,7 +223,6 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
           message: msg,
           theme: document.documentElement.getAttribute('data-theme'),
           mood: sessionStorage.getItem('lfg-theme') ? 'picked' : 'default',
-          sun_mode: document.documentElement.getAttribute('data-vis') === 'high',
           viewport: window.innerWidth + 'x' + window.innerHeight,
           page: location.pathname,
           ua: navigator.userAgent
@@ -279,23 +258,21 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
     if (saved) applyTheme(saved, { animate: false });
     runGate().then(runMood).then(function () {
       if (!sessionStorage.getItem('lfg-theme')) applyTheme(val('default_theme', 'inland'), { animate: false });
-      initSun(); initThemeButton(); initFeedback(); initFooterMood();
+      initThemeButton(); initFeedback(); initFooterMood();
       var h = document.getElementById('home'); if (h) h.hidden = false;
     });
   }
   if (cfg) { boot(); fetchConfig().then(function (f) { cfg = f; }).catch(function () {}); }
   else {
     fetchConfig().then(function (f) { cfg = f; boot(); })
-      .catch(function () { cfg = {}; boot(); }); /* offline fail-soft: defaults, gate skipped only if disabled */
+      .catch(function () { cfg = {}; boot(); });
   }
 })();
 
 
 /* ════════════════════════════════════════════════
    LFG CREATURES — bees & butterflies drift across
-   the page from time to time. Site-wide, harmless,
-   click-through, reduced-motion aware. On the
-   phosphor theme they render terminal-green.
+   the page from time to time.
    ════════════════════════════════════════════════ */
 (function () {
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -338,13 +315,13 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
   }
 
   function schedule() {
-    var wait = 45000 + Math.random() * 75000;          // every 45s–2min
+    var wait = 45000 + Math.random() * 75000;
     setTimeout(function () {
       if (!document.hidden) visit();
       schedule();
     }, wait);
   }
 
-  setTimeout(visit, 12000 + Math.random() * 8000);     // first visitor ~12–20s in
+  setTimeout(visit, 12000 + Math.random() * 8000);
   schedule();
 })();
