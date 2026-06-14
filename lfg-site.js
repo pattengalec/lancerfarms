@@ -320,8 +320,17 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
     var inner = document.createElement('span');
     inner.textContent = CREATURES[Math.floor(Math.random() * CREATURES.length)];
     el.appendChild(inner);
-    el.style.top = (12 + Math.random() * 60) + 'vh';
-    var travel = 14 + Math.random() * 12;             // 14–26s across the screen
+    el.style.top = (5 + Math.random() * 80) + 'vh';
+    el.style.fontSize = (14 + Math.random() * 20) + 'px';
+    var drift = (Math.floor(Math.random() * 3) - 1) * 80;
+    var flip = el.classList.contains('flip');
+    var crossAnim = flip
+      ? '@keyframes lfg-cross-back{to{transform:translateX(calc(-100vw - 140px)) translateY(' + drift + 'px);}}'
+      : '@keyframes lfg-cross{to{transform:translateX(calc(100vw + 140px)) translateY(' + drift + 'px);}}';
+    var s = document.createElement('style');
+    s.textContent = crossAnim;
+    document.head.appendChild(s);
+    var travel = 14 + Math.random() * 12;
     el.style.animationDuration = travel + 's';
     inner.style.animationDuration = (0.8 + Math.random() * 0.9).toFixed(2) + 's';
     document.body.appendChild(el);
