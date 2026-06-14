@@ -302,13 +302,11 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbx6rHobDjnx5PC4LI6zKQR
 
   var style = document.createElement('style');
   style.textContent =
-    '.lfg-creature{position:fixed;left:-70px;font-size:22px;z-index:60;pointer-events:none;' +
+    '.lfg-creature{position:fixed;left:-70px;z-index:60;pointer-events:none;' +
     'will-change:transform;animation:lfg-cross linear forwards;}' +
     '.lfg-creature span{display:inline-block;animation:lfg-bob ease-in-out infinite alternate;}' +
     '.lfg-creature.flip{left:auto;right:-70px;animation-name:lfg-cross-back;}' +
     '.lfg-creature.flip span{transform:scaleX(-1);}' +
-    '@keyframes lfg-cross{to{transform:translateX(calc(100vw + 140px));}}' +
-    '@keyframes lfg-cross-back{to{transform:translateX(calc(-100vw - 140px));}}' +
     '@keyframes lfg-bob{from{transform:translateY(-7px);}to{transform:translateY(7px);}}' +
     '[data-theme="phosphor"] .lfg-creature{filter:grayscale(1) sepia(1) hue-rotate(70deg) saturate(5) brightness(1.15);}';
   document.head.appendChild(style);
