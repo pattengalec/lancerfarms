@@ -61,7 +61,7 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8
     b.textContent = '\ud83c\udfa8';
     b.onclick = function () {
       var el = document.getElementById('mood');
-      if (!el) return;
+      if (!el || !el.hidden) return;
       el.hidden = false;
       el.classList.remove('leaving');
       var dot = el.querySelector('.dot');
