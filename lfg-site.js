@@ -305,9 +305,9 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8
     var crossAnim = flip
       ? '@keyframes lfg-cross-back{to{transform:translateX(calc(-100vw - 140px)) translateY(' + drift + 'px);}}'
       : '@keyframes lfg-cross{to{transform:translateX(calc(100vw + 140px)) translateY(' + drift + 'px);}}';
-    var s = document.createElement('style');
+    var s = document.getElementById('lfg-creature-anim');
+    if (!s) { s = document.createElement('style'); s.id = 'lfg-creature-anim'; document.head.appendChild(s); }
     s.textContent = crossAnim;
-    document.head.appendChild(s);
     var travel = 14 + Math.random() * 12;
     el.style.animationDuration = travel + 's';
     inner.style.animationDuration = (0.8 + Math.random() * 0.9).toFixed(2) + 's';
