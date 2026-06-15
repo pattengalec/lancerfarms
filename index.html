@@ -1002,7 +1002,7 @@ if (screenId === 'screen-photo-album') {
     if (screenId === 'screen-damage-inbox') { loadReportInbox(); }
     if (screenId === 'screen-manage-plants') { loadManagePlants(); }
     if (!options.fromHistory) {
-     if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
+    if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
       history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
     }
   }
