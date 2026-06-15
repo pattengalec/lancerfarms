@@ -996,6 +996,7 @@ margin: 24px auto;
       if (btn) btn.style.display = options.showUpload ? 'flex' : 'none';
     }
     if (!options.fromHistory) {
+     if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
       history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
     }
   }
