@@ -16,7 +16,6 @@
 /* Pre-paint: apply remembered theme before first render */
 (function(){try{
   var t=sessionStorage.getItem('lfg-theme'); if(t)document.documentElement.setAttribute('data-theme',t);
-
 }catch(e){}})();
 </script>
 <style>
@@ -36,9 +35,7 @@
     --shadow:   0 2px 16px rgba(44,26,14,0.13);
   }
 
-
-
- body {
+  body {
     font-family: 'Source Sans 3', sans-serif;
     background: var(--bg);
     color: var(--on-bg);
@@ -59,8 +56,8 @@
     position: relative;
     overflow-y: auto;
     box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.5);
-border-radius: 16px;
-margin: 24px auto;
+    border-radius: 16px;
+    margin: 24px auto;
   }
   .screen.active { display: flex; }
 
@@ -296,8 +293,8 @@ margin: 24px auto;
   .upload-preview .placeholder { font-size: 0.85rem; color: var(--on-bg-soft); opacity: 0.5; text-align: center; padding: 20px; }
   .upload-preview input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
 
- @media (min-width: 480px) {
-    body { background: transparent; }
+  @media (min-width: 480px) {
+    body { background: transparent !important; }
   }
   @media (min-width: 900px) {
     .screen { max-width: 720px; }
@@ -424,10 +421,7 @@ margin: 24px auto;
   </div>
 </div>
 
-
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: LANDING                            -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LANDING -->
 <div class="screen active" id="screen-landing">
   <div class="screen-body" style="justify-content:center; padding-top:40px;">
     <div class="hero-block">
@@ -447,9 +441,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: GUEST OPTIONS                      -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: GUEST OPTIONS -->
 <div class="screen" id="screen-guest-options">
   <div class="app-header"><h1>Lancer Farms & Gardens</h1><p>Guest Access</p></div>
   <div class="screen-body">
@@ -461,9 +453,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED SELECTOR (GUEST)               -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED SELECTOR (GUEST) -->
 <div class="screen" id="screen-bed-selector-guest">
   <div class="app-header"><h1>Select a Bed</h1><p>Guest View</p></div>
   <div class="screen-body">
@@ -484,9 +474,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED INFO (GUEST)                   -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED INFO (GUEST) -->
 <div class="screen" id="screen-bed-info-guest">
   <div class="app-header"><h1 id="bi-g-title">Garden Bed</h1><p id="bi-g-zone"></p></div>
   <div class="screen-body">
@@ -508,9 +496,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: DAMAGE REPORT                      -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: DAMAGE REPORT -->
 <div class="screen" id="screen-damage-report">
   <div class="app-header"><h1>Report an Issue</h1><p>Bed Z1-A1</p></div>
   <div class="screen-body">
@@ -521,9 +507,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ABOUT LFG                          -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ABOUT LFG -->
 <div class="screen" id="screen-about">
   <div class="app-header"><h1>About the Farm</h1><p>Our Story</p></div>
   <div class="screen-body">
@@ -533,9 +517,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: COMMENT / DONATE                   -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: COMMENT / DONATE -->
 <div class="screen" id="screen-comment-donate">
   <div class="app-header"><h1>Comment or Donate</h1><p>Support the Farm</p></div>
   <div class="screen-body">
@@ -544,9 +526,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: LEAVE COMMENT                      -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LEAVE COMMENT -->
 <div class="screen" id="screen-leave-comment">
   <div class="app-header"><h1>Leave a Comment</h1><p>For a Bed or the Farm</p></div>
   <div class="screen-body">
@@ -564,9 +544,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: PHOTO ALBUM                        -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: PHOTO ALBUM -->
 <div class="screen" id="screen-photo-album">
   <div class="app-header"><h1>Photo Album</h1><p>Lancer Farms & Gardens</p></div>
   <div class="screen-body">
@@ -575,9 +553,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: FIELD LOG                          -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: FIELD LOG -->
 <div class="screen" id="screen-field-log">
   <div class="app-header"><h1>Field Log</h1><p>Farm Journal · Staff</p></div>
   <div class="screen-body">
@@ -597,9 +573,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ALMANAC                            -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ALMANAC -->
 <div class="screen" id="screen-almanac">
   <div class="app-header"><h1>Farm Almanac</h1><p>Lancer Farms · Live Conditions</p></div>
   <div class="screen-body">
@@ -619,9 +593,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: LOGIN                              -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LOGIN -->
 <div class="screen" id="screen-login">
   <div class="app-header"><h1>Lancer Farms & Gardens</h1><p>Employee / Student</p></div>
   <div class="screen-body" style="justify-content:center;">
@@ -634,9 +606,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ALERT                              -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ALERT -->
 <div class="screen" id="screen-alert">
   <div class="app-header"><h1>Lancer Farms & Gardens</h1><p>Staff Dashboard</p></div>
   <div class="screen-body" style="justify-content:center;">
@@ -655,9 +625,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: DAMAGE REPORT INBOX               -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: DAMAGE REPORT INBOX -->
 <div class="screen" id="screen-damage-inbox">
   <div class="app-header"><h1>Damage Reports</h1><p>Pending Review</p></div>
   <div class="screen-body">
@@ -666,9 +634,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: EMPLOYEE OPTIONS                   -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: EMPLOYEE OPTIONS -->
 <div class="screen" id="screen-employee-options">
   <div class="app-header"><h1>Farm Dashboard</h1><p>Staff & Students</p></div>
   <div class="screen-body">
@@ -686,9 +652,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED SELECTOR (EMPLOYEE)            -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED SELECTOR (EMPLOYEE) -->
 <div class="screen" id="screen-bed-selector-employee">
   <div class="app-header"><h1>Select a Bed</h1><p>Staff Access</p></div>
   <div class="screen-body">
@@ -709,9 +673,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED INFO (EMPLOYEE)                -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED INFO (EMPLOYEE) -->
 <div class="screen" id="screen-bed-info-employee">
   <div class="app-header"><h1 id="bi-e-title">Garden Bed</h1><p id="bi-e-zone"></p></div>
   <div class="screen-body">
@@ -729,9 +691,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED PASSWORD                       -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED PASSWORD -->
 <div class="screen" id="screen-bed-password">
   <div class="app-header"><h1>Bed Access</h1><p id="bp-title">Bed Password Required</p></div>
   <div class="screen-body" style="justify-content:center;">
@@ -744,9 +704,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED CONFIGURATOR                   -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED CONFIGURATOR -->
 <div class="screen" id="screen-bed-configurator">
   <div class="app-header"><h1 id="bc-title">Manage Bed</h1><p>Configurator Unlocked</p></div>
   <div class="screen-body">
@@ -781,8 +739,6 @@ margin: 24px auto;
     </div>
     <button class="submit-btn" onclick="saveBedChanges()">Save Changes</button>
     <button class="manage-btn" onclick="go('screen-bed-photos'); loadBedPhotos();" style="margin-top:10px;">📷 View Photos for This Bed</button>
-
-    <!-- SIMPLE PLANTS SUMMARY -->
     <div style="margin-top:24px;">
       <p class="section-label" style="margin-bottom:10px;">🌱 Active Plants</p>
       <div id="bc-plants-list" style="display:flex;flex-direction:column;gap:8px;">
@@ -792,11 +748,9 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: MANAGE PLANTS                      -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: MANAGE PLANTS -->
 <div class="screen" id="screen-manage-plants">
-<div class="app-header">
+  <div class="app-header">
     <button onclick="go('screen-bed-configurator')" style="position:absolute;left:16px;top:18px;background:none;border:none;color:var(--on-accent,var(--straw));font-size:1.2rem;cursor:pointer;">‹</button>
     <h1 id="mp-title">Plants</h1><p>Add or Remove</p>
   </div>
@@ -809,11 +763,9 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ADD PLANT                          -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ADD PLANT -->
 <div class="screen" id="screen-add-plant">
-<div class="app-header">
+  <div class="app-header">
     <button onclick="go('screen-manage-plants'); loadManagePlants();" style="position:absolute;left:16px;top:18px;background:none;border:none;color:var(--on-accent,var(--straw));font-size:1.2rem;cursor:pointer;">‹</button>
     <h1>Add a Plant</h1><p id="ap-bed-label">Bed</p>
   </div>
@@ -863,9 +815,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED PHOTOS                         -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED PHOTOS -->
 <div class="screen" id="screen-bed-photos">
   <div class="app-header"><h1 id="bp-photos-title">Bed Photos</h1><p>Tap a photo to enlarge</p></div>
   <div class="screen-body">
@@ -873,9 +823,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: TOOLS INVENTORY                    -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: TOOLS INVENTORY -->
 <div class="screen" id="screen-tools-inventory">
   <div class="app-header"><h1>Tool Inventory</h1><p>Reference List · Admin Managed</p></div>
   <div class="screen-body">
@@ -891,9 +839,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: CONSUMABLES                        -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: CONSUMABLES -->
 <div class="screen" id="screen-consumables">
   <div class="app-header"><h1>Supplies & Consumables</h1><p>Live Inventory</p></div>
   <div class="screen-body">
@@ -909,9 +855,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: REQUESTS                           -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: REQUESTS -->
 <div class="screen" id="screen-requests">
   <div class="app-header"><h1>Submit a Request</h1><p>Outside Assistance</p></div>
   <div class="screen-body">
@@ -922,9 +866,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: REQUEST FORM                       -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: REQUEST FORM -->
 <div class="screen" id="screen-request-form">
   <div class="app-header"><h1>Resupply Request</h1><p>Sent to Admin</p></div>
   <div class="screen-body">
@@ -944,9 +886,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ADMIN PANEL                        -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ADMIN PANEL -->
 <div class="screen" id="screen-admin">
   <div class="app-header"><h1>Admin Panel</h1><p>Master Access</p></div>
   <div class="screen-body">
@@ -981,7 +921,8 @@ margin: 24px auto;
   </div>
 </div>
 
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwseMinOKfwzdSoxkL89o7YtGq2KrOD0FDemKwgkIsVhK-JU7lhGfOVAuDvUv3Qiefz_Q/exec';
+<script>
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwseMinOKfwzdSoxkL89o7YtGq2KrOD0FDemKwgkIsVhK-JU7lhGfOVAuDvUv3Qiefz_Q/exec';
   const PUBLIC_API  = WEB_APP_URL;
   const CLOUD_NAME  = 'ddbsuxerb';
   const UPLOAD_PRESET = 'lfg-photos';
