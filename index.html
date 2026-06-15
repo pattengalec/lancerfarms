@@ -981,8 +981,7 @@ margin: 24px auto;
   </div>
 </div>
 
-<script>
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwseMinOKfwzdSoxkL89o7YtGq2KrOD0FDemKwgkIsVhK-JU7lhGfOVAuDvUv3Qiefz_Q/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwseMinOKfwzdSoxkL89o7YtGq2KrOD0FDemKwgkIsVhK-JU7lhGfOVAuDvUv3Qiefz_Q/exec';
   const PUBLIC_API  = WEB_APP_URL;
   const CLOUD_NAME  = 'ddbsuxerb';
   const UPLOAD_PRESET = 'lfg-photos';
@@ -992,7 +991,7 @@ margin: 24px auto;
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(screenId);
     if (target) { target.classList.add('active'); target.scrollTop = 0; }
-if (screenId === 'screen-photo-album') {
+    if (screenId === 'screen-photo-album') {
       loadAlbum();
       const btn = document.getElementById('album-upload-btn');
       if (btn) btn.style.display = options.showUpload ? 'flex' : 'none';
@@ -1001,7 +1000,6 @@ if (screenId === 'screen-photo-album') {
     if (screenId === 'screen-almanac') { loadAlmanac(); }
     if (screenId === 'screen-damage-inbox') { loadReportInbox(); }
     if (screenId === 'screen-manage-plants') { loadManagePlants(); }
-    if (!options.fromHistory) {
     if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
       history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
     }
@@ -1049,10 +1047,10 @@ if (screenId === 'screen-photo-album') {
   const LOCATION_NAMES = { SEED: 'Seed Starting Station', ORCH: 'Orchard Trees', COMP: 'Compost Area', FARM: 'General Farm' };
 
   async function fetchBeds() {
-    if (bedsCache) return bedsCache;
+    if (bedsCache && (Date.now() - bedsCacheTime) < 300000) return bedsCache;
     const res = await fetch(PUBLIC_API + '?view=beds');
     const data = await res.json();
-   bedsCache = (data.ok && data.beds) ? data.beds : [];
+    bedsCache = (data.ok && data.beds) ? data.beds : [];
     bedsCacheTime = Date.now();
     return bedsCache;
   }
@@ -1104,7 +1102,7 @@ if (screenId === 'screen-photo-album') {
       const photos = (data.ok && data.photos) ? data.photos : [];
       const mine = photos.filter(ph => String(ph.BedID || '').trim().toUpperCase() === String(bed).trim().toUpperCase());
       if (!mine.length) { box.innerHTML = '<div class="photo-empty">No photos yet for this bed — add one from the Photo Album!</div>'; return; }
-     let html = '<div class="photo-grid">';
+      let html = '<div class="photo-grid">';
       mine.forEach(ph => {
         const full = String(ph.CloudinaryURL || '');
         if (!full) return;
@@ -1142,7 +1140,7 @@ if (screenId === 'screen-photo-album') {
           const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
           const bed = String(ph.BedID || '');
           const label = LOCATION_NAMES[bed] || ('Bed ' + bed);
- const cap = String(ph.Caption || label);
+          const cap = String(ph.Caption || label);
           const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
           const idx = lbData.length;
           lbData.push({ src: full, title: cap, date: when });
@@ -1272,7 +1270,7 @@ if (screenId === 'screen-photo-album') {
     } catch (e) { showToast('Could not save — check connection'); }
   }
 
-// ── LOGIN ──
+  // ── LOGIN ──
   var loginAttempts = 0;
   var loginLocked = false;
   async function handleLogin() {
@@ -1302,7 +1300,7 @@ if (screenId === 'screen-photo-album') {
     return isNaN(d) ? '' : d.toISOString().slice(0, 10);
   }
 
- var bedAttempts = 0;
+  var bedAttempts = 0;
   var bedLocked = false;
   async function checkBedPassword() {
     if (bedLocked) { showToast('Too many attempts — wait 30 seconds'); return; }
@@ -1321,7 +1319,7 @@ if (screenId === 'screen-photo-album') {
         document.getElementById('bp-password').value = '';
         prefillConfigurator();
         go('screen-bed-configurator');
-     } else {
+      } else {
         bedAttempts++;
         if (bedAttempts >= 3) {
           bedLocked = true;
@@ -1401,7 +1399,6 @@ if (screenId === 'screen-photo-album') {
     );
   }
 
-  // Simple summary list on configurator screen
   async function loadBedPlants() {
     const box = document.getElementById('bc-plants-list');
     if (!box) return;
@@ -1416,7 +1413,7 @@ if (screenId === 'screen-photo-album') {
       box.innerHTML = active.map(p => {
         const name = String(p['Plant Name'] || '');
         const qty = String(p.Quantity || '');
-      const harvest = p.EstHarvest ? fmtDate(p.EstHarvest) : '';
+        const harvest = p.EstHarvest ? fmtDate(p.EstHarvest) : '';
         return `<div class="info-row">
           <span class="label">${name}</span>
           <span class="value">${qty ? qty + (harvest ? ' · Est: ' + harvest : '') : (harvest ? 'Est: ' + harvest : '—')}</span>
@@ -1441,7 +1438,6 @@ if (screenId === 'screen-photo-album') {
     }
   }
 
-  // Full manage plants screen
   async function loadManagePlants() {
     const titleEl = document.getElementById('mp-title');
     if (titleEl) titleEl.textContent = 'Plants — Bed ' + (currentBed || '');
@@ -1459,8 +1455,8 @@ if (screenId === 'screen-photo-album') {
         const name = String(p['Plant Name'] || '');
         const qty = String(p.Quantity || '');
         const note = String(p.Note || '');
-     const planted = p.DatePlanted ? fmtDate(p.DatePlanted) : '';
-      const harvest = p.EstHarvest ? fmtDate(p.EstHarvest) : '';
+        const planted = p.DatePlanted ? fmtDate(p.DatePlanted) : '';
+        const harvest = p.EstHarvest ? fmtDate(p.EstHarvest) : '';
         return `<div class="inventory-item" id="mp-row-${id}" style="flex-direction:column;align-items:stretch;gap:6px;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div>
@@ -1516,11 +1512,9 @@ if (screenId === 'screen-photo-album') {
     } catch(e) { showToast('Could not remove — check connection'); }
   }
 
-  // Add plant screen
   async function loadAddPlantScreen() {
     const labelEl = document.getElementById('ap-bed-label');
     if (labelEl) labelEl.textContent = 'Bed ' + (currentBed || '');
-    // reset fields
     document.getElementById('bc-plant-select').value = '';
     document.getElementById('bc-plant-quantity').value = '';
     document.getElementById('bc-plant-note').value = '';
@@ -1630,7 +1624,7 @@ if (screenId === 'screen-photo-album') {
       const id = String(r.ReportID);
       const label = (LOCATION_NAMES[r.BedID] || ('Bed ' + r.BedID)) + ' · ' + String(r.Type || 'Issue');
       const when = r.ReportedAt ? fmtDate(r.ReportedAt) : '';
-return '<div class="inventory-item low-stock" id="rep-' + esc(id) + '" style="flex-direction:column;align-items:stretch;gap:8px;">' +
+      return '<div class="inventory-item low-stock" id="rep-' + esc(id) + '" style="flex-direction:column;align-items:stretch;gap:8px;">' +
         '<div><div class="item-name">' + esc(label) + '</div><div class="item-sub">Reported ' + esc(when) + '</div><div class="item-sub" style="margin-top:4px;">&quot;' + esc(String(r.Description || '')) + '&quot;</div></div>' +
         '<div id="rep-act-' + esc(id) + '"><button onclick="showResolve(\'' + esc(id) + '\')" style="background:var(--accent);color:white;border:none;border-radius:6px;padding:8px 14px;font-size:0.8rem;cursor:pointer;">Resolve</button></div></div>';
     }).join('');
@@ -1662,7 +1656,7 @@ return '<div class="inventory-item low-stock" id="rep-' + esc(id) + '" style="fl
   }
 
   // ── LIGHTBOX ──
- function openLightbox(idx) {
+  function openLightbox(idx) {
     var d = lbData[idx];
     if (!d) return;
     document.getElementById('lightbox-img').src = d.src;
@@ -1742,7 +1736,3 @@ return '<div class="inventory-item low-stock" id="rep-' + esc(id) + '" style="fl
       });
     });
   });
-</script>
-<script src="lfg-site.js" defer></script>
-</body>
-</html>
