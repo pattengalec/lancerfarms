@@ -1266,8 +1266,11 @@ margin: 24px auto;
     } catch (e) { showToast('Could not save — check connection'); }
   }
 
-  // ── LOGIN ──
+// ── LOGIN ──
+  var loginAttempts = 0;
+  var loginLocked = false;
   async function handleLogin() {
+    if (loginLocked) { showToast('Too many attempts — wait 30 seconds'); return; }
     const pw = document.getElementById('login-password').value;
     const res = await fetch(WEB_APP_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw }) });
     const data = await res.json();
