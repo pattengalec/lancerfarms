@@ -1023,6 +1023,12 @@ margin: 24px auto;
   }
 
   // ── UTILITIES ──
+  function esc(s) {
+    var d = document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  var lbData = [];
   function fmtDate(iso) {
     try { return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
     catch (e) { return ''; }
@@ -1095,16 +1101,18 @@ margin: 24px auto;
       const photos = (data.ok && data.photos) ? data.photos : [];
       const mine = photos.filter(ph => String(ph.BedID || '').trim().toUpperCase() === String(bed).trim().toUpperCase());
       if (!mine.length) { box.innerHTML = '<div class="photo-empty">No photos yet for this bed — add one from the Photo Album!</div>'; return; }
-      let html = '<div class="photo-grid">';
+     let html = '<div class="photo-grid">';
       mine.forEach(ph => {
         const full = String(ph.CloudinaryURL || '');
         if (!full) return;
         const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
         const label = LOCATION_NAMES[bed] || ('Bed ' + bed);
-        const cap = String(ph.Caption || label).replace(/"/g, '&quot;').replace(/'/g, "\\'");
+        const cap = String(ph.Caption || label);
         const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
-        html += '<div class="photo-thumb" onclick="openLightbox(\'' + full + '\', \'' + cap + '\', \'' + when + '\')">' +
-                '<img src="' + thumb + '" alt="' + label + '" loading="lazy"></div>';
+        const idx = lbData.length;
+        lbData.push({ src: full, title: cap, date: when });
+        html += '<div class="photo-thumb" onclick="openLightbox(' + idx + ')">' +
+                '<img src="' + esc(thumb) + '" alt="' + esc(label) + '" loading="lazy"></div>';
       });
       html += '</div>';
       box.innerHTML = html;
@@ -1131,10 +1139,12 @@ margin: 24px auto;
           const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
           const bed = String(ph.BedID || '');
           const label = LOCATION_NAMES[bed] || ('Bed ' + bed);
-          const cap = String(ph.Caption || label).replace(/"/g, '&quot;').replace(/'/g, "\\'");
+ const cap = String(ph.Caption || label);
           const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
-          h += '<div class="photo-thumb" onclick="openLightbox(\'' + full + '\', \'' + cap + '\', \'' + when + '\')">' +
-               '<img src="' + thumb + '" alt="' + label + '" loading="lazy"><span class="bed-tag">' + bed + '</span></div>';
+          const idx = lbData.length;
+          lbData.push({ src: full, title: cap, date: when });
+          h += '<div class="photo-thumb" onclick="openLightbox(' + idx + ')">' +
+               '<img src="' + esc(thumb) + '" alt="' + esc(label) + '" loading="lazy"><span class="bed-tag">' + esc(bed) + '</span></div>';
         });
         return h + '</div>';
       };
@@ -1239,8 +1249,7 @@ margin: 24px auto;
         const loc = String(en.BedID || '');
         const label = LOCATION_NAMES[loc] || (loc ? 'Bed ' + loc : 'Farm');
         const when = en.When ? fmtDate(en.When) : '';
-        const note = String(en.What || '').replace(/</g, '&lt;');
-        return '<div class="comment-item"><div class="comment-meta">' + label + ' · ' + when + '</div><p>' + note + '</p></div>';
+        return '<div class="comment-item"><div class="comment-meta">' + esc(label) + ' · ' + esc(when) + '</div><p>' + esc(String(en.What || '')) + '</p></div>';
       }).join('');
     } catch (e) { feed.innerHTML = '<div class="comment-item"><p>Could not load entries.</p></div>'; }
   }
@@ -1594,10 +1603,9 @@ margin: 24px auto;
       const id = String(r.ReportID);
       const label = (LOCATION_NAMES[r.BedID] || ('Bed ' + r.BedID)) + ' · ' + String(r.Type || 'Issue');
       const when = r.ReportedAt ? fmtDate(r.ReportedAt) : '';
-      const desc = String(r.Description || '').replace(/</g, '&lt;');
-      return '<div class="inventory-item low-stock" id="rep-' + id + '" style="flex-direction:column;align-items:stretch;gap:8px;">' +
-        '<div><div class="item-name">' + label + '</div><div class="item-sub">Reported ' + when + '</div><div class="item-sub" style="margin-top:4px;">&quot;' + desc + '&quot;</div></div>' +
-        '<div id="rep-act-' + id + '"><button onclick="showResolve(&quot;' + id + '&quot;)" style="background:var(--accent);color:white;border:none;border-radius:6px;padding:8px 14px;font-size:0.8rem;cursor:pointer;">Resolve</button></div></div>';
+return '<div class="inventory-item low-stock" id="rep-' + esc(id) + '" style="flex-direction:column;align-items:stretch;gap:8px;">' +
+        '<div><div class="item-name">' + esc(label) + '</div><div class="item-sub">Reported ' + esc(when) + '</div><div class="item-sub" style="margin-top:4px;">&quot;' + esc(String(r.Description || '')) + '&quot;</div></div>' +
+        '<div id="rep-act-' + esc(id) + '"><button onclick="showResolve(\'' + esc(id) + '\')" style="background:var(--accent);color:white;border:none;border-radius:6px;padding:8px 14px;font-size:0.8rem;cursor:pointer;">Resolve</button></div></div>';
     }).join('');
   }
 
@@ -1627,10 +1635,12 @@ margin: 24px auto;
   }
 
   // ── LIGHTBOX ──
-  function openLightbox(src, title, date) {
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox-title').textContent = title;
-    document.getElementById('lightbox-date').textContent = date;
+ function openLightbox(idx) {
+    var d = lbData[idx];
+    if (!d) return;
+    document.getElementById('lightbox-img').src = d.src;
+    document.getElementById('lightbox-title').textContent = d.title;
+    document.getElementById('lightbox-date').textContent = d.date;
     document.getElementById('lightbox').classList.add('open');
   }
   function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
