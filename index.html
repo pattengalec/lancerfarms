@@ -1039,7 +1039,7 @@ margin: 24px auto;
   }
 
   // ── BED DATA ──
-  let bedsCache = null, currentBed = null;
+  let bedsCache = null, bedsCacheTime = 0, currentBed = null;
   const LOCATION_NAMES = { SEED: 'Seed Starting Station', ORCH: 'Orchard Trees', COMP: 'Compost Area', FARM: 'General Farm' };
 
   async function fetchBeds() {
