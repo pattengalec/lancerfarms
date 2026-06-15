@@ -986,15 +986,15 @@ margin: 24px auto;
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(screenId);
     if (target) { target.classList.add('active'); target.scrollTop = 0; }
-    if (screenId === 'screen-photo-album') { loadAlbum(); }
+if (screenId === 'screen-photo-album') {
+      loadAlbum();
+      const btn = document.getElementById('album-upload-btn');
+      if (btn) btn.style.display = options.showUpload ? 'flex' : 'none';
+    }
     if (screenId === 'screen-field-log') { loadFieldLog(); }
     if (screenId === 'screen-almanac') { loadAlmanac(); }
     if (screenId === 'screen-damage-inbox') { loadReportInbox(); }
     if (screenId === 'screen-manage-plants') { loadManagePlants(); }
-    if (screenId === 'screen-photo-album') {
-      const btn = document.getElementById('album-upload-btn');
-      if (btn) btn.style.display = options.showUpload ? 'flex' : 'none';
-    }
     if (!options.fromHistory) {
      if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
       history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
