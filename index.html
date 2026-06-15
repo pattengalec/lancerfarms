@@ -1046,7 +1046,8 @@ margin: 24px auto;
     if (bedsCache) return bedsCache;
     const res = await fetch(PUBLIC_API + '?view=beds');
     const data = await res.json();
-    bedsCache = (data.ok && data.beds) ? data.beds : [];
+   bedsCache = (data.ok && data.beds) ? data.beds : [];
+    bedsCacheTime = Date.now();
     return bedsCache;
   }
 
