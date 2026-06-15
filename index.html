@@ -1257,7 +1257,7 @@ margin: 24px auto;
     if (!pw) { showToast('Please sign in again'); go('screen-login'); return; }
     showToast('⏳ Saving…');
     try {
-      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addLog', password: pw, location: document.getElementById('log-location').value, note }) });
+      const res = await fetch(PUBLIC_API, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'addLog', password: pw, location: document.getElementById('log-location').value, note }) });
       const data = await res.json();
       if (data.ok) { showToast('✓ Logged'); document.getElementById('log-note').value = ''; loadFieldLog(); }
       else if (data.error === 'auth') { sessionStorage.removeItem('adminToken'); showToast('Session expired — sign in again'); go('screen-login'); }
@@ -1268,7 +1268,7 @@ margin: 24px auto;
   // ── LOGIN ──
   async function handleLogin() {
     const pw = document.getElementById('login-password').value;
-    const res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw }) });
+    const res = await fetch(WEB_APP_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw }) });
     const data = await res.json();
     if (data.ok) { sessionStorage.setItem('adminToken', pw); enterStaff(); }
     else showToast('Incorrect password');
@@ -1288,10 +1288,10 @@ margin: 24px auto;
     if (!pw) { showToast('Enter a password'); return; }
     showToast('⏳ Checking…');
     try {
-      let res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkPassword', bedId: currentBed, password: pw }) });
+      let res = await fetch(WEB_APP_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'checkPassword', bedId: currentBed, password: pw }) });
       let data = await res.json();
       if (!data.ok) {
-        res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw }) });
+        res = await fetch(WEB_APP_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw }) });
         data = await res.json();
       }
       if (data.ok) {
@@ -1339,7 +1339,7 @@ margin: 24px auto;
       BlessingRef: document.getElementById('bc-blessing-ref').value
     };
     try {
-      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields }) });
+      const res = await fetch(PUBLIC_API, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields }) });
       const data = await res.json();
       if (data.ok) { showToast('✓ Bed updated successfully'); bedsCache = null; await selectBed(currentBed, 'employee'); }
       else if (data.error === 'auth') { sessionStorage.removeItem('bedToken'); showToast('Session expired — re-enter bed password'); go('screen-bed-password'); }
@@ -1404,7 +1404,7 @@ margin: 24px auto;
     if (window._plantActionInProgress && currentBed) {
       const pw = sessionStorage.getItem('bedToken');
       if (pw) {
-        fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields: { CurrentlyGrowing: names } }) }).catch(() => {});
+        fetch(PUBLIC_API, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'updateBed', password: pw, bedId: currentBed, fields: { CurrentlyGrowing: names } }) }).catch(() => {});
       }
       window._plantActionInProgress = false;
     }
@@ -1473,7 +1473,7 @@ margin: 24px auto;
     window._plantActionInProgress = true;
     showToast('⏳ Removing…');
     try {
-      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'removeActivePlant', password: pw, recordId: id, disposition: disp }) });
+      const res = await fetch(PUBLIC_API, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'removeActivePlant', password: pw, recordId: id, disposition: disp }) });
       const data = await res.json();
       if (data.ok) {
         showToast('✓ Plant removed');
@@ -1545,10 +1545,10 @@ margin: 24px auto;
     try {
       if (isOther) {
         const category = document.getElementById('bc-other-plant-category').value;
-        await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addToMasterPlantList', password: pw, plantName, category }) });
+        await fetch(PUBLIC_API, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'addToMasterPlantList', password: pw, plantName, category }) });
         masterPlantsCache = null;
       }
-      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addActivePlant', password: pw, bedId: currentBed, plantName, quantity: qty, note, datePlanted, estHarvest }) });
+      const res = await fetch(PUBLIC_API, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'addActivePlant', password: pw, bedId: currentBed, plantName, quantity: qty, note, datePlanted, estHarvest }) });
       const data = await res.json();
       if (data.ok) {
         showToast('✓ Plant logged!');
@@ -1567,7 +1567,7 @@ margin: 24px auto;
     if (!desc) { showToast('Please describe what you saw'); return; }
     showToast('⏳ Sending…');
     try {
-      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addReport', bedId: currentBed || 'FARM', type: document.getElementById('dr-type').value, description: desc }) });
+      const res = await fetch(PUBLIC_API, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'addReport', bedId: currentBed || 'FARM', type: document.getElementById('dr-type').value, description: desc }) });
       const data = await res.json();
       if (data.ok) { showToast('✓ Report submitted — thank you'); document.getElementById('dr-desc').value = ''; go(sessionStorage.getItem('adminToken') ? 'screen-bed-info-employee' : 'screen-bed-info-guest'); }
       else showToast('Could not send — try again');
@@ -1617,7 +1617,7 @@ return '<div class="inventory-item low-stock" id="rep-' + esc(id) + '" style="fl
     if (!pw) { showToast('Please sign in again'); go('screen-login'); return; }
     showToast('⏳ Resolving…');
     try {
-      const res = await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'resolveReport', password: pw, id, note }) });
+      const res = await fetch(PUBLIC_API, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'resolveReport', password: pw, id, note }) });
       const data = await res.json();
       if (data.ok) {
         showToast('✓ Resolved');
@@ -1672,7 +1672,7 @@ return '<div class="inventory-item low-stock" id="rep-' + esc(id) + '" style="fl
     const caption = document.getElementById('upload-caption').value;
     const stored = sessionStorage.getItem('adminToken');
     const password = stored || document.getElementById('upload-password').value;
-    const pwRes = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password }) });
+    const pwRes = await fetch(WEB_APP_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password }) });
     const pwData = await pwRes.json();
     if (!pwData.ok) {
       if (stored) { sessionStorage.removeItem('adminToken'); document.getElementById('upload-password').style.display = ''; showToast('Session expired — enter password'); }
@@ -1690,7 +1690,7 @@ return '<div class="inventory-item low-stock" id="rep-' + esc(id) + '" style="fl
       const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
       const data = await res.json();
       if (data.secure_url) {
-        try { await fetch(PUBLIC_API, { method: 'POST', body: JSON.stringify({ action: 'addPhoto', password, bedId: bed, caption, url: data.secure_url, thumb: data.secure_url.replace('/upload/', '/upload/w_300,h_300,c_fill/') }) }); } catch (e) {}
+        try { await fetch(PUBLIC_API, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'addPhoto', password, bedId: bed, caption, url: data.secure_url, thumb: data.secure_url.replace('/upload/', '/upload/w_300,h_300,c_fill/') }) }); } catch (e) {}
         showToast('✓ Photo uploaded!');
         closeUploadModal();
         loadAlbum();
