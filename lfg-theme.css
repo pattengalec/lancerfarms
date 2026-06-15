@@ -237,3 +237,16 @@ body:not(.craft) .rule { height: 1px; background: var(--mist); border: none; }
 
 .fb-panel.open { display: block; }
 .fb-panel label { font-size: 11px; letter-spacing: 1.5px; color: var(--ink-soft); text-transform: uppercase; }
+    @media (min-width: 480px) {
+  html {
+    background-image:
+      linear-gradient(rgba(10,8,2,0.45), rgba(10,8,2,0.45)),
+      url('https://res.cloudinary.com/ddbsuxerb/image/upload/v1781492414/pattengalec_A_lush_pollinator_garden_raised_bed_at_golden_hou_2509ae48-15ef-44d1-abff-84cd0e74328e_0_zti6wr.png');
+    background-size: cover;
+    background-position: 30% center;
+    background-attachment: fixed;
+  }
+  body {
+    background: transparent;
+  }
+}
