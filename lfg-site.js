@@ -188,6 +188,18 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8
         }, 650);
       }
       box.addEventListener('pointerdown', function (e) { pick(e.clientX, e.clientY, box.getBoundingClientRect()); }, { once: true });
+       box.addEventListener('keydown', function (e) {
+        if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' '].indexOf(e.key) === -1) return;
+        e.preventDefault();
+        var rect = box.getBoundingClientRect();
+        var cx = rect.left + rect.width / 2;
+        var cy = rect.top + rect.height / 2;
+        if (e.key === 'ArrowRight') cx += rect.width * 0.3;
+        if (e.key === 'ArrowLeft') cx -= rect.width * 0.3;
+        if (e.key === 'ArrowUp') cy -= rect.height * 0.3;
+        if (e.key === 'ArrowDown') cy += rect.height * 0.3;
+        pick(cx, cy, rect);
+      }, { once: true });
       var skip = el.querySelector('.mood-skip');
       if (skip) skip.onclick = function () {
         el.classList.add('leaving');
