@@ -1275,7 +1275,16 @@ margin: 24px auto;
     const res = await fetch(WEB_APP_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ action: 'checkPassword', bedId: 'MASTER', password: pw }) });
     const data = await res.json();
     if (data.ok) { sessionStorage.setItem('adminToken', pw); enterStaff(); }
-    else showToast('Incorrect password');
+    else {
+      loginAttempts++;
+      if (loginAttempts >= 3) {
+        loginLocked = true;
+        showToast('Too many attempts — locked for 30 seconds');
+        setTimeout(function() { loginLocked = false; loginAttempts = 0; }, 30000);
+      } else {
+        showToast('Incorrect password — ' + (3 - loginAttempts) + ' attempts left');
+      }
+    }
   }
 
   // ── BED CONFIGURATOR ──
@@ -1287,7 +1296,10 @@ margin: 24px auto;
     return isNaN(d) ? '' : d.toISOString().slice(0, 10);
   }
 
+ var bedAttempts = 0;
+  var bedLocked = false;
   async function checkBedPassword() {
+    if (bedLocked) { showToast('Too many attempts — wait 30 seconds'); return; }
     const pw = document.getElementById('bp-password').value;
     if (!pw) { showToast('Enter a password'); return; }
     showToast('⏳ Checking…');
@@ -1303,7 +1315,16 @@ margin: 24px auto;
         document.getElementById('bp-password').value = '';
         prefillConfigurator();
         go('screen-bed-configurator');
-      } else showToast('⛔ Incorrect password');
+     } else {
+        bedAttempts++;
+        if (bedAttempts >= 3) {
+          bedLocked = true;
+          showToast('Too many attempts — locked for 30 seconds');
+          setTimeout(function() { bedLocked = false; bedAttempts = 0; }, 30000);
+        } else {
+          showToast('⛔ Incorrect password — ' + (3 - bedAttempts) + ' attempts left');
+        }
+      }
     } catch (e) { showToast('Could not verify — check connection'); }
   }
 
