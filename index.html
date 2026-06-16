@@ -165,7 +165,30 @@
 </style>
 </head>
 <body>
-
+<div id="splash-screen">
+<img src="lfg-logo.png" alt="Lancer Farms and Gardens">
+<p>California Baptist University</p>
+</div>
+<script>
+(function(){
+var splash = document.getElementById('splash-screen');
+if (!splash) return;
+if (sessionStorage.getItem('lfg-splash-shown')) {
+splash.style.display = 'none';
+return;
+}
+sessionStorage.setItem('lfg-splash-shown', '1');
+function dismiss(){
+splash.classList.add('splash-hide');
+splash.removeEventListener('click', dismiss);
+}
+splash.addEventListener('click', dismiss);
+splash.addEventListener('animationend', function(e){
+if (e.animationName === 'splashOut') { splash.style.display = 'none'; }
+});
+setTimeout(dismiss, 2200);
+})();
+</script>
 <!-- MOOD PICKER -->
 <section id="mood" class="overlay-screen" hidden>
   <div class="panel">
