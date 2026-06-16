@@ -42,19 +42,19 @@
 }
 
 [data-theme="ballpark"] {
-  --bg:        #1A3A1A;
-  --surface:   #162F16;
-  --surface2:  #1A3A1A;
-  --mist:      #2A4A2A;
-  --ink:       #F5F0E8;
-  --ink-soft:  #C8B87A;
+  --bg:        #2E2E2E;
+  --surface:   #262626;
+  --surface2:  #2E2E2E;
+  --mist:      #3A3A3A;
+  --ink:       #F0EDE6;
+  --ink-soft:  #A8A39A;
   --accent:    #E8312A;
   --accent-2:  #F5C842;
   --on-accent: #FDFAF4;
   --alert:     #F5C842;
-  --on-alert:  #1A3A1A;
-  --card:      #1A3A1A;
-  --card-border: #2A4A2A;
+  --on-alert:  #2E2E2E;
+  --card:      #383838;
+  --card-border: #4A4A4A;
   --shadow:    0 2px 16px rgba(0,0,0,0.30);
 }
 
