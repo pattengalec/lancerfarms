@@ -666,16 +666,17 @@ if (!options.fromHistory && (!history.state || history.state.lfgScreen !== scree
 history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
 }
 }
-if (current) {
-current.classList.add('leaving');
-current.addEventListener('animationend', function h(){
-current.classList.remove('active','leaving');
-current.removeEventListener('animationend', h);
-activate();
-}, { once: true });
-} else {
-activate();
-}
+if (current && !options.fromHistory) {
+    current.classList.add('leaving');
+    current.addEventListener('animationend', function h(){
+      current.classList.remove('active','leaving');
+      current.removeEventListener('animationend', h);
+      activate();
+    }, { once: true });
+  } else {
+    if (current) current.classList.remove('active','leaving','entering');
+    activate();
+  }
 }
 
  window.addEventListener('popstate', function(e) {
