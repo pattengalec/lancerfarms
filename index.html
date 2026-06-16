@@ -294,9 +294,14 @@ setTimeout(dismiss, 3400);
 </div>
 
 <!-- SCREEN: LANDING -->
-<div class="screen active" id="screen-landing">
-  <div class="screen-body" style="justify-content:center;padding-top:40px;">
-   <div class="hero-block">
+<div class="screen-body" style="justify-content:center;padding-top:40px;">
+    <div class="util-links">
+      <a onclick="go('screen-landing')">Home</a>
+      <a onclick="go('screen-login')">Admin</a>
+      <a href="mailto:chad@getgrush.com">Contact Us</a>
+      <a onclick="saveAndExit()">Save &amp; Exit</a>
+    </div>
+    <div class="hero-block">
       <img src="lfg-wordmark.png" alt="Lancer Farms and Gardens" style="width:100%;margin-bottom:6px;">
       <p>California Baptist University</p>
     </div>
