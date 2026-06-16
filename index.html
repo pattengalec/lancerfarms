@@ -690,8 +690,8 @@
       const blEl = document.getElementById('bi-' + x + '-blessing');
       if (blEl) blEl.closest('.blessing-block').style.display = bless ? '' : 'none';
       set('blessing', bless);
-      const citeV = v([/cite/i, /reference/i]);
-     const citeV = v([/cite/i, /reference/i, /blessingref/i]);
+const citeV = v([/cite/i, /reference/i, /blessingref/i]);
+      set('cite', citeV ? '— ' + citeV : '');
     } catch(e) { set('crop', 'Could not load bed data'); }
   }
 
