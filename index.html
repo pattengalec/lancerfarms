@@ -1194,7 +1194,11 @@
   function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
   // UPLOAD MODAL
-  function openUploadModal() { document.getElementById('upload-modal').classList.add('open'); }
+  // UPLOAD MODAL
+  function openUploadModal() {
+    document.getElementById('upload-modal').classList.add('open');
+    history.pushState({ modalOpen: 'upload' }, '', location.href);
+  }
   function closeUploadModal() {
     document.getElementById('upload-modal').classList.remove('open');
     document.getElementById('preview-img').style.display = 'none';
