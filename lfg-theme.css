@@ -25,19 +25,19 @@
 }
 
 [data-theme="meadow"] {
-  --bg:        #F5F0E8;
-  --surface:   #EDE8DC;
-  --surface2:  #F5F0E8;
-  --mist:      #DDD8CC;
-  --ink:       #4A3D28;
-  --ink-soft:  #7A6A4A;
+  --bg:        #2E2E2E;
+  --surface:   #262626;
+  --surface2:  #2E2E2E;
+  --mist:      #3A3A3A;
+  --ink:       #F0EDE6;
+  --ink-soft:  #A8A39A;
   --accent:    #E8943A;
   --accent-2:  #7AB87A;
   --on-accent: #FDFAF4;
   --alert:     #C84B8A;
   --on-alert:  #FDF0F7;
-  --card:      #F5F0E8;
-  --card-border: #DDD8CC;
+  --card:      #383838;
+  --card-border: #4A4A4A;
   --shadow:    0 2px 16px rgba(74,61,40,0.10);
 }
 
