@@ -693,6 +693,24 @@
 const citeV = v([/cite/i, /reference/i, /blessingref/i]);
       set('cite', citeV ? '— ' + citeV : '');
     } catch(e) { set('crop', 'Could not load bed data'); }
+    if (mode === 'guest') loadBedComments(bedId);
+  }
+
+  async function loadBedComments(bedId) {
+    const box = document.getElementById('bi-g-comments');
+    if (!box) return;
+    box.innerHTML = '<div class="comment-item"><p>Loading…</p></div>';
+    try {
+      const res = await fetch(PUBLIC_API + '?view=comments');
+      const data = await res.json();
+      const all = (data.ok && data.comments) ? data.comments : [];
+      const mine = all.filter(c => String(c.BedID || '').trim().toUpperCase() === String(bedId).trim().toUpperCase());
+      if (!mine.length) { box.innerHTML = '<div class="comment-item"><p style="opacity:0.6;">No comments yet for this bed.</p></div>'; return; }
+      box.innerHTML = mine.map(c => {
+        const when = c.SubmittedAt ? fmtDate(c.SubmittedAt) : '';
+        return '<div class="comment-item"><div class="comment-meta">' + esc(when) + '</div><p>' + esc(String(c.Message || '')) + '</p></div>';
+      }).join('');
+    } catch(e) { box.innerHTML = '<div class="comment-item"><p>Could not load comments.</p></div>'; }
   }
 
   // LOGIN
