@@ -4,19 +4,19 @@
 
 /* ── Base (fallback = spa) ─────────────────────────── */
 :root, [data-theme="spa"] {
-  --bg:        #F2F0EB;
-  --surface:   #E8E4DC;
-  --surface2:  #F2F0EB;
-  --mist:      #D8D4CC;
-  --ink:       #3D4A3E;
-  --ink-soft:  #7A8C7B;
+  --bg:        #2E2E2E;
+  --surface:   #262626;
+  --surface2:  #2E2E2E;
+  --mist:      #3A3A3A;
+  --ink:       #F0EDE6;
+  --ink-soft:  #A8A39A;
   --accent:    #6B8F71;
   --accent-2:  #A8B89A;
   --on-accent: #F2F0EB;
   --alert:     #B85C2A;
   --on-alert:  #FDF1E8;
-  --card:      #F2F0EB;
-  --card-border: #D8D4CC;
+  --card:      #383838;
+  --card-border: #4A4A4A;
   --font-head: Georgia, serif;
   --font-body: 'Source Sans 3', 'Helvetica Neue', sans-serif;
   --radius:    10px;
