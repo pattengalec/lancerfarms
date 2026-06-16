@@ -206,3 +206,17 @@
     document.body.appendChild(el);
     setTimeout(function () { el.remove(); }, travel * 1000 + 500);
   }
+
+  function schedule() {
+    var wait = 45000 + Math.random() * 75000;
+    setTimeout(function () {
+      if (!document.hidden) visit();
+      schedule();
+    }, wait);
+  }
+  setTimeout(visit, 12000 + Math.random() * 8000);
+  schedule();
+})();
+  setTimeout(visit, 12000 + Math.random() * 8000);
+  schedule();
+})();
