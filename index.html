@@ -691,7 +691,7 @@
       if (blEl) blEl.closest('.blessing-block').style.display = bless ? '' : 'none';
       set('blessing', bless);
       const citeV = v([/cite/i, /reference/i]);
-      set('cite', citeV ? '— ' + citeV : '');
+     const citeV = v([/cite/i, /reference/i, /blessingref/i]);
     } catch(e) { set('crop', 'Could not load bed data'); }
   }
 
