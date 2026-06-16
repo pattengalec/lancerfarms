@@ -156,12 +156,12 @@
 .screen-body { padding:32px 40px; }
 .photo-grid { grid-template-columns:repeat(4,1fr); gap:8px; }
 }
-#splash-screen { position:fixed; inset:0; z-index:500; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; opacity:0; animation:splashIn 0.7s ease-out forwards; }
-#splash-screen img { width:200px; height:200px; }
+#splash-screen { position:fixed; inset:0; z-index:500; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; opacity:0; animation:splashIn 0.9s ease-out forwards; }
+#splash-screen img { width:220px; height:220px; }
 #splash-screen p { font-size:0.82rem; color:var(--ink-soft); opacity:0.8; font-style:italic; font-family:'Source Sans 3',sans-serif; }
-#splash-screen.splash-hide { animation:splashOut 0.6s ease-in forwards; pointer-events:none; }
-@keyframes splashIn { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
-@keyframes splashOut { from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(1.08); } }
+#splash-screen.splash-hide { animation:splashOut 0.8s ease-in forwards; pointer-events:none; }
+@keyframes splashIn { from { opacity:0; transform:scale(0.65); } to { opacity:1; transform:scale(1); } }
+@keyframes splashOut { from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(1.25); } }
 </style>
 </head>
 <body>
