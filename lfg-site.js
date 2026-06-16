@@ -1,16 +1,13 @@
-/* LFG SITE ENGINE v1
-   Load deferred at end of <body>. Pre-paint theme snippet lives inline in <head>.
-   INTEGRATION SLOT 1: set CONFIG_URL to the "LFG Public Config API" /exec URL. */
-
-var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8Wufk3exdLqxc_kcyJuF4cvAZKenBXihb1398Ovp2fCAw1/exec';
-
+/* LANCER FARMS & GARDENS — SITE ENGINE v2 */
 
 (function () {
   'use strict';
-  var CACHE_KEY = 'lfg-config-v1';
+
+  var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8Wufk3exdLqxc_kcyJuF4cvAZKenBXihb1398Ovp2fCAw1/exec';
+  var CACHE_KEY = 'lfg-config-v2';
   var cfg = null;
 
-  /* ── config: cached render, background refresh ── */
+  /* ── config ── */
   function readCache() {
     try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) { return null; }
   }
@@ -29,198 +26,100 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8
     return v;
   }
 
-  /* ── theme application + announce ── */
-  var live;
-  function announce(msg) {
-    if (!live) { live = document.createElement('div'); live.className = 'sr-live'; live.setAttribute('aria-live', 'polite'); document.body.appendChild(live); }
-    live.textContent = msg;
-  }
-  var THEME_NAMES = { inland: 'Inland Empire', citrus: 'Citrus Grove', night: 'Night Garden', phosphor: 'Phosphor' };
+  /* ── theme ── */
+  var THEMES = ['spa', 'meadow', 'ballpark', 'fire', 'mono'];
+
   function applyTheme(t, opts) {
     opts = opts || {};
-    var doc = document.documentElement;
+    if (THEMES.indexOf(t) === -1) t = 'spa';
     var swap = function () {
-      doc.setAttribute('data-theme', t);
-      doc.setAttribute('data-scanlines', (t === 'phosphor' && val('phosphor_scanlines', false)) ? 'on' : 'off');
-      document.body.classList.toggle('craft', !!val('craft_layer_enabled', true) && t !== 'phosphor');
-      doc.style.setProperty('--tilt', (parseFloat(val('card_tilt_deg', 0.35)) || 0) + 'deg');
+      document.documentElement.setAttribute('data-theme', t);
     };
     sessionStorage.setItem('lfg-theme', t);
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!opts.animate || reduced) { swap(); }
     else if (document.startViewTransition) { document.startViewTransition(swap); }
     else { swap(); }
-    announce('Theme set to ' + (THEME_NAMES[t] || t));
   }
 
-  /* ── persistent theme picker re-open ── */
-  function initThemeButton() {
-    var b = document.createElement('button');
-    b.className = 'theme-toggle';
-    b.setAttribute('aria-label', 'Change mood / color theme');
-    b.textContent = '\ud83c\udfa8';
-    b.onclick = function () {
+  /* ── mood picker ── */
+  var MOOD_MAP = {
+    tl: 'ballpark',  /* energetic + lingering */
+    tr: 'fire',      /* energetic + passing   */
+    bl: 'spa',       /* relaxed  + lingering  */
+    br: 'meadow'     /* relaxed  + passing    */
+  };
+
+  var MOOD_GREET = {
+    tl: 'Game day energy — let\'s dig in.',
+    tr: 'Moving fast — we\'ll keep it quick.',
+    bl: 'Take your time — the garden isn\'t going anywhere.',
+    br: 'Drifting through — enjoy the view.'
+  };
+
+  function runMood() {
+    return new Promise(function (resolve) {
       var el = document.getElementById('mood');
-      if (!el || !el.hidden) return;
+      if (!el) return resolve();
       el.hidden = false;
-      el.classList.remove('leaving');
-      var dot = el.querySelector('.dot');
-      if (dot) dot.classList.remove('show');
+
       var greet = el.querySelector('.mood-greet');
-      if (greet) greet.textContent = 'tap anywhere in the garden';
-      var blw = el.querySelector('.mw-bl');
-      if (blw) {
-        var hr = new Date().getHours();
-        var isNight = (hr >= 21 || hr < 6);
-        blw.textContent = isNight ? 'quiet night (try night mode)' : 'quiet ' + (hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : 'evening');
-        blw.style.fontSize = isNight ? '11px' : '';
-      }
-      var box = el.querySelector('.mood-box');
-      var skip = el.querySelector('.mood-skip');
-      if (skip) skip.onclick = function () { el.classList.add('leaving'); setTimeout(function () { el.hidden = true; }, 420); };
-      if (box) {
-        var fresh = box.cloneNode(true);
-        box.parentNode.replaceChild(fresh, box);
-        fresh.addEventListener('pointerdown', function (e) {
-          var rect = fresh.getBoundingClientRect();
-          var nx = (e.clientX - rect.left) / rect.width * 2 - 1;
-          var ny = 1 - (e.clientY - rect.top) / rect.height * 2;
-          var dot2 = fresh.querySelector('.dot');
-          dot2.style.left = ((nx + 1) / 2 * 100) + '%'; dot2.style.top = ((1 - ny) / 2 * 100) + '%';
-          dot2.classList.add('show');
-          var quad = (nx >= 0 ? 'P' : 'L') + (ny >= 0 ? 'E' : 'C');
-          var GREET = { PE: 'sunny and bright \u2014 let\u2019s go', PC: 'good steady soil under your boots', LE: 'a little mischief it is\u2026', LC: 'soft light coming right up' };
-          var MOOD_MAP = { PE: 'citrus', PC: 'inland', LE: 'phosphor', LC: 'night' };
-          if (greet && GREET[quad]) greet.textContent = GREET[quad];
-          var theme;
-          if (Math.sqrt(nx * nx + ny * ny) < 0.15) theme = val('default_theme', 'inland');
-          else theme = MOOD_MAP[quad];
-          var enabled = String(val('themes_enabled', 'inland,citrus,night,phosphor')).split(',');
-          if (enabled.indexOf(theme) === -1) theme = val('default_theme', 'inland');
+      var quads = el.querySelectorAll('.mood-quadrant');
+
+      quads.forEach(function (q) {
+        q.addEventListener('click', function () {
+          var key = q.getAttribute('data-quad');
+          var theme = MOOD_MAP[key] || 'spa';
+          if (greet) greet.textContent = MOOD_GREET[key] || '';
           setTimeout(function () {
             el.classList.add('leaving');
             applyTheme(theme, { animate: true });
-            setTimeout(function () { el.hidden = true; }, 420);
-          }, 650);
-        }, { once: true });
-      }
+            setTimeout(function () { el.hidden = true; resolve(); }, 420);
+          }, 500);
+        });
+      });
+
+      var skip = el.querySelector('.mood-skip');
+      if (skip) skip.addEventListener('click', function () {
+        el.classList.add('leaving');
+        applyTheme('mono', { animate: false });
+        setTimeout(function () { el.hidden = true; resolve(); }, 420);
+      });
+    });
+  }
+
+  /* ── theme toggle button ── */
+  function initThemeButton() {
+    var b = document.createElement('button');
+    b.className = 'theme-toggle';
+    b.setAttribute('aria-label', 'Change mood theme');
+    b.textContent = '🎨';
+    b.onclick = function () {
+      var el = document.getElementById('mood');
+      if (!el || !el.hidden) return;
+      el.classList.remove('leaving');
+      el.hidden = false;
+      var greet = el.querySelector('.mood-greet');
+      if (greet) greet.textContent = 'tap a mood to change the theme';
     };
     document.body.appendChild(b);
   }
 
-  /* ── gate ── */
-  function sha256(str) {
-    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function (buf) {
-      return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-    });
-  }
-  function runGate() {
-    return new Promise(function (resolve) {
-      var el = document.getElementById('gate'); if (!el) return resolve();
-      var form = el.querySelector('.gate-form');
-      var dismiss = function () {
-        el.classList.add('leaving');
-        setTimeout(function () { el.hidden = true; }, 420);
-        resolve();
-      };
-      if (!val('gate_enabled', true) || sessionStorage.getItem('lfg-gate') === 'open') return dismiss();
-      if (form) form.hidden = false;
-      var input = el.querySelector('input'), msg = el.querySelector('.gate-msg');
-      function attempt() {
-        sha256(input.value.trim()).then(function (h) {
-          if (h === String(val('gate_password_hash', ''))) {
-            sessionStorage.setItem('lfg-gate', 'open');
-            dismiss();
-          } else { msg.textContent = 'Not quite — try again.'; input.select(); }
-        });
-      }
-      el.querySelector('button').onclick = attempt;
-      input.onkeydown = function (e) { if (e.key === 'Enter') attempt(); };
-      input.focus();
-    });
-  }
-
-  /* ── mood quadrant ── */
-  var MOOD_MAP = { PE: 'citrus', PC: 'inland', LE: 'phosphor', LC: 'night' };
-  var GREET = { PE: 'sunny and bright \u2014 let\u2019s go', PC: 'good steady soil under your boots', LE: 'a little mischief it is\u2026', LC: 'soft light coming right up' };
-  var ACTIVITY = {
-    PE: 'Bright and blooming \u2014 perfect time to wander the photo album.',
-    PC: 'Good steady light \u2014 a fine moment to explore a garden bed.',
-    LE: 'Feeling playful? Tap around \u2014 the garden has secrets.',
-    LC: 'Easy does it \u2014 the bed blessings read beautifully at this pace.'
-  };
-  function runMood() {
-    return new Promise(function (resolve) {
-      var el = document.getElementById('mood'); if (!el) return resolve();
-      if (!val('mood_picker_enabled', true)) return resolve();
-      el.hidden = false;
-      var box = el.querySelector('.mood-box'), dot = el.querySelector('.dot');
-      var greet = el.querySelector('.mood-greet');
-      var prompt = el.querySelector('.mood-prompt');
-      var blw = el.querySelector('.mw-bl');
-      if (blw) {
-        var hr = new Date().getHours();
-        var isNight = (hr >= 21 || hr < 6);
-        var label = isNight ? 'quiet night (try night mode)' : 'quiet ' + (hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : 'evening');
-        blw.textContent = label;
-        blw.style.fontSize = isNight ? '11px' : '';
-      }
-      if (prompt) prompt.textContent = val('welcome_line', 'Plot your mood for a custom theme and recommended activities');
-      function pick(x, y, rect) {
-        var nx = (x - rect.left) / rect.width * 2 - 1;
-        var ny = 1 - (y - rect.top) / rect.height * 2;
-        dot.style.left = ((nx + 1) / 2 * 100) + '%'; dot.style.top = ((1 - ny) / 2 * 100) + '%';
-        dot.classList.add('show');
-        var quad = (nx >= 0 ? 'P' : 'L') + (ny >= 0 ? 'E' : 'C');
-        if (greet && GREET[quad]) greet.textContent = GREET[quad];
-        var theme;
-        if (Math.sqrt(nx * nx + ny * ny) < 0.15) theme = val('default_theme', 'inland');
-        else theme = MOOD_MAP[quad];
-        var enabled = String(val('themes_enabled', 'inland,citrus,night,phosphor')).split(',');
-        if (enabled.indexOf(theme) === -1) theme = val('default_theme', 'inland');
-        setTimeout(function () {
-          el.classList.add('leaving');
-          applyTheme(theme, { animate: true });
-          setTimeout(function () {
-            el.hidden = true; resolve();
-            if (window.showToast && ACTIVITY[quad]) setTimeout(function () { window.showToast(ACTIVITY[quad]); }, 600);
-          }, 420);
-        }, 650);
-      }
-      box.addEventListener('pointerdown', function (e) { pick(e.clientX, e.clientY, box.getBoundingClientRect()); }, { once: true });
-       box.addEventListener('keydown', function (e) {
-        if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' '].indexOf(e.key) === -1) return;
-        e.preventDefault();
-        var rect = box.getBoundingClientRect();
-        var cx = rect.left + rect.width / 2;
-        var cy = rect.top + rect.height / 2;
-        if (e.key === 'ArrowRight') cx += rect.width * 0.3;
-        if (e.key === 'ArrowLeft') cx -= rect.width * 0.3;
-        if (e.key === 'ArrowUp') cy -= rect.height * 0.3;
-        if (e.key === 'ArrowDown') cy += rect.height * 0.3;
-        pick(cx, cy, rect);
-      }, { once: true });
-      var skip = el.querySelector('.mood-skip');
-      if (skip) skip.onclick = function () {
-        el.classList.add('leaving');
-        applyTheme(val('default_theme', 'inland'), { animate: false });
-        setTimeout(function () { el.hidden = true; resolve(); }, 420);
-      };
-    });
-  }
-
-  /* ── feedback (honeypot + min-time) ── */
+  /* ── feedback tab ── */
   function initFeedback() {
-    if (!val('feedback_enabled', true)) return;
     var tab = document.createElement('button');
-    tab.className = 'fb-tab'; tab.textContent = 'thoughts?';
+    tab.className = 'fb-tab';
+    tab.textContent = 'thoughts?';
     var panel = document.createElement('div');
     panel.className = 'fb-panel';
-    panel.innerHTML = '<label for="fb-msg">Tell the garden crew</label>' +
-      '<textarea id="fb-msg" rows="3"></textarea>' +
-      '<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' +
-      '<button class="btn" type="button">send</button><div class="fb-status"></div>';
-    document.body.appendChild(tab); document.body.appendChild(panel);
+    panel.innerHTML =
+      '<label for="fb-msg">Tell the garden crew</label>' +
+      '<textarea id="fb-msg" rows="3" style="width:100%;margin:6px 0;"></textarea>' +
+      '<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none;">' +
+      '<button class="btn" type="button" style="width:100%;">send</button>' +
+      '<div class="fb-status" style="font-size:12px;margin-top:6px;"></div>';
+    document.body.appendChild(tab);
+    document.body.appendChild(panel);
     var openedAt = 0;
     tab.onclick = function () { panel.classList.toggle('open'); openedAt = Date.now(); };
     panel.querySelector('.btn').onclick = function () {
@@ -228,37 +127,21 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8
       var status = panel.querySelector('.fb-status');
       if (!msg) { status.textContent = 'Write something first.'; return; }
       if (panel.querySelector('.hp').value || Date.now() - openedAt < 3000) { status.textContent = 'Thanks!'; return; }
-      status.textContent = 'Sending\u2026';
+      status.textContent = 'Sending…';
       fetch(CONFIG_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
           message: msg,
           theme: document.documentElement.getAttribute('data-theme'),
-          mood: sessionStorage.getItem('lfg-theme') ? 'picked' : 'default',
-          viewport: window.innerWidth + 'x' + window.innerHeight,
           page: location.pathname,
           ua: navigator.userAgent
         })
       }).then(function () {
-        status.textContent = 'Received \u2014 thank you.';
+        status.textContent = 'Received — thank you.';
         panel.querySelector('textarea').value = '';
         setTimeout(function () { panel.classList.remove('open'); }, 1500);
-      }).catch(function () { status.textContent = 'Could not send \u2014 try later.'; });
-    };
-  }
-
-  /* ── footer mood re-plot ── */
-  function initFooterMood() {
-    var link = document.getElementById('mood-again');
-    if (!link) return;
-    if (!val('footer_mood_link', true)) { link.hidden = true; return; }
-    link.onclick = function (e) {
-      e.preventDefault();
-      sessionStorage.removeItem('lfg-theme');
-      var el = document.getElementById('mood');
-      el.classList.remove('leaving'); el.hidden = false;
-      runMood();
+      }).catch(function () { status.textContent = 'Could not send — try later.'; });
     };
   }
 
@@ -268,25 +151,19 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8
   function boot() {
     if (booted) return; booted = true;
     var saved = sessionStorage.getItem('lfg-theme');
-    if (saved) applyTheme(saved, { animate: false });
-    runGate().then(runMood).then(function () {
-      if (!sessionStorage.getItem('lfg-theme')) applyTheme(val('default_theme', 'inland'), { animate: false });
-      initThemeButton(); initFeedback(); initFooterMood();
-      var h = document.getElementById('home'); if (h) h.hidden = false;
+    if (saved) applyTheme(saved);
+    runMood().then(function () {
+      if (!sessionStorage.getItem('lfg-theme')) applyTheme('spa');
+      initThemeButton();
+      initFeedback();
     });
   }
   if (cfg) { boot(); fetchConfig().then(function (f) { cfg = f; }).catch(function () {}); }
-  else {
-    fetchConfig().then(function (f) { cfg = f; boot(); })
-      .catch(function () { cfg = {}; boot(); });
-  }
+  else { fetchConfig().then(function (f) { cfg = f; boot(); }).catch(function () { cfg = {}; boot(); }); }
+
 })();
 
-
-/* ════════════════════════════════════════════════
-   LFG CREATURES — bees & butterflies drift across
-   the page from time to time.
-   ════════════════════════════════════════════════ */
+/* ── CREATURES ────────────────────────────────────────── */
 (function () {
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -296,12 +173,12 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8
     'will-change:transform;animation:lfg-cross linear forwards;}' +
     '.lfg-creature span{display:inline-block;animation:lfg-bob ease-in-out infinite alternate;}' +
     '.lfg-creature.flip{left:auto;right:-70px;animation-name:lfg-cross-back;}' +
-    '.lfg-creature.flip span{transform:scaleX(-1);}' +
-    '@keyframes lfg-bob{from{transform:translateY(-7px);}to{transform:translateY(7px);}}' +
-    '[data-theme="phosphor"] .lfg-creature{filter:grayscale(1) sepia(1) hue-rotate(70deg) saturate(5) brightness(1.15);}';
+    '@keyframes lfg-bob{from{transform:translateY(-7px);}to{transform:translateY(7px);}}';
   document.head.appendChild(style);
 
-  var CREATURES = ['🐝', '🦋', '🐞', '🪲', '🪳', '🦗', '🪰', '🦟', '🐜', '🪱', '🕷️', '🐿️', '👼'];
+  var CREATURES = ['🐝','🦋','🐞','🪲','🦗','🐜','🪱','🕷️','🐿️','👼','🌿','🍃'];
+
+  var creatureStyleEl = null;
 
   function visit() {
     var el = document.createElement('div');
@@ -317,9 +194,12 @@ var CONFIG_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8
     var crossAnim = flip
       ? '@keyframes lfg-cross-back{to{transform:translateX(calc(-100vw - 140px)) translateY(' + drift + 'px);}}'
       : '@keyframes lfg-cross{to{transform:translateX(calc(100vw + 140px)) translateY(' + drift + 'px);}}';
-    var s = document.getElementById('lfg-creature-anim');
-    if (!s) { s = document.createElement('style'); s.id = 'lfg-creature-anim'; document.head.appendChild(s); }
-    s.textContent = crossAnim;
+    if (!creatureStyleEl) {
+      creatureStyleEl = document.createElement('style');
+      creatureStyleEl.id = 'lfg-creature-anim';
+      document.head.appendChild(creatureStyleEl);
+    }
+    creatureStyleEl.textContent = crossAnim;
     var travel = 14 + Math.random() * 12;
     el.style.animationDuration = travel + 's';
     inner.style.animationDuration = (0.8 + Math.random() * 0.9).toFixed(2) + 's';
