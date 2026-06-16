@@ -614,7 +614,11 @@
     }
   }
 
-  window.addEventListener('popstate', function(e) {
+ window.addEventListener('popstate', function(e) {
+    if (document.getElementById('upload-modal').classList.contains('open')) {
+      closeUploadModal();
+      return;
+    }
     if (e.state && e.state.lfgScreen) {
       go(e.state.lfgScreen, Object.assign({}, e.state.lfgOptions, { fromHistory: true }));
     } else { location.reload(); }
