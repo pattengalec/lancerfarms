@@ -13,7 +13,6 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="lfg-theme.css">
 <script>
-/* Pre-paint: apply remembered theme before first render */
 (function(){try{
   var t=sessionStorage.getItem('lfg-theme');
   if(t)document.documentElement.setAttribute('data-theme',t);
@@ -22,541 +21,136 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=Courier+Prime&display=swap');
 
-  /* ── App shell ── */
-  body {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-  }
+  body { display:flex; align-items:flex-start; justify-content:center; }
 
   .screen {
-    display: none;
-    width: 100%;
-    max-width: 420px;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--ink);
-    flex-direction: column;
-    position: relative;
-    overflow-y: auto;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 8px 24px rgba(0,0,0,0.5);
-    border-radius: 16px;
-    margin: 24px auto;
+    display:none; width:100%; max-width:420px; min-height:100vh;
+    background:var(--bg); color:var(--ink); flex-direction:column;
+    position:relative; overflow-y:auto;
+    box-shadow:0 24px 80px rgba(0,0,0,0.7),0 8px 24px rgba(0,0,0,0.5);
+    border-radius:16px; margin:24px auto;
   }
-  .screen.active { display: flex; }
+  .screen.active { display:flex; }
 
-  /* ── App header ── */
-  .app-header {
-    background: var(--surface);
-    color: var(--ink);
-    padding: 18px 20px 14px;
-    text-align: center;
-    position: relative;
-  }
-  .app-header h1 {
-    font-family: 'IM Fell English', serif;
-    font-size: 1.45rem;
-    letter-spacing: 0.02em;
-    line-height: 1.2;
-  }
-  .app-header p {
-    font-size: 0.7rem;
-    color: var(--ink-soft);
-    opacity: 0.7;
-    margin-top: 2px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-family: 'Courier Prime', monospace;
-  }
+  .app-header { background:var(--surface); color:var(--ink); padding:18px 20px 14px; text-align:center; position:relative; }
+  .app-header h1 { font-family:'IM Fell English',serif; font-size:1.45rem; letter-spacing:0.02em; line-height:1.2; }
+  .app-header p { font-size:0.7rem; color:var(--ink-soft); opacity:0.7; margin-top:2px; letter-spacing:0.08em; text-transform:uppercase; font-family:'Courier Prime',monospace; }
 
-  /* ── Screen body ── */
-  .screen-body {
-    flex: 1;
-    padding: 24px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
+  .screen-body { flex:1; padding:24px 20px; display:flex; flex-direction:column; gap:14px; }
 
-  /* ── Cards ── */
   .option-card {
-    background: var(--card);
-    border: 1.5px solid var(--card-border);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    box-shadow: var(--shadow);
-    text-decoration: none;
-    color: var(--ink);
+    background:var(--card); border:1.5px solid var(--card-border); border-radius:var(--radius);
+    padding:18px 20px; cursor:pointer; display:flex; align-items:center; gap:16px;
+    transition:border-color 0.15s,box-shadow 0.15s; box-shadow:var(--shadow);
+    text-decoration:none; color:var(--ink);
   }
-  .option-card:active { opacity: 0.85; }
-  .option-card .card-icon { font-size: 1.8rem; flex-shrink: 0; }
-  .option-card .card-text h3 { font-size: 1rem; font-weight: 600; color: var(--ink); }
-  .option-card .card-text p { font-size: 0.78rem; color: var(--ink-soft); margin-top: 2px; opacity: 0.85; }
-  .option-card.primary { background: var(--accent); border-color: var(--accent); }
-  .option-card.primary .card-text h3 { color: var(--on-accent); }
-  .option-card.primary .card-text p { color: var(--on-accent); opacity: 0.8; }
+  .option-card:active { opacity:0.85; }
+  .option-card .card-icon { font-size:1.8rem; flex-shrink:0; }
+  .option-card .card-text h3 { font-size:1rem; font-weight:600; color:var(--ink); }
+  .option-card .card-text p { font-size:0.78rem; color:var(--ink-soft); margin-top:2px; opacity:0.85; }
+  .option-card.primary { background:var(--accent); border-color:var(--accent); }
+  .option-card.primary .card-text h3 { color:var(--on-accent); }
+  .option-card.primary .card-text p { color:var(--on-accent); opacity:0.8; }
 
-  /* ── Hero block ── */
-  .hero-block {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 32px 24px 28px;
-    text-align: center;
-    margin-bottom: 8px;
-  }
-  .hero-block .farm-emblem { font-size: 3rem; margin-bottom: 10px; display: block; }
-  .hero-block h2 {
-    font-family: 'IM Fell English', serif;
-    font-size: 1.6rem;
-    color: var(--ink);
-    line-height: 1.2;
-    margin-bottom: 6px;
-  }
-  .hero-block p { font-size: 0.82rem; color: var(--ink-soft); opacity: 0.8; font-style: italic; }
+  .hero-block { background:var(--surface); border-radius:var(--radius); padding:32px 24px 28px; text-align:center; margin-bottom:8px; }
+  .hero-block .farm-emblem { font-size:3rem; margin-bottom:10px; display:block; }
+  .hero-block h2 { font-family:'IM Fell English',serif; font-size:1.6rem; color:var(--ink); line-height:1.2; margin-bottom:6px; }
+  .hero-block p { font-size:0.82rem; color:var(--ink-soft); opacity:0.8; font-style:italic; }
 
-  /* ── Section label ── */
-  .section-label {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-soft);
-    opacity: 0.6;
-    margin-bottom: -6px;
-    padding-left: 2px;
-  }
+  .section-label { font-family:'Courier Prime',monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-soft); opacity:0.6; margin-bottom:-6px; padding-left:2px; }
 
-  /* ── Login block ── */
-  .login-block {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    text-align: center;
-  }
-  .login-block h2 {
-    font-family: 'IM Fell English', serif;
-    color: var(--ink);
-    font-size: 1.3rem;
-    margin-bottom: 6px;
-  }
-  .login-block p { font-size: 0.8rem; color: var(--ink-soft); opacity: 0.75; margin-bottom: 20px; }
-  .login-block input {
-    width: 100%;
-    background: var(--card);
-    border: 1.5px solid var(--card-border);
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 1rem;
-    color: var(--ink);
-    font-family: inherit;
-    outline: none;
-    margin-bottom: 12px;
-    text-align: center;
-    letter-spacing: 0.1em;
-  }
-  .login-block button {
-    width: 100%;
-    background: var(--accent);
-    color: var(--on-accent);
-    border: none;
-    border-radius: 8px;
-    padding: 13px;
-    font-size: 0.95rem;
-    font-family: 'IM Fell English', serif;
-    cursor: pointer;
-    letter-spacing: 0.04em;
-  }
+  .login-block { background:var(--surface); border-radius:var(--radius); padding:28px 24px; text-align:center; }
+  .login-block h2 { font-family:'IM Fell English',serif; color:var(--ink); font-size:1.3rem; margin-bottom:6px; }
+  .login-block p { font-size:0.8rem; color:var(--ink-soft); opacity:0.75; margin-bottom:20px; }
+  .login-block input { width:100%; background:var(--card); border:1.5px solid var(--card-border); border-radius:8px; padding:12px 16px; font-size:1rem; color:var(--ink); font-family:inherit; outline:none; margin-bottom:12px; text-align:center; letter-spacing:0.1em; }
+  .login-block button { width:100%; background:var(--accent); color:var(--on-accent); border:none; border-radius:8px; padding:13px; font-size:0.95rem; font-family:'IM Fell English',serif; cursor:pointer; letter-spacing:0.04em; }
 
-  /* ── Forms ── */
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ink-soft);
-    font-family: 'Courier Prime', monospace;
-  }
-  .form-group input, .form-group select, .form-group textarea {
-    background: var(--card);
-    border: 1.5px solid var(--card-border);
-    border-radius: 8px;
-    padding: 11px 14px;
-    font-size: 0.92rem;
-    font-family: inherit;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    border-color: var(--accent-2);
-  }
-  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-group { display:flex; flex-direction:column; gap:6px; }
+  .form-group label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); font-family:'Courier Prime',monospace; }
+  .form-group input,.form-group select,.form-group textarea { background:var(--card); border:1.5px solid var(--card-border); border-radius:8px; padding:11px 14px; font-size:0.92rem; font-family:inherit; color:var(--ink); outline:none; transition:border-color 0.15s; }
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-color:var(--accent-2); }
+  .form-group textarea { resize:vertical; min-height:80px; }
 
-  /* ── Buttons ── */
-  .submit-btn {
-    background: var(--accent);
-    color: var(--on-accent);
-    border: none;
-    border-radius: var(--radius);
-    padding: 16px;
-    font-size: 1rem;
-    font-family: 'IM Fell English', serif;
-    cursor: pointer;
-    width: 100%;
-    letter-spacing: 0.04em;
-  }
-  .manage-btn {
-    background: var(--accent);
-    color: var(--on-accent);
-    border: none;
-    border-radius: var(--radius);
-    padding: 16px;
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    letter-spacing: 0.03em;
-  }
+  .submit-btn { background:var(--accent); color:var(--on-accent); border:none; border-radius:var(--radius); padding:16px; font-size:1rem; font-family:'IM Fell English',serif; cursor:pointer; width:100%; letter-spacing:0.04em; }
+  .manage-btn { background:var(--accent); color:var(--on-accent); border:none; border-radius:var(--radius); padding:16px; font-size:1rem; font-family:inherit; font-weight:600; cursor:pointer; width:100%; letter-spacing:0.03em; }
 
-  /* ── Blessing block ── */
-  .blessing-block {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    text-align: center;
-  }
-  .blessing-block p {
-    font-family: 'IM Fell English', serif;
-    font-style: italic;
-    font-size: 0.95rem;
-    color: var(--ink);
-    line-height: 1.6;
-  }
-  .blessing-block cite {
-    display: block;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.68rem;
-    color: var(--ink-soft);
-    opacity: 0.6;
-    margin-top: 8px;
-    font-style: normal;
-    letter-spacing: 0.06em;
-  }
+  .blessing-block { background:var(--surface); border-radius:var(--radius); padding:18px 20px; text-align:center; }
+  .blessing-block p { font-family:'IM Fell English',serif; font-style:italic; font-size:0.95rem; color:var(--ink); line-height:1.6; }
+  .blessing-block cite { display:block; font-family:'Courier Prime',monospace; font-size:0.68rem; color:var(--ink-soft); opacity:0.6; margin-top:8px; font-style:normal; letter-spacing:0.06em; }
 
-  /* ── Comments ── */
-  .comment-feed { display: flex; flex-direction: column; gap: 10px; }
-  .comment-item {
-    background: var(--card);
-    border-radius: 8px;
-    padding: 12px 14px;
-    border: 1px solid var(--card-border);
-  }
-  .comment-item .comment-meta {
-    font-size: 0.68rem;
-    color: var(--ink-soft);
-    opacity: 0.6;
-    font-family: 'Courier Prime', monospace;
-    margin-bottom: 4px;
-  }
-  .comment-item p { font-size: 0.85rem; color: var(--ink); line-height: 1.5; }
+  .comment-feed { display:flex; flex-direction:column; gap:10px; }
+  .comment-item { background:var(--card); border-radius:8px; padding:12px 14px; border:1px solid var(--card-border); }
+  .comment-item .comment-meta { font-size:0.68rem; color:var(--ink-soft); opacity:0.6; font-family:'Courier Prime',monospace; margin-bottom:4px; }
+  .comment-item p { font-size:0.85rem; color:var(--ink); line-height:1.5; }
 
-  /* ── Info rows ── */
-  .info-row {
-    background: var(--card);
-    border-radius: 8px;
-    padding: 12px 16px;
-    border: 1px solid var(--card-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .info-row .label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-soft);
-    opacity: 0.65;
-    font-family: 'Courier Prime', monospace;
-  }
-  .info-row .value {
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--ink);
-    text-align: right;
-    max-width: 60%;
-  }
+  .info-row { background:var(--card); border-radius:8px; padding:12px 16px; border:1px solid var(--card-border); display:flex; justify-content:space-between; align-items:center; }
+  .info-row .label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); opacity:0.65; font-family:'Courier Prime',monospace; }
+  .info-row .value { font-size:0.92rem; font-weight:600; color:var(--ink); text-align:right; max-width:60%; }
 
-  /* ── Bed header ── */
-  .bed-header {
-    background: var(--accent);
-    color: var(--on-accent);
-    padding: 20px 20px 16px;
-    border-radius: var(--radius);
-  }
-  .bed-header .bed-id {
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.72rem;
-    opacity: 0.8;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-  .bed-header h2 { font-family: 'IM Fell English', serif; font-size: 1.4rem; margin: 4px 0 2px; }
-  .bed-header .bed-manager { font-size: 0.8rem; opacity: 0.85; }
+  .bed-header { background:var(--accent); color:var(--on-accent); padding:20px 20px 16px; border-radius:var(--radius); }
+  .bed-header .bed-id { font-family:'Courier Prime',monospace; font-size:0.72rem; opacity:0.8; text-transform:uppercase; letter-spacing:0.1em; }
+  .bed-header h2 { font-family:'IM Fell English',serif; font-size:1.4rem; margin:4px 0 2px; }
+  .bed-header .bed-manager { font-size:0.8rem; opacity:0.85; }
 
-  /* ── About block ── */
-  .about-block {
-    background: var(--card);
-    border-radius: var(--radius);
-    border: 1px solid var(--card-border);
-    padding: 20px;
-  }
-  .about-block h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--ink); margin-bottom: 10px; }
-  .about-block p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; }
+  .about-block { background:var(--card); border-radius:var(--radius); border:1px solid var(--card-border); padding:20px; }
+  .about-block h3 { font-family:'IM Fell English',serif; font-size:1.1rem; color:var(--ink); margin-bottom:10px; }
+  .about-block p { font-size:0.88rem; color:var(--ink-soft); line-height:1.65; }
 
-  /* ── Toast ── */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--surface);
-    color: var(--ink);
-    padding: 12px 22px;
-    border-radius: 24px;
-    font-size: 0.85rem;
-    font-family: 'Courier Prime', monospace;
-    transition: transform 0.3s ease;
-    z-index: 999;
-    white-space: nowrap;
-    border: 1px solid var(--card-border);
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--surface); color:var(--ink); padding:12px 22px; border-radius:24px; font-size:0.85rem; font-family:'Courier Prime',monospace; transition:transform 0.3s ease; z-index:999; white-space:nowrap; border:1px solid var(--card-border); }
+  .toast.show { transform:translateX(-50%) translateY(0); }
 
-  /* ── Photos ── */
-  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  .photo-thumb {
-    position: relative;
-    aspect-ratio: 1;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    background: var(--mist);
-  }
-  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .photo-thumb .bed-tag {
-    position: absolute;
-    bottom: 4px;
-    left: 4px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    font-family: 'Courier Prime', monospace;
-    font-size: 0.6rem;
-    padding: 2px 5px;
-    border-radius: 4px;
-  }
-  .photo-empty {
-    background: var(--card);
-    border: 1.5px dashed var(--card-border);
-    border-radius: var(--radius);
-    padding: 24px;
-    text-align: center;
-    color: var(--ink-soft);
-    font-size: 0.82rem;
-    opacity: 0.6;
-  }
-  .zone-header {
-    background: var(--surface);
-    color: var(--ink);
-    border-radius: var(--radius);
-    padding: 10px 16px;
-    font-family: 'IM Fell English', serif;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .upload-btn {
-    background: var(--accent);
-    color: var(--on-accent);
-    border: none;
-    border-radius: var(--radius);
-    padding: 16px;
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
+  .photo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+  .photo-thumb { position:relative; aspect-ratio:1; border-radius:8px; overflow:hidden; cursor:pointer; background:var(--mist); }
+  .photo-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-thumb .bed-tag { position:absolute; bottom:4px; left:4px; background:rgba(0,0,0,0.6); color:#fff; font-family:'Courier Prime',monospace; font-size:0.6rem; padding:2px 5px; border-radius:4px; }
+  .photo-empty { background:var(--card); border:1.5px dashed var(--card-border); border-radius:var(--radius); padding:24px; text-align:center; color:var(--ink-soft); font-size:0.82rem; opacity:0.6; }
+  .zone-header { background:var(--surface); color:var(--ink); border-radius:var(--radius); padding:10px 16px; font-family:'IM Fell English',serif; font-size:1rem; display:flex; align-items:center; gap:8px; }
+  .upload-btn { background:var(--accent); color:var(--on-accent); border:none; border-radius:var(--radius); padding:16px; font-size:1rem; font-family:inherit; font-weight:600; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:10px; }
 
-  /* ── Lightbox ── */
-  .lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    z-index: 100;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .lightbox.open { display: flex; }
-  .lightbox img { max-width: 100%; max-height: 70vh; border-radius: var(--radius); object-fit: contain; }
-  .lightbox-meta { margin-top: 14px; text-align: center; color: #fff; }
-  .lightbox-meta h3 { font-family: 'IM Fell English', serif; font-size: 1rem; }
-  .lightbox-meta p { font-size: 0.75rem; opacity: 0.6; font-family: 'Courier Prime', monospace; margin-top: 4px; }
-  .lightbox-actions { display: flex; gap: 10px; margin-top: 16px; }
-  .lightbox-actions button {
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 0.85rem;
-    font-family: inherit;
-    cursor: pointer;
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-  }
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:100; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+  .lightbox.open { display:flex; }
+  .lightbox img { max-width:100%; max-height:70vh; border-radius:var(--radius); object-fit:contain; }
+  .lightbox-meta { margin-top:14px; text-align:center; color:#fff; }
+  .lightbox-meta h3 { font-family:'IM Fell English',serif; font-size:1rem; }
+  .lightbox-meta p { font-size:0.75rem; opacity:0.6; font-family:'Courier Prime',monospace; margin-top:4px; }
+  .lightbox-actions { display:flex; gap:10px; margin-top:16px; }
+  .lightbox-actions button { border:none; border-radius:8px; padding:10px 20px; font-size:0.85rem; font-family:inherit; cursor:pointer; background:rgba(255,255,255,0.15); color:#fff; }
 
-  /* ── Upload modal ── */
-  .upload-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 100;
-    align-items: flex-end;
-    justify-content: center;
-  }
-  .upload-modal.open { display: flex; }
-  .upload-sheet {
-    background: var(--bg);
-    border-radius: var(--radius) var(--radius) 0 0;
-    padding: 24px 20px 36px;
-    width: 100%;
-    max-width: 420px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .upload-sheet h2 { font-family: 'IM Fell English', serif; font-size: 1.2rem; color: var(--ink); text-align: center; }
-  .upload-preview {
-    width: 100%;
-    aspect-ratio: 4/3;
-    background: var(--mist);
-    border-radius: var(--radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border: 2px dashed var(--card-border);
-    cursor: pointer;
-    position: relative;
-  }
-  .upload-preview img { width: 100%; height: 100%; object-fit: cover; display: none; }
-  .upload-preview .placeholder { font-size: 0.85rem; color: var(--ink-soft); opacity: 0.5; text-align: center; padding: 20px; }
-  .upload-preview input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .upload-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:100; align-items:flex-end; justify-content:center; }
+  .upload-modal.open { display:flex; }
+  .upload-sheet { background:var(--bg); border-radius:var(--radius) var(--radius) 0 0; padding:24px 20px 36px; width:100%; max-width:420px; display:flex; flex-direction:column; gap:14px; }
+  .upload-sheet h2 { font-family:'IM Fell English',serif; font-size:1.2rem; color:var(--ink); text-align:center; }
+  .upload-preview { width:100%; aspect-ratio:4/3; background:var(--mist); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; overflow:hidden; border:2px dashed var(--card-border); cursor:pointer; position:relative; }
+  .upload-preview img { width:100%; height:100%; object-fit:cover; display:none; }
+  .upload-preview .placeholder { font-size:0.85rem; color:var(--ink-soft); opacity:0.5; text-align:center; padding:20px; }
+  .upload-preview input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
 
-  /* ── Alert banner ── */
-  .alert-banner {
-    background: var(--alert);
-    color: var(--on-alert);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .alert-banner .alert-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
-  .alert-banner h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
-  .alert-banner p { font-size: 0.78rem; opacity: 0.9; }
-  .alert-banner button {
-    margin-top: 10px;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.4);
-    color: var(--on-alert);
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-size: 0.78rem;
-    cursor: pointer;
-    font-family: inherit;
-  }
+  .inventory-item { background:var(--card); border:1.5px solid var(--card-border); border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; }
+  .inventory-item.low-stock { border-color:var(--alert); }
+  .inventory-item .item-name { font-size:0.9rem; font-weight:600; color:var(--ink); }
+  .inventory-item .item-sub { font-size:0.72rem; color:var(--ink-soft); opacity:0.65; margin-top:2px; }
+  .inventory-item .qty-num { font-family:'Courier Prime',monospace; font-size:1.1rem; font-weight:600; color:var(--ink); }
+  .inventory-item.low-stock .qty-num { color:var(--alert); }
+  .inventory-item .qty-par { font-size:0.68rem; color:var(--ink-soft); opacity:0.55; }
+  .stock-flag { background:var(--alert); color:var(--on-alert); font-size:0.62rem; border-radius:4px; padding:2px 6px; font-family:'Courier Prime',monospace; letter-spacing:0.06em; text-transform:uppercase; }
 
-  /* ── Inventory ── */
-  .inventory-item {
-    background: var(--card);
-    border: 1.5px solid var(--card-border);
-    border-radius: 8px;
-    padding: 12px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .inventory-item.low-stock { border-color: var(--alert); }
-  .inventory-item .item-name { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
-  .inventory-item .item-sub { font-size: 0.72rem; color: var(--ink-soft); opacity: 0.65; margin-top: 2px; }
-  .inventory-item .qty-num { font-family: 'Courier Prime', monospace; font-size: 1.1rem; font-weight: 600; color: var(--ink); }
-  .inventory-item.low-stock .qty-num { color: var(--alert); }
-  .inventory-item .qty-par { font-size: 0.68rem; color: var(--ink-soft); opacity: 0.55; }
-  .stock-flag {
-    background: var(--alert);
-    color: var(--on-alert);
-    font-size: 0.62rem;
-    border-radius: 4px;
-    padding: 2px 6px;
-    font-family: 'Courier Prime', monospace;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
+  .bed-selector { background:var(--card); border:1.5px solid var(--card-border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; gap:14px; }
+  .bed-selector h3 { font-family:'IM Fell English',serif; font-size:1.1rem; color:var(--ink); text-align:center; }
 
-  /* ── Bed selector ── */
-  .bed-selector {
-    background: var(--card);
-    border: 1.5px solid var(--card-border);
-    border-radius: var(--radius);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .bed-selector h3 { font-family: 'IM Fell English', serif; font-size: 1.1rem; color: var(--ink); text-align: center; }
+  .report-link { text-align:center; margin-top:4px; padding:8px; }
+  .report-link a { font-size:0.72rem; color:var(--ink-soft); opacity:0.45; text-decoration:none; border-bottom:1px dashed currentColor; cursor:pointer; transition:opacity 0.15s; }
+  .report-link a:hover { opacity:0.75; }
 
-  /* ── Report link ── */
-  .report-link { text-align: center; margin-top: 4px; padding: 8px; }
-  .report-link a {
-    font-size: 0.72rem;
-    color: var(--ink-soft);
-    opacity: 0.45;
-    text-decoration: none;
-    border-bottom: 1px dashed currentColor;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  .report-link a:hover { opacity: 0.75; }
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--card-border); border-radius:2px; }
 
-  /* ── Scrollbar ── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 2px; }
-
-  /* ── Desktop ── */
-  @media (min-width: 480px) {
-    body { background: transparent !important; }
-  }
-  @media (min-width: 900px) {
-    .screen { max-width: 720px; }
-    .upload-sheet { max-width: 720px; }
-    .screen-body { padding: 32px 40px; }
-    .photo-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  @media (min-width:480px) { body { background:transparent !important; } }
+  @media (min-width:900px) {
+    .screen { max-width:720px; }
+    .upload-sheet { max-width:720px; }
+    .screen-body { padding:32px 40px; }
+    .photo-grid { grid-template-columns:repeat(4,1fr); gap:8px; }
   }
 </style>
 </head>
@@ -567,13 +161,11 @@
   <div class="panel">
     <h1 style="font-family:'IM Fell English',serif;font-style:italic;font-size:22px;color:var(--ink);margin-bottom:4px;">How are you arriving today?</h1>
     <p style="font-size:12px;color:var(--ink-soft);margin-bottom:12px;opacity:0.7;">Tap your mood to set the experience</p>
-
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
       <div style="font-size:11px;color:var(--ink);opacity:0.5;letter-spacing:0.08em;">ENERGETIC</div>
       <div style="display:flex;align-items:center;gap:4px;">
         <div style="font-size:11px;color:var(--ink);opacity:0.5;letter-spacing:0.08em;writing-mode:vertical-rl;transform:rotate(180deg);">LINGERING</div>
         <div class="mood-box">
-          <!-- Top-left: Energetic + Lingering = ballpark -->
           <div class="mood-quadrant mq-tl" data-quad="tl">
             <svg class="mood-face" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
               <line x1="20" y1="22" x2="28" y2="18" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
@@ -583,7 +175,6 @@
               <path d="M22 50 Q36 44 50 50" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round" fill="none"/>
             </svg>
           </div>
-          <!-- Top-right: Energetic + Passing = fire -->
           <div class="mood-quadrant mq-tr" data-quad="tr">
             <svg class="mood-face" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
               <line x1="20" y1="20" x2="30" y2="24" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
@@ -593,7 +184,6 @@
               <line x1="22" y1="50" x2="50" y2="50" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
           </div>
-          <!-- Bottom-left: Relaxed + Lingering = spa -->
           <div class="mood-quadrant mq-bl" data-quad="bl">
             <svg class="mood-face" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
               <line x1="20" y1="26" x2="30" y2="24" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
@@ -603,7 +193,6 @@
               <path d="M22 48 Q36 56 50 48" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round" fill="none"/>
             </svg>
           </div>
-          <!-- Bottom-right: Relaxed + Passing = meadow -->
           <div class="mood-quadrant mq-br" data-quad="br">
             <svg class="mood-face" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
               <line x1="20" y1="24" x2="30" y2="26" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
@@ -618,7 +207,6 @@
       </div>
       <div style="font-size:11px;color:var(--ink);opacity:0.5;letter-spacing:0.08em;">RELAXED</div>
     </div>
-
     <div class="mood-greet" style="margin-top:14px;min-height:1.4em;">tap a mood to set your experience</div>
     <button class="btn ghost mood-skip" type="button" style="margin-top:12px;font-size:13px;">i don't care — just show me the garden</button>
   </div>
@@ -630,12 +218,9 @@
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" src="" alt="">
-  <div class="lightbox-meta">
-    <h3 id="lightbox-title"></h3>
-    <p id="lightbox-date"></p>
-  </div>
+  <div class="lightbox-meta"><h3 id="lightbox-title"></h3><p id="lightbox-date"></p></div>
   <div class="lightbox-actions" onclick="event.stopPropagation()">
-    <button onclick="closeLightbox()">✕ Close</button>
+    <button onclick="closeLightbox()">Close</button>
   </div>
 </div>
 
@@ -645,7 +230,7 @@
     <h2>Add a Photo</h2>
     <div class="upload-preview" id="upload-preview">
       <img id="preview-img" src="" alt="">
-      <div class="placeholder" id="preview-placeholder">📷 Tap to choose a photo</div>
+      <div class="placeholder" id="preview-placeholder">Tap to choose a photo</div>
       <input type="file" accept="image/*" capture="environment" onchange="previewPhoto(this)">
     </div>
     <div class="form-group">
@@ -657,27 +242,19 @@
         <optgroup label="Zone 3"><option value="3A">3A</option><option value="3B">3B</option><option value="3C">3C</option><option value="3D">3D</option><option value="3E">3E</option><option value="3F">3F</option><option value="3G">3G</option></optgroup>
       </select>
     </div>
-    <div class="form-group">
-      <label>Your Name</label>
-      <input type="text" id="upload-name" placeholder="First name or nickname">
-    </div>
-    <div class="form-group">
-      <label>Caption (optional)</label>
-      <input type="text" id="upload-caption" placeholder="What's growing here?">
-    </div>
+    <div class="form-group"><label>Your Name</label><input type="text" id="upload-name" placeholder="First name or nickname"></div>
+    <div class="form-group"><label>Caption (optional)</label><input type="text" id="upload-caption" placeholder="What's growing here?"></div>
     <button class="submit-btn" onclick="submitPhoto()">Upload Photo</button>
     <button style="background:none;border:none;color:var(--ink-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeUploadModal()">Cancel</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: LANDING                            -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LANDING -->
 <div class="screen active" id="screen-landing">
   <div class="screen-body" style="justify-content:center;padding-top:40px;">
     <div class="hero-block">
       <span class="farm-emblem">🌱</span>
-      <h2>Lancer Farms<br>& Gardens</h2>
+      <h2>Lancer Farms<br>&amp; Gardens</h2>
       <p>California Baptist University</p>
     </div>
     <p class="section-label">Who are you visiting as?</p>
@@ -692,11 +269,9 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: GUEST OPTIONS                      -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: GUEST OPTIONS -->
 <div class="screen" id="screen-guest-options">
-  <div class="app-header"><h1>Lancer Farms & Gardens</h1><p>Guest Access</p></div>
+  <div class="app-header"><h1>Lancer Farms &amp; Gardens</h1><p>Guest Access</p></div>
   <div class="screen-body">
     <div class="option-card" onclick="go('screen-about')"><span class="card-icon">📖</span><div class="card-text"><h3>About Lancer Farms</h3><p>Our mission, history, and community</p></div></div>
     <div class="option-card" onclick="go('screen-leave-comment')"><span class="card-icon">💬</span><div class="card-text"><h3>Leave a Comment</h3><p>Share a message for a bed or the farm</p></div></div>
@@ -705,11 +280,9 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: LOGIN                              -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LOGIN -->
 <div class="screen" id="screen-login">
-  <div class="app-header"><h1>Lancer Farms & Gardens</h1><p>Staff Access</p></div>
+  <div class="app-header"><h1>Lancer Farms &amp; Gardens</h1><p>Staff Access</p></div>
   <div class="screen-body" style="justify-content:center;">
     <div class="login-block">
       <h2>Staff Sign In</h2>
@@ -721,28 +294,21 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ABOUT                              -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ABOUT -->
 <div class="screen" id="screen-about">
   <div class="app-header"><h1>About the Farm</h1><p>Our Story</p></div>
   <div class="screen-body">
-    <div class="about-block"><h3>Lancer Farms & Gardens</h3><p>Lancer Farms & Gardens is the working farm of California Baptist University in Riverside, CA. Students, faculty, and community volunteers cultivate specialty crops, practice sustainable agriculture, and explore the intersection of faith and stewardship of the land.</p></div>
+    <div class="about-block"><h3>Lancer Farms &amp; Gardens</h3><p>Lancer Farms &amp; Gardens is the working farm of California Baptist University in Riverside, CA. Students, faculty, and community volunteers cultivate specialty crops, practice sustainable agriculture, and explore the intersection of faith and stewardship of the land.</p></div>
     <div class="about-block"><h3>Our Mission</h3><p>To educate and equip the next generation of growers, to care for creation faithfully, and to feed our community with intention and love.</p></div>
     <div class="blessing-block"><p>"Commit your work to the Lord, and your plans will be established."</p><cite>— Proverbs 16:3</cite></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: LEAVE COMMENT                      -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: LEAVE COMMENT -->
 <div class="screen" id="screen-leave-comment">
   <div class="app-header"><h1>Leave a Comment</h1><p>For a Bed or the Farm</p></div>
   <div class="screen-body">
-    <div class="form-group">
-      <label>Your Name (required)</label>
-      <input type="text" id="comment-name" placeholder="First name or nickname">
-    </div>
+    <div class="form-group"><label>Your Name (required)</label><input type="text" id="comment-name" placeholder="First name or nickname"></div>
     <div class="form-group">
       <label>Which bed? (optional)</label>
       <select id="comment-bed">
@@ -757,9 +323,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED SELECTOR (GUEST)               -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED SELECTOR (GUEST) -->
 <div class="screen" id="screen-bed-selector-guest">
   <div class="app-header"><h1>Select a Bed</h1><p>Guest View</p></div>
   <div class="screen-body">
@@ -778,9 +342,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED INFO (GUEST)                   -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED INFO (GUEST) -->
 <div class="screen" id="screen-bed-info-guest">
   <div class="app-header"><h1 id="bi-g-title">Garden Bed</h1><p id="bi-g-zone"></p></div>
   <div class="screen-body">
@@ -799,20 +361,16 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: PHOTO ALBUM                        -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: PHOTO ALBUM -->
 <div class="screen" id="screen-photo-album">
-  <div class="app-header"><h1>Photo Album</h1><p>Lancer Farms & Gardens</p></div>
+  <div class="app-header"><h1>Photo Album</h1><p>Lancer Farms &amp; Gardens</p></div>
   <div class="screen-body">
     <button class="upload-btn" onclick="openUploadModal()">📷 Add a Photo</button>
     <div id="album-content"><div class="photo-empty">Loading photos…</div></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: DAMAGE REPORT                      -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: DAMAGE REPORT -->
 <div class="screen" id="screen-damage-report">
   <div class="app-header"><h1>Report an Issue</h1><p>Help Keep the Farm Healthy</p></div>
   <div class="screen-body">
@@ -824,11 +382,9 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: STAFF DASHBOARD                    -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: STAFF DASHBOARD -->
 <div class="screen" id="screen-employee-options">
-  <div class="app-header"><h1>Farm Dashboard</h1><p>Staff & Students</p></div>
+  <div class="app-header"><h1>Farm Dashboard</h1><p>Staff &amp; Students</p></div>
   <div class="screen-body">
     <div class="option-card primary" onclick="go('screen-tasks')"><span class="card-icon">✅</span><div class="card-text"><h3>Today's Tasks</h3><p>Care plan checklist for this visit</p></div></div>
     <div class="option-card" onclick="go('screen-bed-selector-employee')"><span class="card-icon">🌿</span><div class="card-text"><h3>Garden Beds</h3><p>View and manage all beds</p></div></div>
@@ -838,14 +394,12 @@
     <div class="option-card" onclick="go('screen-about')"><span class="card-icon">📖</span><div class="card-text"><h3>About Lancer Farms</h3><p>Farm info and mission</p></div></div>
     <p class="section-label">Staff Tools</p>
     <div class="option-card" onclick="go('screen-tools-inventory')"><span class="card-icon">🔧</span><div class="card-text"><h3>Tool Inventory</h3><p>View available farm equipment</p></div></div>
-    <div class="option-card" onclick="go('screen-consumables')"><span class="card-icon">📦</span><div class="card-text"><h3>Supplies & Consumables</h3><p>Track stock levels and par flags</p></div></div>
+    <div class="option-card" onclick="go('screen-consumables')"><span class="card-icon">📦</span><div class="card-text"><h3>Supplies &amp; Consumables</h3><p>Track stock levels and par flags</p></div></div>
     <div class="option-card" onclick="go('screen-requests')"><span class="card-icon">📋</span><div class="card-text"><h3>Submit a Request</h3><p>Resupply, repairs, and outside assistance</p></div></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED SELECTOR (STAFF)               -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED SELECTOR (STAFF) -->
 <div class="screen" id="screen-bed-selector-employee">
   <div class="app-header"><h1>Select a Bed</h1><p>Staff Access</p></div>
   <div class="screen-body">
@@ -864,9 +418,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED INFO (STAFF)                   -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED INFO (STAFF) -->
 <div class="screen" id="screen-bed-info-employee">
   <div class="app-header"><h1 id="bi-e-title">Garden Bed</h1><p id="bi-e-zone"></p></div>
   <div class="screen-body">
@@ -884,9 +436,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED CONFIGURATOR                   -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED CONFIGURATOR -->
 <div class="screen" id="screen-bed-configurator">
   <div class="app-header"><h1 id="bc-title">Manage Bed</h1><p>Staff Access</p></div>
   <div class="screen-body">
@@ -907,24 +457,20 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: MANAGE PLANTS                      -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: MANAGE PLANTS -->
 <div class="screen" id="screen-manage-plants">
   <div class="app-header">
     <button onclick="go('screen-bed-configurator')" style="position:absolute;left:16px;top:18px;background:none;border:none;color:var(--ink);font-size:1.2rem;cursor:pointer;">‹</button>
     <h1 id="mp-title">Plants</h1><p>Add or Remove</p>
   </div>
   <div class="screen-body">
-    <button class="manage-btn" onclick="go('screen-add-plant'); loadAddPlantScreen();">＋ Add a Plant</button>
+    <button class="manage-btn" onclick="go('screen-add-plant'); loadAddPlantScreen();">+ Add a Plant</button>
     <p class="section-label" style="margin-top:8px;margin-bottom:4px;">Current Plants</p>
     <div id="mp-plants-list" style="display:flex;flex-direction:column;gap:10px;"><div class="comment-item"><p>Loading…</p></div></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: ADD PLANT                          -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: ADD PLANT -->
 <div class="screen" id="screen-add-plant">
   <div class="app-header">
     <button onclick="go('screen-manage-plants'); loadManagePlants();" style="position:absolute;left:16px;top:18px;background:none;border:none;color:var(--ink);font-size:1.2rem;cursor:pointer;">‹</button>
@@ -940,14 +486,12 @@
     <div class="form-group"><label>Notes</label><textarea id="bc-plant-note" placeholder="Variety, spacing, any other notes…" style="min-height:70px;"></textarea></div>
     <div class="form-group"><label>Date Planted</label><input type="date" id="bc-plant-date" /></div>
     <div class="form-group"><label>Est. Harvest Date</label><input type="date" id="bc-plant-harvest" /></div>
-    <button class="submit-btn" onclick="submitAddPlant()">✓ Log Plant</button>
+    <button class="submit-btn" onclick="submitAddPlant()">Log Plant</button>
     <button onclick="go('screen-manage-plants'); loadManagePlants();" style="background:none;border:none;color:var(--ink-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;">Cancel</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: BED PHOTOS                         -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: BED PHOTOS -->
 <div class="screen" id="screen-bed-photos">
   <div class="app-header"><h1 id="bp-photos-title">Bed Photos</h1><p>Tap a photo to enlarge</p></div>
   <div class="screen-body">
@@ -956,9 +500,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- SCREEN: FIELD LOG                          -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN: FIELD LOG -->
 <div class="screen" id="screen-field-log">
   <div class="app-header"><h1>Field Log</h1><p>Farm Journal · Staff</p></div>
   <div class="screen-body">
@@ -978,4 +520,743 @@
   </div>
 </div>
 
-<!--
+<!-- SCREEN: ALMANAC -->
+<div class="screen" id="screen-almanac">
+  <div class="app-header"><h1>Farm Almanac</h1><p>Lancer Farms · Live Conditions</p></div>
+  <div class="screen-body">
+    <div class="bed-header">
+      <div class="bed-id">Right now over the farm</div>
+      <h2 id="alm-temp">…</h2>
+      <div class="bed-manager" id="alm-cond">Reaching the National Weather Service…</div>
+    </div>
+    <div class="info-row"><span class="label">Wind</span><span class="value" id="alm-wind">—</span></div>
+    <div class="info-row"><span class="label">Sunrise</span><span class="value" id="alm-sunrise">—</span></div>
+    <div class="info-row"><span class="label">Sunset</span><span class="value" id="alm-sunset">—</span></div>
+    <div class="info-row"><span class="label">Daylight</span><span class="value" id="alm-daylight">—</span></div>
+    <div class="info-row"><span class="label">Moon</span><span class="value" id="alm-moon">—</span></div>
+    <p class="section-label">Coming Up</p>
+    <div class="comment-feed" id="alm-forecast"><div class="comment-item"><p>Loading forecast…</p></div></div>
+    <div class="blessing-block"><p>"He made the moon to mark the seasons, and the sun knows when to go down."</p><cite>— Psalm 104:19</cite></div>
+  </div>
+</div>
+
+<!-- SCREEN: TOOLS INVENTORY -->
+<div class="screen" id="screen-tools-inventory">
+  <div class="app-header"><h1>Tool Inventory</h1><p>Reference List</p></div>
+  <div class="screen-body">
+    <p class="section-label">Hand Tools</p>
+    <div class="inventory-item"><div><div class="item-name">Garden Hoe</div><div class="item-sub">Long-handled · stored in shed</div></div><div><div class="qty-num">4</div></div></div>
+    <div class="inventory-item"><div><div class="item-name">Hand Trowel</div><div class="item-sub">Short-handled · stored in shed</div></div><div><div class="qty-num">8</div></div></div>
+    <div class="inventory-item"><div><div class="item-name">Garden Fork</div><div class="item-sub">Long-handled · stored in shed</div></div><div><div class="qty-num">3</div></div></div>
+    <p class="section-label">Irrigation</p>
+    <div class="inventory-item"><div><div class="item-name">Hose Reel</div><div class="item-sub">50ft · Zone 1 corner</div></div><div><div class="qty-num">2</div></div></div>
+    <div class="inventory-item"><div><div class="item-name">Drip Line Kit</div><div class="item-sub">Emitters + tubing</div></div><div><div class="qty-num">1</div></div></div>
+    <p class="section-label">Power Equipment</p>
+    <div class="inventory-item"><div><div class="item-name">Electric Tiller</div><div class="item-sub">Corded · locked in shed</div></div><div><div class="qty-num">1</div></div></div>
+  </div>
+</div>
+
+<!-- SCREEN: CONSUMABLES -->
+<div class="screen" id="screen-consumables">
+  <div class="app-header"><h1>Supplies &amp; Consumables</h1><p>Live Inventory</p></div>
+  <div class="screen-body">
+    <p class="section-label">Soil &amp; Amendments</p>
+    <div class="inventory-item low-stock"><div><div class="item-name">Compost <span class="stock-flag">Low</span></div><div class="item-sub">Par: 10 bags</div></div><div><div class="qty-num" style="color:var(--alert)">3</div><div class="qty-par">bags</div></div></div>
+    <div class="inventory-item"><div><div class="item-name">Perlite</div><div class="item-sub">Par: 5 bags</div></div><div><div class="qty-num">7</div><div class="qty-par">bags</div></div></div>
+    <div class="inventory-item low-stock"><div><div class="item-name">Fertilizer (10-10-10) <span class="stock-flag">Low</span></div><div class="item-sub">Par: 4 bags</div></div><div><div class="qty-num" style="color:var(--alert)">1</div><div class="qty-par">bags</div></div></div>
+    <p class="section-label">Seeds &amp; Starts</p>
+    <div class="inventory-item"><div><div class="item-name">Seed Packets (mixed)</div><div class="item-sub">Par: 20 packets</div></div><div><div class="qty-num">34</div><div class="qty-par">pkts</div></div></div>
+    <p class="section-label">Irrigation</p>
+    <div class="inventory-item"><div><div class="item-name">Drip Emitters</div><div class="item-sub">Par: 50 units</div></div><div><div class="qty-num">82</div><div class="qty-par">units</div></div></div>
+  </div>
+</div>
+
+<!-- SCREEN: REQUESTS -->
+<div class="screen" id="screen-requests">
+  <div class="app-header"><h1>Submit a Request</h1><p>Outside Assistance</p></div>
+  <div class="screen-body">
+    <div class="form-group"><label>Your Name</label><input type="text" id="req-name" placeholder="First Last" /></div>
+    <div class="form-group"><label>Request Type</label><select id="req-type"><option>Resupply</option><option>Repair</option><option>Planting Assistance</option><option>Infrastructure</option><option>Other</option></select></div>
+    <div class="form-group"><label>Bed or Zone (if applicable)</label><select id="req-bed"><option value="">Not bed-specific</option><optgroup label="Zone 1"><option>1A</option><option>1B</option><option>1C</option><option>1D</option><option>1E</option><option>1F</option><option>1G</option><option>1H</option></optgroup><optgroup label="Zone 2"><option>2A</option><option>2B</option><option>2C</option><option>2D</option><option>2E</option><option>2F</option></optgroup><optgroup label="Zone 3"><option>3A</option><option>3B</option><option>3C</option><option>3D</option><option>3E</option><option>3F</option><option>3G</option></optgroup></select></div>
+    <div class="form-group"><label>What do you need?</label><textarea id="req-note" placeholder="Describe the items or assistance needed..."></textarea></div>
+    <div class="form-group"><label>Priority</label><select id="req-priority"><option>Normal — within the week</option><option>Urgent — within 48 hours</option><option>Low — when available</option></select></div>
+    <button class="submit-btn" onclick="submitRequest()">Submit Request</button>
+  </div>
+</div>
+
+<!-- SCREEN: TASKS -->
+<div class="screen" id="screen-tasks">
+  <div class="app-header"><h1>Today's Tasks</h1><p>Care Plan</p></div>
+  <div class="screen-body">
+    <div id="tasks-content"><div class="comment-item"><p>Loading tasks…</p></div></div>
+  </div>
+</div>
+
+<script>
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwseMinOKfwzdSoxkL89o7YtGq2KrOD0FDemKwgkIsVhK-JU7lhGfOVAuDvUv3Qiefz_Q/exec';
+  const PUBLIC_API  = WEB_APP_URL;
+  const CLOUD_NAME  = 'ddbsuxerb';
+  const UPLOAD_PRESET = 'lfg-photos';
+  const BASE_PASSWORD = 'Godisgood';
+
+  // NAVIGATION
+  function go(screenId, options = {}) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(screenId);
+    if (target) { target.classList.add('active'); target.scrollTop = 0; }
+    if (screenId === 'screen-photo-album') { loadAlbum(); }
+    if (screenId === 'screen-field-log') { loadFieldLog(); }
+    if (screenId === 'screen-almanac') { loadAlmanac(); }
+    if (screenId === 'screen-manage-plants') { loadManagePlants(); }
+    if (screenId === 'screen-tasks') { loadTasks(); }
+    if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
+      history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
+    }
+  }
+
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.lfgScreen) {
+      go(e.state.lfgScreen, Object.assign({}, e.state.lfgOptions, { fromHistory: true }));
+    } else { location.reload(); }
+  });
+  history.replaceState({ lfgScreen: 'screen-landing', lfgOptions: {} }, '', '#screen-landing');
+
+  // TOAST
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // UTILITIES
+  function esc(s) {
+    var d = document.createElement('div');
+    d.appendChild(document.createTextNode(String(s)));
+    return d.innerHTML;
+  }
+  var lbData = [];
+  function fmtDate(iso) {
+    try { return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }); }
+    catch(e) { return ''; }
+  }
+  function findKey(obj, patterns) {
+    const keys = Object.keys(obj);
+    for (const p of patterns) { const k = keys.find(k => p.test(k)); if (k) return k; }
+    return null;
+  }
+  function now() { return new Date().toISOString(); }
+
+  // BED DATA
+  let bedsCache = null, bedsCacheTime = 0, currentBed = null;
+  const LOCATION_NAMES = { SEED:'Seed Station', ORCH:'Orchard', COMP:'Compost', FARM:'General Farm' };
+
+  async function fetchBeds() {
+    if (bedsCache && (Date.now() - bedsCacheTime) < 300000) return bedsCache;
+    const res = await fetch(PUBLIC_API + '?view=beds');
+    const data = await res.json();
+    bedsCache = (data.ok && data.beds) ? data.beds : [];
+    bedsCacheTime = Date.now();
+    return bedsCache;
+  }
+
+  async function selectBed(bedId, mode) {
+    currentBed = bedId;
+    const x = mode === 'guest' ? 'g' : 'e';
+    const set = (id, v) => { const el = document.getElementById('bi-' + x + '-' + id); if (el) el.textContent = v || '—'; };
+    set('title', 'Bed ' + bedId); set('zone', 'Zone ' + bedId.charAt(0));
+    set('id', 'Bed ID: ' + bedId);
+    set('crop', '…'); set('mgr', ''); set('growing', '…'); set('planted', '…'); set('harvest', '…');
+    set('blessing', ''); set('cite', '');
+    go('screen-bed-info-' + (mode === 'guest' ? 'guest' : 'employee'));
+    try {
+      const beds = await fetchBeds();
+      const idKey = beds.length ? findKey(beds[0], [/^bed\s*id$/i, /bedid/i, /^bed$/i, /^id$/i]) : null;
+      const row = beds.find(b => idKey && String(b[idKey]).trim().toUpperCase() === bedId.toUpperCase());
+      if (!row) { set('crop', 'No data yet'); return; }
+      const v = pats => { const k = findKey(row, pats); return k ? String(row[k]) : ''; };
+      const crop = v([/crop/i, /grow/i, /plant(?!ed)/i]);
+      set('crop', crop || 'Unplanted'); set('growing', crop || '—');
+      const mgr = v([/manager/i, /steward/i, /caretaker/i, /assigned/i]);
+      set('mgr', mgr ? 'Managed by ' + mgr : '');
+      const planted = v([/planted/i, /sow/i]);
+      set('planted', planted ? (planted.includes('T') ? fmtDate(planted) : planted) : '—');
+      const harvest = v([/harvest/i]);
+      set('harvest', harvest ? (harvest.includes('T') ? fmtDate(harvest) : harvest) : '—');
+      const bless = v([/bless/i, /verse/i, /scripture/i, /passage/i]);
+      const blEl = document.getElementById('bi-' + x + '-blessing');
+      if (blEl) blEl.closest('.blessing-block').style.display = bless ? '' : 'none';
+      set('blessing', bless);
+      const citeV = v([/cite/i, /reference/i]);
+      set('cite', citeV ? '— ' + citeV : '');
+    } catch(e) { set('crop', 'Could not load bed data'); }
+  }
+
+  // LOGIN
+  var loginAttempts = 0, loginLocked = false;
+  async function handleLogin() {
+    if (loginLocked) { showToast('Too many attempts — wait 30 seconds'); return; }
+    const pw = document.getElementById('login-password').value;
+    if (!pw.startsWith(BASE_PASSWORD)) {
+      loginAttempts++;
+      if (loginAttempts >= 3) {
+        loginLocked = true;
+        showToast('Too many attempts — locked for 30 seconds');
+        setTimeout(function() { loginLocked = false; loginAttempts = 0; }, 30000);
+      } else { showToast('Incorrect password — ' + (3 - loginAttempts) + ' attempts left'); }
+      return;
+    }
+    const mmdd = pw.slice(BASE_PASSWORD.length);
+    showToast('Signing in…');
+    try {
+      const res = await fetch(WEB_APP_URL, { method:'POST', body: JSON.stringify({ action:'staffLogin', password:pw, mmdd, timestamp: now() }) });
+      const data = await res.json();
+      if (data.ok) { sessionStorage.setItem('adminToken', pw); loginAttempts = 0; go('screen-employee-options'); }
+      else {
+        loginAttempts++;
+        if (loginAttempts >= 3) {
+          loginLocked = true;
+          showToast('Too many attempts — locked for 30 seconds');
+          setTimeout(function() { loginLocked = false; loginAttempts = 0; }, 30000);
+        } else { showToast('Incorrect password — ' + (3 - loginAttempts) + ' attempts left'); }
+      }
+    } catch(e) { showToast('Could not connect — check your network'); }
+  }
+
+  // PHOTO ALBUM
+  async function loadBedPhotos() {
+    const box = document.getElementById('bed-photos-content');
+    const titleEl = document.getElementById('bp-photos-title');
+    const bed = currentBed || '';
+    if (titleEl) titleEl.textContent = (LOCATION_NAMES[bed] || ('Bed ' + bed)) + ' — Photos';
+    if (!box) return;
+    box.innerHTML = '<div class="photo-empty">Loading…</div>';
+    try {
+      const res = await fetch(PUBLIC_API + '?view=photos');
+      const data = await res.json();
+      const photos = (data.ok && data.photos) ? data.photos : [];
+      const mine = photos.filter(ph => String(ph.BedID || '').trim().toUpperCase() === String(bed).trim().toUpperCase());
+      if (!mine.length) { box.innerHTML = '<div class="photo-empty">No photos yet for this bed.</div>'; return; }
+      let html = '<div class="photo-grid">';
+      mine.forEach(ph => {
+        const full = String(ph.CloudinaryURL || ''); if (!full) return;
+        const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
+        const label = LOCATION_NAMES[bed] || ('Bed ' + bed);
+        const cap = String(ph.Caption || label);
+        const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
+        const idx = lbData.length;
+        lbData.push({ src: full, title: cap, date: when });
+        html += '<div class="photo-thumb" onclick="openLightbox(' + idx + ')"><img src="' + esc(thumb) + '" alt="' + esc(label) + '" loading="lazy"></div>';
+      });
+      html += '</div>';
+      box.innerHTML = html;
+    } catch(e) { box.innerHTML = '<div class="photo-empty">Could not load photos.</div>'; }
+  }
+
+  async function loadAlbum() {
+    const box = document.getElementById('album-content'); if (!box) return;
+    try {
+      const res = await fetch(PUBLIC_API + '?view=photos');
+      const data = await res.json();
+      const photos = (data.ok && data.photos) ? data.photos : [];
+      if (!photos.length) { box.innerHTML = '<div class="photo-empty">No photos yet — be the first to add one!</div>'; return; }
+      const groups = { '1':[], '2':[], '3':[], other:[] };
+      photos.forEach(ph => { const bed = String(ph.BedID || ''); (groups[bed.charAt(0)] || groups.other).push(ph); });
+      let html = '';
+      const section = (title, list) => {
+        if (!list.length) return '';
+        let h = '<div class="zone-header">🌿 ' + esc(title) + '</div><div class="photo-grid">';
+        list.forEach(ph => {
+          const full = String(ph.CloudinaryURL || ''); if (!full) return;
+          const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
+          const bed = String(ph.BedID || '');
+          const label = LOCATION_NAMES[bed] || ('Bed ' + bed);
+          const cap = String(ph.Caption || label);
+          const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
+          const idx = lbData.length;
+          lbData.push({ src: full, title: cap, date: when });
+          h += '<div class="photo-thumb" onclick="openLightbox(' + idx + ')"><img src="' + esc(thumb) + '" alt="' + esc(label) + '" loading="lazy"><span class="bed-tag">' + esc(bed) + '</span></div>';
+        });
+        return h + '</div>';
+      };
+      html += section('Zone 1', groups['1']) + section('Zone 2', groups['2']) + section('Zone 3', groups['3']) + section('Around the Farm', groups.other);
+      box.innerHTML = html || '<div class="photo-empty">No photos yet.</div>';
+    } catch(e) { box.innerHTML = '<div class="photo-empty">Could not load photos.</div>'; }
+  }
+
+  // ALMANAC
+  const FARM_LAT = 33.9281417, FARM_LNG = -117.4301472;
+
+  function sunTimes(date, lat, lng) {
+    const rad = Math.PI / 180;
+    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 86400000);
+    function calc(rising) {
+      const zenith = 90.833, lngHour = lng / 15;
+      const t = dayOfYear + ((rising ? 6 : 18) - lngHour) / 24;
+      const M = (0.9856 * t) - 3.289;
+      let L = M + (1.916 * Math.sin(M * rad)) + (0.020 * Math.sin(2 * M * rad)) + 282.634;
+      L = ((L % 360) + 360) % 360;
+      let RA = Math.atan(0.91764 * Math.tan(L * rad)) / rad;
+      RA = ((RA % 360) + 360) % 360;
+      RA += (Math.floor(L / 90) * 90 - Math.floor(RA / 90) * 90);
+      RA /= 15;
+      const sinDec = 0.39782 * Math.sin(L * rad);
+      const cosDec = Math.cos(Math.asin(sinDec));
+      const cosH = (Math.cos(zenith * rad) - (sinDec * Math.sin(lat * rad))) / (cosDec * Math.cos(lat * rad));
+      if (cosH > 1 || cosH < -1) return null;
+      let H = rising ? 360 - Math.acos(cosH) / rad : Math.acos(cosH) / rad;
+      H /= 15;
+      const T = H + RA - (0.06571 * t) - 6.622;
+      let UT = ((T - lngHour) % 24 + 24) % 24;
+      const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      d.setUTCMinutes(Math.round(UT * 60));
+      return d;
+    }
+    return { sunrise: calc(true), sunset: calc(false) };
+  }
+
+  function moonPhase(date) {
+    const synodic = 29.53058867;
+    const known = Date.UTC(2000, 0, 6, 18, 14);
+    let age = ((date.getTime() - known) / 86400000) % synodic;
+    if (age < 0) age += synodic;
+    const names = [[1.85,'🌑 New Moon'],[5.54,'🌒 Waxing Crescent'],[9.23,'🌓 First Quarter'],[12.91,'🌔 Waxing Gibbous'],[16.61,'🌕 Full Moon'],[20.30,'🌖 Waning Gibbous'],[23.99,'🌗 Last Quarter'],[27.68,'🌘 Waning Crescent'],[99,'🌑 New Moon']];
+    for (const [limit, name] of names) if (age < limit) return name;
+    return '🌙';
+  }
+
+  function fmtTime(d) { return d ? d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' }) : '—'; }
+
+  async function loadAlmanac() {
+    const n = new Date();
+    const sun = sunTimes(n, FARM_LAT, FARM_LNG);
+    document.getElementById('alm-sunrise').textContent = fmtTime(sun.sunrise);
+    document.getElementById('alm-sunset').textContent = fmtTime(sun.sunset);
+    if (sun.sunrise && sun.sunset) {
+      const mins = Math.round((sun.sunset - sun.sunrise) / 60000);
+      document.getElementById('alm-daylight').textContent = Math.floor(mins / 60) + 'h ' + (mins % 60) + 'm';
+    }
+    document.getElementById('alm-moon').textContent = moonPhase(n);
+    const tempEl = document.getElementById('alm-temp'), condEl = document.getElementById('alm-cond');
+    try {
+      let cached = null;
+      try { cached = JSON.parse(sessionStorage.getItem('lfg-wx') || 'null'); } catch(e) {}
+      let periods;
+      if (cached && (Date.now() - cached.at) < 1800000) {
+        periods = cached.periods;
+      } else {
+        const pt = await (await fetch('https://api.weather.gov/points/' + FARM_LAT + ',' + FARM_LNG)).json();
+        const fc = await (await fetch(pt.properties.forecast)).json();
+        periods = fc.properties.periods.slice(0, 5);
+        try { sessionStorage.setItem('lfg-wx', JSON.stringify({ at: Date.now(), periods })); } catch(e) {}
+      }
+      const nowP = periods[0];
+      tempEl.textContent = nowP.temperature + '°' + nowP.temperatureUnit;
+      condEl.textContent = nowP.shortForecast + ' · ' + nowP.name;
+      document.getElementById('alm-wind').textContent = nowP.windSpeed + ' ' + nowP.windDirection;
+      document.getElementById('alm-forecast').innerHTML = periods.slice(1).map(pd =>
+        '<div class="comment-item"><div class="comment-meta">' + esc(pd.name) + ' · ' + pd.temperature + '°' + pd.temperatureUnit + '</div><p>' + esc(pd.detailedForecast) + '</p></div>'
+      ).join('');
+    } catch(e) {
+      tempEl.textContent = '—';
+      condEl.textContent = 'Weather service unreachable — sun & moon still accurate';
+      document.getElementById('alm-forecast').innerHTML = '<div class="comment-item"><p>Forecast unavailable right now.</p></div>';
+    }
+  }
+
+  // FIELD LOG
+  async function loadFieldLog() {
+    const feed = document.getElementById('log-feed');
+    try {
+      const res = await fetch(PUBLIC_API + '?view=log');
+      const data = await res.json();
+      const log = (data.ok && data.log) ? data.log : [];
+      if (!log.length) { feed.innerHTML = '<div class="comment-item"><p>No entries yet.</p></div>'; return; }
+      feed.innerHTML = log.map(en => {
+        const loc = String(en.BedID || '');
+        const label = LOCATION_NAMES[loc] || (loc ? 'Bed ' + loc : 'Farm');
+        const when = en.When ? fmtDate(en.When) : '';
+        return '<div class="comment-item"><div class="comment-meta">' + esc(label) + ' · ' + esc(when) + '</div><p>' + esc(String(en.What || '')) + '</p></div>';
+      }).join('');
+    } catch(e) { feed.innerHTML = '<div class="comment-item"><p>Could not load entries.</p></div>'; }
+  }
+
+  async function submitFieldLog() {
+    const note = document.getElementById('log-note').value.trim();
+    if (!note) { showToast('Write a note first'); return; }
+    const pw = sessionStorage.getItem('adminToken');
+    if (!pw) { showToast('Please sign in again'); go('screen-login'); return; }
+    showToast('Saving…');
+    try {
+      const res = await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'addLog', password:pw, location: document.getElementById('log-location').value, note, timestamp: now() }) });
+      const data = await res.json();
+      if (data.ok) { showToast('Logged'); document.getElementById('log-note').value = ''; loadFieldLog(); }
+      else showToast('Could not save — try again');
+    } catch(e) { showToast('Could not save — check connection'); }
+  }
+
+  // COMMENTS
+  async function submitComment() {
+    const name = document.getElementById('comment-name').value.trim();
+    const text = document.getElementById('comment-text').value.trim();
+    const bed = document.getElementById('comment-bed').value;
+    if (!name) { showToast('Please enter your name'); return; }
+    if (!text) { showToast('Please write a comment'); return; }
+    showToast('Posting…');
+    try {
+      const res = await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'addComment', name, comment:text, bedId: bed || 'FARM', timestamp: now() }) });
+      const data = await res.json();
+      if (data.ok) { showToast('Comment posted — thank you!'); document.getElementById('comment-name').value = ''; document.getElementById('comment-text').value = ''; go('screen-guest-options'); }
+      else showToast('Could not post — try again');
+    } catch(e) { showToast('Could not post — check connection'); }
+  }
+
+  // DAMAGE REPORT
+  async function submitDamageReport() {
+    const desc = document.getElementById('dr-desc').value.trim();
+    const name = document.getElementById('dr-name').value.trim();
+    if (!desc) { showToast('Please describe what you saw'); return; }
+    showToast('Sending…');
+    try {
+      const res = await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'addReport', bedId: currentBed || 'FARM', type: document.getElementById('dr-type').value, description:desc, name, timestamp: now() }) });
+      const data = await res.json();
+      if (data.ok) { showToast('Report submitted — thank you'); document.getElementById('dr-desc').value = ''; go('screen-guest-options'); }
+      else showToast('Could not send — try again');
+    } catch(e) { showToast('Could not send — check connection'); }
+  }
+
+  // REQUESTS
+  async function submitRequest() {
+    const name = document.getElementById('req-name').value.trim();
+    const note = document.getElementById('req-note').value.trim();
+    if (!name) { showToast('Please enter your name'); return; }
+    if (!note) { showToast('Please describe what you need'); return; }
+    const pw = sessionStorage.getItem('adminToken');
+    showToast('Submitting…');
+    try {
+      const res = await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'addRequest', password:pw, name, type: document.getElementById('req-type').value, bedId: document.getElementById('req-bed').value, note, priority: document.getElementById('req-priority').value, timestamp: now() }) });
+      const data = await res.json();
+      if (data.ok) { showToast('Request submitted'); go('screen-employee-options'); }
+      else showToast('Could not submit — try again');
+    } catch(e) { showToast('Could not submit — check connection'); }
+  }
+
+  // TASKS
+  async function loadTasks() {
+    const box = document.getElementById('tasks-content'); if (!box) return;
+    try {
+      const res = await fetch(PUBLIC_API + '?view=tasks');
+      const data = await res.json();
+      const tasks = (data.ok && data.tasks) ? data.tasks : [];
+      if (!tasks.length) { box.innerHTML = '<div class="comment-item"><p>No tasks for today.</p></div>'; return; }
+      box.innerHTML = tasks.map((t, i) => {
+        const id = 'task-' + i;
+        return '<div class="inventory-item" id="' + id + '" style="gap:12px;">' +
+          '<input type="checkbox" onchange="completeTask(this,\'' + esc(t.Task || '') + '\',\'' + esc(t.Location || '') + '\',\'' + id + '\')" style="width:20px;height:20px;cursor:pointer;accent-color:var(--accent);">' +
+          '<div><div class="item-name">' + esc(t.Task || '') + '</div>' +
+          (t.Location ? '<div class="item-sub">' + esc(t.Location) + '</div>' : '') +
+          (t.Notes ? '<div class="item-sub">' + esc(t.Notes) + '</div>' : '') +
+          '</div></div>';
+      }).join('');
+    } catch(e) { box.innerHTML = '<div class="comment-item"><p>Could not load tasks.</p></div>'; }
+  }
+
+  async function completeTask(checkbox, taskName, location, rowId) {
+    if (!checkbox.checked) return;
+    const pw = sessionStorage.getItem('adminToken');
+    const row = document.getElementById(rowId);
+    if (row) row.style.opacity = '0.4';
+    try {
+      await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'completeTask', password:pw, task:taskName, location, timestamp: now() }) });
+      showToast('Task logged');
+    } catch(e) { showToast('Task checked but could not log — check connection'); }
+  }
+
+  // BED CONFIGURATOR
+  function toISO(v) {
+    if (!v) return '';
+    var s = String(v);
+    if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+    var d = new Date(s);
+    return isNaN(d) ? '' : d.toISOString().slice(0, 10);
+  }
+
+  async function prefillConfigurator() {
+    document.getElementById('bc-title').textContent = 'Manage Bed ' + (currentBed || '');
+    document.getElementById('bc-id').value = currentBed || '';
+    loadBedPlants();
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+    set('bc-manager',''); set('bc-growing',''); set('bc-planted',''); set('bc-harvest',''); set('bc-blessing',''); set('bc-blessing-ref','');
+    try {
+      const beds = await fetchBeds();
+      const idKey = beds.length ? findKey(beds[0], [/^bed\s*id$/i, /bedid/i, /^bed$/i, /^id$/i]) : null;
+      const row = beds.find(b => idKey && String(b[idKey]).trim().toUpperCase() === String(currentBed).toUpperCase());
+      if (!row) return;
+      const v = pats => { const k = findKey(row, pats); return k ? String(row[k]) : ''; };
+      set('bc-manager', v([/manager/i, /steward/i, /caretaker/i, /assigned/i]));
+      set('bc-growing', v([/crop/i, /grow/i, /plant(?!ed)/i]));
+      set('bc-planted', toISO(v([/planted/i, /sow/i])));
+      set('bc-harvest', toISO(v([/harvest/i])));
+      set('bc-blessing', v([/bless/i, /verse/i, /scripture/i, /passage/i]));
+      set('bc-blessing-ref', v([/cite/i, /reference/i]));
+    } catch(e) {}
+  }
+
+  async function saveBedChanges() {
+    const pw = sessionStorage.getItem('adminToken');
+    if (!pw) { showToast('Session expired'); go('screen-login'); return; }
+    showToast('Saving…');
+    const fields = {
+      Manager: document.getElementById('bc-manager').value,
+      CurrentlyGrowing: document.getElementById('bc-growing').value,
+      DatePlanted: document.getElementById('bc-planted').value,
+      EstHarvest: document.getElementById('bc-harvest').value,
+      Blessing: document.getElementById('bc-blessing').value,
+      BlessingRef: document.getElementById('bc-blessing-ref').value
+    };
+    try {
+      const res = await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'updateBed', password:pw, bedId:currentBed, fields, timestamp: now() }) });
+      const data = await res.json();
+      if (data.ok) { showToast('Bed updated'); bedsCache = null; await selectBed(currentBed, 'employee'); }
+      else showToast('Could not save — try again');
+    } catch(e) { showToast('Could not save — check connection'); }
+  }
+
+  // PLANTS
+  let masterPlantsCache = null;
+
+  async function fetchMasterPlants() {
+    if (masterPlantsCache) return masterPlantsCache;
+    try {
+      const res = await fetch(PUBLIC_API + '?view=plants');
+      const data = await res.json();
+      masterPlantsCache = (data.ok && data.plants) ? data.plants : [];
+    } catch(e) { masterPlantsCache = []; }
+    return masterPlantsCache;
+  }
+
+  async function fetchActivePlantsForBed() {
+    const res = await fetch(PUBLIC_API + '?view=activeplants');
+    const data = await res.json();
+    const all = (data.ok && data.activeplants) ? data.activeplants : [];
+    return all.filter(p => String(p.BedID || '').trim().toUpperCase() === String(currentBed || '').toUpperCase() && !p.RemovedDate);
+  }
+
+  async function loadBedPlants() {
+    const box = document.getElementById('bc-plants-list'); if (!box) return;
+    box.innerHTML = '<div class="comment-item"><p>Loading…</p></div>';
+    try {
+      const active = await fetchActivePlantsForBed();
+      if (!active.length) { box.innerHTML = '<div class="comment-item"><p style="opacity:0.6;">No plants logged yet.</p></div>'; updateCurrentlyGrowing(''); return; }
+      box.innerHTML = active.map(p => {
+        const name = String(p['Plant Name'] || '');
+        const qty = String(p.Quantity || '');
+        const harvest = p.EstHarvest ? fmtDate(p.EstHarvest) : '';
+        return '<div class="info-row"><span class="label">' + esc(name) + '</span><span class="value">' + esc(qty) + (harvest ? ' · Est: ' + esc(harvest) : '') + '</span></div>';
+      }).join('');
+      const growingNames = active.map(p => String(p['Plant Name'] || '')).filter(Boolean).join(', ');
+      updateCurrentlyGrowing(growingNames);
+    } catch(e) { box.innerHTML = '<div class="comment-item"><p>Could not load plants.</p></div>'; }
+  }
+
+  function updateCurrentlyGrowing(names) {
+    const growEl = document.getElementById('bc-growing');
+    if (growEl) growEl.value = names;
+    if (window._plantActionInProgress && currentBed) {
+      const pw = sessionStorage.getItem('adminToken');
+      if (pw) fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'updateBed', password:pw, bedId:currentBed, fields:{ CurrentlyGrowing:names }, timestamp: now() }) }).catch(() => {});
+      window._plantActionInProgress = false;
+    }
+  }
+
+  async function loadManagePlants() {
+    const titleEl = document.getElementById('mp-title');
+    if (titleEl) titleEl.textContent = 'Plants — Bed ' + (currentBed || '');
+    const box = document.getElementById('mp-plants-list'); if (!box) return;
+    box.innerHTML = '<div class="comment-item"><p>Loading…</p></div>';
+    try {
+      const active = await fetchActivePlantsForBed();
+      if (!active.length) { box.innerHTML = '<div class="comment-item"><p style="opacity:0.6;">No plants in this bed yet.</p></div>'; return; }
+      box.innerHTML = active.map(p => {
+        const id = String(p.RecordID || '').replace(/"/g, '');
+        const name = String(p['Plant Name'] || '');
+        const qty = String(p.Quantity || '');
+        const note = String(p.Note || '');
+        const planted = p.DatePlanted ? fmtDate(p.DatePlanted) : '';
+        const harvest = p.EstHarvest ? fmtDate(p.EstHarvest) : '';
+        return '<div class="inventory-item" id="mp-row-' + esc(id) + '" style="flex-direction:column;align-items:stretch;gap:6px;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+          '<div><div class="item-name">' + esc(name) + '</div>' +
+          (qty ? '<div class="item-sub">Qty: ' + esc(qty) + '</div>' : '') +
+          (harvest ? '<div class="item-sub">Est. Harvest: ' + esc(harvest) + '</div>' : '') +
+          (note ? '<div class="item-sub">' + esc(note) + '</div>' : '') +
+          (planted ? '<div class="item-sub">Planted: ' + esc(planted) + '</div>' : '') +
+          '</div>' +
+          '<button onclick="showRemovePlant(\'' + esc(id) + '\')" style="background:var(--alert);color:var(--on-alert);border:none;border-radius:6px;padding:6px 12px;font-size:0.78rem;cursor:pointer;flex-shrink:0;margin-left:10px;">Remove</button>' +
+          '</div>' +
+          '<div id="remove-form-' + esc(id) + '" style="display:none;flex-direction:column;gap:8px;padding-top:8px;border-top:1px solid var(--card-border);">' +
+          '<div class="form-group"><label>What was done with it?</label>' +
+          '<select id="disp-' + esc(id) + '"><option value="Harvested">Harvested</option><option value="Composted">Composted</option><option value="Donated">Donated</option><option value="Replanted elsewhere">Replanted elsewhere</option><option value="Lost to pests/disease">Lost to pests/disease</option><option value="Other">Other</option></select></div>' +
+          '<button onclick="confirmRemovePlant(\'' + esc(id) + '\')" style="background:var(--alert);color:var(--on-alert);border:none;border-radius:6px;padding:8px;font-size:0.82rem;cursor:pointer;width:100%;">Confirm Removal</button>' +
+          '<button onclick="hideRemovePlant(\'' + esc(id) + '\')" style="background:none;border:none;color:var(--ink-soft);font-size:0.8rem;cursor:pointer;">Cancel</button>' +
+          '</div></div>';
+      }).join('');
+    } catch(e) { box.innerHTML = '<div class="comment-item"><p>Could not load plants.</p></div>'; }
+  }
+
+  function showRemovePlant(id) { const f = document.getElementById('remove-form-' + id); if (f) f.style.display = 'flex'; }
+  function hideRemovePlant(id) { const f = document.getElementById('remove-form-' + id); if (f) f.style.display = 'none'; }
+
+  async function confirmRemovePlant(id) {
+    const pw = sessionStorage.getItem('adminToken');
+    if (!pw) { showToast('Session expired'); go('screen-login'); return; }
+    const disp = document.getElementById('disp-' + id).value;
+    window._plantActionInProgress = true;
+    showToast('Removing…');
+    try {
+      const res = await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'removeActivePlant', password:pw, recordId:id, disposition:disp, timestamp: now() }) });
+      const data = await res.json();
+      if (data.ok) { showToast('Plant removed'); loadManagePlants(); loadBedPlants(); }
+      else if (data.error === 'auth') { sessionStorage.removeItem('adminToken'); showToast('Session expired'); go('screen-login'); }
+      else showToast('Could not remove — try again');
+    } catch(e) { showToast('Could not remove — check connection'); }
+  }
+
+  async function loadAddPlantScreen() {
+    const labelEl = document.getElementById('ap-bed-label');
+    if (labelEl) labelEl.textContent = 'Bed ' + (currentBed || '');
+    document.getElementById('bc-plant-select').value = '';
+    document.getElementById('bc-plant-quantity').value = '';
+    document.getElementById('bc-plant-note').value = '';
+    document.getElementById('bc-plant-harvest').value = '';
+    document.getElementById('bc-other-plant-fields').style.display = 'none';
+    document.getElementById('bc-other-plant-name').value = '';
+    const dateEl = document.getElementById('bc-plant-date');
+    if (dateEl) dateEl.value = new Date().toISOString().slice(0, 10);
+    await populatePlantDropdown();
+  }
+
+  async function populatePlantDropdown() {
+    const sel = document.getElementById('bc-plant-select'); if (!sel) return;
+    sel.innerHTML = '<option value="">— Loading… —</option>';
+    const plants = await fetchMasterPlants();
+    const groups = {};
+    plants.forEach(p => {
+      const cat = String(p.Category || 'Other').trim();
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(String(p['Plant Name'] || '').trim());
+    });
+    let html = '<option value="">— Select a plant —</option>';
+    Object.keys(groups).sort().forEach(cat => {
+      html += '<optgroup label="' + esc(cat) + '">';
+      groups[cat].sort().forEach(name => { html += '<option value="' + esc(name) + '">' + esc(name) + '</option>'; });
+      html += '</optgroup>';
+    });
+    html += '<option value="__other__">+ Other (not listed)</option>';
+    sel.innerHTML = html;
+  }
+
+  function handlePlantSelectChange() {
+    const sel = document.getElementById('bc-plant-select');
+    const otherFields = document.getElementById('bc-other-plant-fields');
+    if (!sel || !otherFields) return;
+    otherFields.style.display = sel.value === '__other__' ? 'flex' : 'none';
+  }
+
+  async function submitAddPlant() {
+    const pw = sessionStorage.getItem('adminToken');
+    if (!pw) { showToast('Session expired'); go('screen-login'); return; }
+    const sel = document.getElementById('bc-plant-select');
+    const isOther = sel.value === '__other__';
+    let plantName = isOther ? document.getElementById('bc-other-plant-name').value.trim() : sel.value;
+    if (!plantName) { showToast('Select or enter a plant name'); return; }
+    const qty = document.getElementById('bc-plant-quantity').value.trim();
+    const note = document.getElementById('bc-plant-note').value.trim();
+    const datePlanted = document.getElementById('bc-plant-date').value;
+    const estHarvest = document.getElementById('bc-plant-harvest').value;
+    window._plantActionInProgress = true;
+    showToast('Logging plant…');
+    try {
+      if (isOther) {
+        const category = document.getElementById('bc-other-plant-category').value;
+        await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'addToMasterPlantList', password:pw, plantName, category }) });
+        masterPlantsCache = null;
+      }
+      const res = await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'addActivePlant', password:pw, bedId:currentBed, plantName, quantity:qty, note, datePlanted, estHarvest, timestamp: now() }) });
+      const data = await res.json();
+      if (data.ok) { showToast('Plant logged!'); go('screen-manage-plants'); loadManagePlants(); loadBedPlants(); }
+      else if (data.error === 'auth') { sessionStorage.removeItem('adminToken'); showToast('Session expired'); go('screen-login'); }
+      else showToast('Could not log plant — try again');
+    } catch(e) { showToast('Could not log plant — check connection'); }
+  }
+
+  // LIGHTBOX
+  function openLightbox(idx) {
+    var d = lbData[idx]; if (!d) return;
+    document.getElementById('lightbox-img').src = d.src;
+    document.getElementById('lightbox-title').textContent = d.title;
+    document.getElementById('lightbox-date').textContent = d.date;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+  // UPLOAD MODAL
+  function openUploadModal() { document.getElementById('upload-modal').classList.add('open'); }
+  function closeUploadModal() {
+    document.getElementById('upload-modal').classList.remove('open');
+    document.getElementById('preview-img').style.display = 'none';
+    document.getElementById('preview-placeholder').style.display = 'block';
+    document.getElementById('preview-img').src = '';
+    document.getElementById('upload-caption').value = '';
+    document.getElementById('upload-name').value = '';
+  }
+  function previewPhoto(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.getElementById('preview-img');
+        img.src = e.target.result; img.style.display = 'block';
+        document.getElementById('preview-placeholder').style.display = 'none';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  async function submitPhoto() {
+    const fileInput = document.querySelector('#upload-preview input[type=file]');
+    const bed = document.getElementById('upload-bed').value;
+    const caption = document.getElementById('upload-caption').value;
+    const uploaderName = document.getElementById('upload-name').value.trim();
+    if (!uploaderName) { showToast('Please enter your name'); return; }
+    if (!fileInput.files || !fileInput.files[0]) { showToast('Please select a photo first'); return; }
+    showToast('Uploading...');
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+    formData.append('upload_preset', UPLOAD_PRESET);
+    formData.append('folder', 'lfg-photos');
+    formData.append('context', 'bed=' + bed + '|caption=' + caption + '|uploader=' + uploaderName);
+    try {
+      const res = await fetch('https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/upload', { method:'POST', body:formData });
+      const data = await res.json();
+      if (data.secure_url) {
+        try { await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'addPhoto', bedId:bed, caption, uploaderName, url:data.secure_url, thumb:data.secure_url.replace('/upload/', '/upload/w_300,h_300,c_fill/'), timestamp: now() }) }); } catch(e) {}
+        showToast('Photo uploaded!'); closeUploadModal(); loadAlbum();
+      } else showToast('Upload failed — try again');
+    } catch(e) { showToast('Upload failed — check connection'); }
+  }
+
+  // SECRET ADMIN ACCESS
+  let tapCount = 0;
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.app-header h1').forEach(h => {
+      h.addEventListener('click', () => {
+        const current = document.querySelector('.screen.active');
+        if (current && current.id === 'screen-employee-options') {
+          tapCount++;
+          if (tapCount >= 5) { tapCount = 0; showToast('Admin access granted'); setTimeout(() => go('screen-admin'), 800); }
+        }
+      });
+    });
+  });
+</script>
+<script src="lfg-site.js" defer></script>
+</body>
+</html>
