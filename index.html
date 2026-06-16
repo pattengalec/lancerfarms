@@ -692,11 +692,14 @@
   }
 
   // LOGIN
-  var loginAttempts = 0, loginLocked = false;
+ 
+ var loginAttempts = 0, loginLocked = false;
   async function handleLogin() {
     if (loginLocked) { showToast('Too many attempts — wait 30 seconds'); return; }
     const pw = document.getElementById('login-password').value;
-    if (!pw.startsWith(BASE_PASSWORD)) {
+    const mmdd = pw.slice(BASE_PASSWORD.length);
+    const valid = pw.startsWith(BASE_PASSWORD) && /^\d{4}$/.test(mmdd);
+    if (!valid) {
       loginAttempts++;
       if (loginAttempts >= 3) {
         loginLocked = true;
@@ -705,21 +708,12 @@
       } else { showToast('Incorrect password — ' + (3 - loginAttempts) + ' attempts left'); }
       return;
     }
-    const mmdd = pw.slice(BASE_PASSWORD.length);
-    showToast('Signing in…');
+    sessionStorage.setItem('adminToken', pw);
+    loginAttempts = 0;
+    go('screen-employee-options');
     try {
-      const res = await fetch(WEB_APP_URL, { method:'POST', body: JSON.stringify({ action:'staffLogin', password:pw, mmdd, timestamp: now() }) });
-      const data = await res.json();
-      if (data.ok) { sessionStorage.setItem('adminToken', pw); loginAttempts = 0; go('screen-employee-options'); }
-      else {
-        loginAttempts++;
-        if (loginAttempts >= 3) {
-          loginLocked = true;
-          showToast('Too many attempts — locked for 30 seconds');
-          setTimeout(function() { loginLocked = false; loginAttempts = 0; }, 30000);
-        } else { showToast('Incorrect password — ' + (3 - loginAttempts) + ' attempts left'); }
-      }
-    } catch(e) { showToast('Could not connect — check your network'); }
+      fetch(WEB_APP_URL, { method:'POST', body: JSON.stringify({ action:'staffLogin', password: pw, mmdd, timestamp: now() }) });
+    } catch(e) {}
   }
 
   // PHOTO ALBUM
