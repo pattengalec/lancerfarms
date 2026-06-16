@@ -59,19 +59,19 @@
 }
 
 [data-theme="fire"] {
-  --bg:        #0A0A0A;
-  --surface:   #1A0A00;
-  --surface2:  #0A0A0A;
-  --mist:      #2A1A0A;
-  --ink:       #F5C89A;
-  --ink-soft:  #C87A3A;
+  --bg:        #2E2E2E;
+  --surface:   #262626;
+  --surface2:  #2E2E2E;
+  --mist:      #3A3A3A;
+  --ink:       #F0EDE6;
+  --ink-soft:  #A8A39A;
   --accent:    #E84A00;
   --accent-2:  #C83200;
-  --on-accent: #0A0A0A;
+  --on-accent: #F2F0EB;
   --alert:     #FF6400;
-  --on-alert:  #0A0A0A;
-  --card:      #1A0A00;
-  --card-border: #2A1A0A;
+  --on-alert:  #2E2E2E;
+  --card:      #383838;
+  --card-border: #4A4A4A;
   --shadow:    0 2px 16px rgba(232,74,0,0.20);
 }
 
