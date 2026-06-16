@@ -640,19 +640,35 @@ setTimeout(dismiss, 3400);
   const BASE_PASSWORD = 'Godisgood';
 
   // NAVIGATION
-  function go(screenId, options = {}) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(screenId);
-    if (target) { target.classList.add('active'); target.scrollTop = 0; }
-    if (screenId === 'screen-photo-album') { loadAlbum(); }
-    if (screenId === 'screen-field-log') { loadFieldLog(); }
-    if (screenId === 'screen-almanac') { loadAlmanac(); }
-    if (screenId === 'screen-manage-plants') { loadManagePlants(); }
-    if (screenId === 'screen-tasks') { loadTasks(); }
-    if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
-      history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
-    }
-  }
+function go(screenId, options = {}) {
+const current = document.querySelector('.screen.active');
+const target = document.getElementById(screenId);
+if (!target || current === target) return;
+function activate() {
+document.querySelectorAll('.screen').forEach(s => s.classList.remove('active','leaving','entering'));
+target.classList.add('active','entering');
+target.scrollTop = 0;
+target.addEventListener('animationend', function h(){ target.classList.remove('entering'); target.removeEventListener('animationend', h); });
+if (screenId === 'screen-photo-album') { loadAlbum(); }
+if (screenId === 'screen-field-log') { loadFieldLog(); }
+if (screenId === 'screen-almanac') { loadAlmanac(); }
+if (screenId === 'screen-manage-plants') { loadManagePlants(); }
+if (screenId === 'screen-tasks') { loadTasks(); }
+if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
+history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
+}
+}
+if (current) {
+current.classList.add('leaving');
+current.addEventListener('animationend', function h(){
+current.classList.remove('active','leaving');
+current.removeEventListener('animationend', h);
+activate();
+}, { once: true });
+} else {
+activate();
+}
+}
 
  window.addEventListener('popstate', function(e) {
     if (document.getElementById('upload-modal').classList.contains('open')) {
