@@ -30,11 +30,12 @@
     box-shadow:0 24px 80px rgba(0,0,0,0.7),0 8px 24px rgba(0,0,0,0.5), 0 0 32px rgba(255,255,255,0.10);
     border-radius:16px; margin:24px auto;
   }
-  .screen.active { display:flex; }
+.screen.active { display:flex; }
 .screen.leaving { animation:screenLeave 0.18s ease-in forwards; }
 .screen.entering { animation:screenEnter 0.22s ease-out forwards; }
 @keyframes screenLeave { from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(0.96); } }
 @keyframes screenEnter { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
+#screen-landing { background:#0a0a0a; }
 
   .app-header { background:var(--surface); color:var(--ink); padding:18px 20px 14px; text-align:center; position:relative; }
   .app-header h1 { font-family:'IM Fell English',serif; font-size:1.45rem; letter-spacing:0.02em; line-height:1.2; }
@@ -60,7 +61,7 @@
   .option-card.primary .card-text h3 { color:var(--on-accent); }
   .option-card.primary .card-text p { color:var(--on-accent); opacity:0.8; }
 
-  .hero-block { background:var(--surface); border-radius:var(--radius); padding:32px 24px 28px; text-align:center; margin-bottom:8px; box-shadow: 0 0 24px rgba(255,255,255,0.10); }
+  .hero-block { background:#0a0a0a; border-radius:var(--radius); padding:32px 24px 28px; text-align:center; margin-bottom:8px; }
   .hero-block .farm-emblem { font-size:3rem; margin-bottom:10px; display:block; }
   .hero-block h2 { font-family:'IM Fell English',serif; font-size:1.6rem; color:var(--ink); line-height:1.2; margin-bottom:6px; }
   .hero-block p { font-size:0.82rem; color:var(--ink-soft); opacity:0.8; font-style:italic; }
@@ -148,6 +149,10 @@
   .report-link { text-align:center; margin-top:4px; padding:8px; }
   .report-link a { font-size:0.72rem; color:var(--ink-soft); opacity:0.45; text-decoration:none; border-bottom:1px dashed currentColor; cursor:pointer; transition:opacity 0.15s; }
   .report-link a:hover { opacity:0.75; }
+
+.util-links { display:flex; justify-content:center; gap:16px; padding:8px 0 2px; flex-wrap:wrap; }
+.util-links a { font-family:'Courier Prime',monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); opacity:0.5; text-decoration:none; cursor:pointer; transition:opacity 0.15s; }
+.util-links a:hover { opacity:0.85; }
 
   ::-webkit-scrollbar { width:4px; }
   ::-webkit-scrollbar-track { background:transparent; }
@@ -290,11 +295,19 @@ setTimeout(dismiss, 3400);
 </div>
 
 <!-- SCREEN: LANDING -->
+<!-- SCREEN: LANDING -->
+<div class="screen active" id="screen-landing">
+  <!-- SCREEN: LANDING -->
 <div class="screen active" id="screen-landing">
   <div class="screen-body" style="justify-content:center;padding-top:40px;">
+    <div class="util-links">
+      <a onclick="go('screen-landing')">Home</a>
+      <a onclick="go('screen-login')">Admin</a>
+      <a href="mailto:chad@getgrush.com">Contact Us</a>
+      <a onclick="saveAndExit()">Save &amp; Exit</a>
+    </div>
     <div class="hero-block">
-      <span class="farm-emblem">🌱</span>
-      <h2>Lancer Farms<br>&amp; Gardens</h2>
+<img src="lfg-wordmark.png" alt="Lancer Farms and Gardens" style="width:100%;margin-bottom:6px;filter:drop-shadow(0 0 18px rgba(255,255,255,0.3));">
       <p>California Baptist University</p>
     </div>
     <p class="section-label">Who are you visiting as?</p>
@@ -658,16 +671,17 @@ if (!options.fromHistory && (!history.state || history.state.lfgScreen !== scree
 history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
 }
 }
-if (current) {
-current.classList.add('leaving');
-current.addEventListener('animationend', function h(){
-current.classList.remove('active','leaving');
-current.removeEventListener('animationend', h);
-activate();
-}, { once: true });
-} else {
-activate();
-}
+if (current && !options.fromHistory) {
+    current.classList.add('leaving');
+    current.addEventListener('animationend', function h(){
+      current.classList.remove('active','leaving');
+      current.removeEventListener('animationend', h);
+      activate();
+    }, { once: true });
+  } else {
+    if (current) current.classList.remove('active','leaving','entering');
+    activate();
+  }
 }
 
  window.addEventListener('popstate', function(e) {
@@ -683,10 +697,16 @@ activate();
 
   // TOAST
   function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
+const t = document.getElementById('toast');
+t.textContent = msg; t.classList.add('show');
+setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function saveAndExit() {
+sessionStorage.removeItem('adminToken');
+showToast('Signed out');
+go('screen-landing');
+}
 
   // UTILITIES
   function esc(s) {
