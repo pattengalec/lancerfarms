@@ -661,7 +661,10 @@ function activate() {
 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active','leaving','entering'));
 target.classList.add('active','entering');
 target.scrollTop = 0;
-target.addEventListener('animationend', function h(){ target.classList.remove('entering'); target.removeEventListener('animationend', h); });
+var enterDone = false;
+function enterCleanup(){ if (enterDone) return; enterDone = true; target.classList.remove('entering'); target.removeEventListener('animationend', enterCleanup); }
+target.addEventListener('animationend', enterCleanup);
+setTimeout(enterCleanup, 300);
 if (screenId === 'screen-photo-album') { loadAlbum(); }
 if (screenId === 'screen-field-log') { loadFieldLog(); }
 if (screenId === 'screen-almanac') { loadAlmanac(); }
@@ -673,11 +676,16 @@ history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screen
 }
 if (current && !options.fromHistory) {
     current.classList.add('leaving');
-    current.addEventListener('animationend', function h(){
+    var leaveDone = false;
+    function leaveCleanup(){
+      if (leaveDone) return;
+      leaveDone = true;
       current.classList.remove('active','leaving');
-      current.removeEventListener('animationend', h);
+      current.removeEventListener('animationend', leaveCleanup);
       activate();
-    }, { once: true });
+    }
+    current.addEventListener('animationend', leaveCleanup);
+    setTimeout(leaveCleanup, 250);
   } else {
     if (current) current.classList.remove('active','leaving','entering');
     activate();
