@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>LFG Admin — Lancer Farms</title>
+<link rel="stylesheet" href="lfg-theme.css">
+<script>
+(function(){try{
+  var t=sessionStorage.getItem('lfg-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+}catch(e){}})();
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@300;400;600&family=Courier+Prime&display=swap');
+
+  body { display:flex; align-items:flex-start; justify-content:center; background:var(--bg); margin:0; }
+
+  .shell {
+    width:100%; max-width:720px; min-height:100vh;
+    background:var(--bg); color:var(--ink); display:flex; flex-direction:column;
+    box-shadow:0 24px 80px rgba(0,0,0,0.7); margin:0 auto;
+  }
+
+  .admin-header {
+    background:var(--surface); padding:18px 24px 0; border-bottom:1px solid var(--card-border);
+    position:sticky; top:0; z-index:50;
+  }
+  .admin-header h1 {
+    font-family:'IM Fell English',serif; font-size:1.3rem; color:var(--ink);
+    margin:0 0 14px; display:flex; align-items:center; gap:10px;
+  }
+  .admin-header h1 span { font-size:0.68rem; font-family:'Courier Prime',monospace; opacity:0.5; text-transform:uppercase; letter-spacing:0.08em; font-style:normal; }
+
+  .tab-bar { display:flex; gap:2px; overflow-x:auto; }
+  .tab-btn {
+    font-family:'Courier Prime',monospace; font-size:0.72rem; text-transform:uppercase;
+    letter-spacing:0.06em; padding:10px 16px; border:none; background:none;
+    color:var(--ink-soft); opacity:0.55; cursor:pointer; border-bottom:2px solid transparent;
+    white-space:nowrap; transition:opacity 0.15s;
+  }
+  .tab-btn.active { opacity:1; color:var(--ink); border-bottom-color:var(--accent); }
+  .tab-btn:hover { opacity:0.85; }
+
+  .tab-panel { display:none; flex:1; padding:24px; flex-direction:column; gap:16px; }
+  .tab-panel.active { display:flex; }
+
+  .card {
+    background:var(--card); border:1.5px solid var(--card-border);
+    border-radius:12px; padding:20px; display:flex; flex-direction:column; gap:12px;
+    box-shadow:0 0 20px rgba(255,255,255,0.06);
+  }
+  .card h3 { font-family:'IM Fell English',serif; font-size:1.05rem; color:var(--ink); margin:0; }
+
+  .form-group { display:flex; flex-direction:column; gap:5px; }
+  .form-group label { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); font-family:'Courier Prime',monospace; }
+  .form-group input, .form-group select, .form-group textarea {
+    background:var(--bg); border:1.5px solid var(--card-border); border-radius:8px;
+    padding:10px 13px; font-size:0.9rem; font-family:inherit; color:var(--ink); outline:none;
+    transition:border-color 0.15s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--accent-2); }
+  .form-group textarea { resize:vertical; min-height:72px; }
+
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(max-width:520px){ .form-row { grid-template-columns:1fr; } }
+
+  .btn {
+    border:none; border-radius:8px; padding:11px 20px; font-size:0.88rem;
+    font-family:'IM Fell English',serif; cursor:pointer; letter-spacing:0.03em;
+    transition:opacity 0.15s;
+  }
+  .btn:hover { opacity:0.85; }
+  .btn-primary { background:var(--accent); color:var(--on-accent); }
+  .btn-danger { background:var(--alert); color:var(--on-alert); font-family:inherit; font-size:0.78rem; padding:6px 12px; }
+  .btn-ghost { background:none; border:1.5px solid var(--card-border); color:var(--ink); font-family:inherit; }
+  .btn-success { background:#3a7d44; color:#fff; }
+
+  .section-label {
+    font-family:'Courier Prime',monospace; font-size:0.65rem; text-transform:uppercase;
+    letter-spacing:0.1em; color:var(--ink-soft); opacity:0.55; padding-left:2px;
+  }
+
+  .data-list { display:flex; flex-direction:column; gap:8px; }
+
+  .data-row {
+    background:var(--surface); border:1px solid var(--card-border); border-radius:8px;
+    padding:12px 16px; display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+  }
+  .data-row .row-main { flex:1; min-width:0; }
+  .data-row .row-title { font-size:0.92rem; font-weight:600; color:var(--ink); }
+  .data-row .row-sub { font-size:0.72rem; color:var(--ink-soft); opacity:0.7; margin-top:3px; font-family:'Courier Prime',monospace; }
+  .data-row .row-actions { display:flex; gap:6px; flex-shrink:0; align-items:center; }
+
+  .badge {
+    font-family:'Courier Prime',monospace; font-size:0.6rem; text-transform:uppercase;
+    letter-spacing:0.06em; padding:2px 7px; border-radius:4px;
+  }
+  .badge-new { background:var(--accent); color:var(--on-accent); }
+  .badge-done { background:var(--card-border); color:var(--ink-soft); }
+  .badge-urgent { background:var(--alert); color:var(--on-alert); }
+  .badge-routine { background:var(--surface); border:1px solid var(--card-border); color:var(--ink-soft); }
+
+  .empty-state {
+    text-align:center; padding:32px; color:var(--ink-soft); opacity:0.5;
+    font-size:0.85rem; font-style:italic;
+  }
+
+  .toast {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+    background:var(--surface); color:var(--ink); padding:12px 22px; border-radius:24px;
+    font-size:0.85rem; font-family:'Courier Prime',monospace; transition:transform 0.3s ease;
+    z-index:999; white-space:nowrap; border:1px solid var(--card-border);
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  .spinner {
+    display:inline-block; width:14px; height:14px; border:2px solid var(--card-border);
+    border-top-color:var(--accent); border-radius:50%; animation:spin 0.6s linear infinite;
+    vertical-align:middle; margin-right:6px;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  .auth-wall {
+    flex:1; display:flex; align-items:center; justify-content:center; padding:40px 24px;
+  }
+  .auth-card {
+    background:var(--card); border:1.5px solid var(--card-border); border-radius:16px;
+    padding:32px 28px; max-width:340px; width:100%; text-align:center;
+    box-shadow:0 0 40px rgba(255,255,255,0.08);
+  }
+  .auth-card h2 { font-family:'IM Fell English',serif; font-size:1.3rem; margin:0 0 6px; }
+  .auth-card p { font-size:0.8rem; color:var(--ink-soft); opacity:0.75; margin:0 0 20px; }
+
+  .divider { height:1px; background:var(--card-border); opacity:0.4; margin:4px 0; }
+
+  .inventory-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  @media(max-width:480px){ .inventory-grid { grid-template-columns:1fr; } }
+
+  .inv-card {
+    background:var(--surface); border:1.5px solid var(--card-border); border-radius:8px;
+    padding:14px; display:flex; flex-direction:column; gap:4px;
+  }
+  .inv-card.low { border-color:var(--alert); }
+  .inv-card .inv-name { font-size:0.88rem; font-weight:600; color:var(--ink); }
+  .inv-card .inv-qty { font-family:'Courier Prime',monospace; font-size:1.4rem; color:var(--ink); }
+  .inv-card.low .inv-qty { color:var(--alert); }
+  .inv-card .inv-sub { font-size:0.68rem; color:var(--ink-soft); opacity:0.6; }
+
+  .tab-counter {
+    display:inline-flex; align-items:center; justify-content:center;
+    background:var(--alert); color:var(--on-alert); font-size:0.55rem;
+    width:14px; height:14px; border-radius:50%; margin-left:4px; font-family:sans-serif;
+  }
+</style>
+</head>
+<body>
+<div class="shell" id="shell">
+
+  <!-- AUTH WALL -->
+  <div class="auth-wall" id="auth-wall">
+    <div class="auth-card">
+      <h2>LFG Admin</h2>
+      <p>Enter your staff credentials to access the admin panel</p>
+      <div class="form-group" style="margin-bottom:12px;">
+        <label>Staff Password</label>
+        <input type="password" id="auth-pw" placeholder="Password + MMDD" autocomplete="off">
+      </div>
+      <button class="btn btn-primary" style="width:100%;" onclick="doAuth()">Sign In</button>
+      <p style="margin-top:16px;font-size:0.72rem;opacity:0.45;">
+        <a href="/" style="color:var(--ink-soft);">← Back to Lancer Farms</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- MAIN UI (hidden until auth) -->
+  <div id="main-ui" style="display:none;flex-direction:column;flex:1;">
+
+    <div class="admin-header">
+      <h1>🌿 LFG Admin <span>Lancer Farms &amp; Gardens</span></h1>
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('tasks')">Tasks</button>
+        <button class="tab-btn" onclick="switchTab('inventory')">Inventory</button>
+        <button class="tab-btn" onclick="switchTab('beds')">Beds</button>
+        <button class="tab-btn" onclick="switchTab('requests')">Requests</button>
+        <button class="tab-btn" onclick="switchTab('reports')">Reports</button>
+        <button class="tab-btn" onclick="switchTab('log')">Field Log</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ TASKS ═══════════ -->
+    <div class="tab-panel active" id="tab-tasks">
+      <div class="card">
+        <h3>Add a Task</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Task Description *</label>
+            <input type="text" id="t-task" placeholder="e.g. Water all Zone 2 beds">
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <select id="t-location">
+              <option value="">Not bed-specific</option>
+              <option value="FARM">General Farm</option>
+              <option value="SEED">Seed Station</option>
+              <option value="ORCH">Orchard</option>
+              <option value="COMP">Compost</option>
+              <optgroup label="Zone 1"><option>1A</option><option>1B</option><option>1C</option><option>1D</option><option>1E</option><option>1F</option><option>1G</option><option>1H</option></optgroup>
+              <optgroup label="Zone 2"><option>2A</option><option>2B</option><option>2C</option><option>2D</option><option>2E</option><option>2F</option></optgroup>
+              <optgroup label="Zone 3"><option>3A</option><option>3B</option><option>3C</option><option>3D</option><option>3E</option><option>3F</option><option>3G</option></optgroup>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Notes</label>
+            <input type="text" id="t-notes" placeholder="Optional details">
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <select id="t-type">
+              <option value="routine">Routine</option>
+              <option value="one-time">One-time</option>
+              <option value="urgent">Urgent</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="addTask()">Add Task</button>
+      </div>
+
+      <div class="section-label">Current Tasks</div>
+      <div class="data-list" id="tasks-list"><div class="empty-state"><span class="spinner"></span> Loading…</div></div>
+    </div>
+
+    <!-- ═══════════ INVENTORY ═══════════ -->
+    <div class="tab-panel" id="tab-inventory">
+      <div class="card">
+        <h3>Add / Update Item</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Item Name *</label>
+            <input type="text" id="inv-name" placeholder="e.g. Compost bags">
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="inv-cat">
+              <option>Soil &amp; Amendments</option>
+              <option>Seeds &amp; Starts</option>
+              <option>Irrigation</option>
+              <option>Hand Tools</option>
+              <option>Power Equipment</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" id="inv-qty" placeholder="0" min="0">
+          </div>
+          <div class="form-group">
+            <label>Unit</label>
+            <input type="text" id="inv-unit" placeholder="bags / units / rolls">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Par Level (reorder point)</label>
+            <input type="number" id="inv-par" placeholder="0" min="0">
+          </div>
+          <div class="form-group">
+            <label>Notes</label>
+            <input type="text" id="inv-notes" placeholder="Storage location, vendor…">
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="addInventoryItem()">Save Item</button>
+      </div>
+
+      <div class="section-label">Current Inventory</div>
+      <div id="inventory-list"><div class="empty-state"><span class="spinner"></span> Loading…</div></div>
+    </div>
+
+    <!-- ═══════════ BEDS ═══════════ -->
+    <div class="tab-panel" id="tab-beds">
+      <div class="card">
+        <h3>Update a Bed</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Bed *</label>
+            <select id="bed-id">
+              <optgroup label="Zone 1"><option>1A</option><option>1B</option><option>1C</option><option>1D</option><option>1E</option><option>1F</option><option>1G</option><option>1H</option></optgroup>
+              <optgroup label="Zone 2"><option>2A</option><option>2B</option><option>2C</option><option>2D</option><option>2E</option><option>2F</option></optgroup>
+              <optgroup label="Zone 3"><option>3A</option><option>3B</option><option>3C</option><option>3D</option><option>3E</option><option>3F</option><option>3G</option></optgroup>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Manager Name</label>
+            <input type="text" id="bed-manager" placeholder="First Last">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date Planted</label>
+            <input type="date" id="bed-planted">
+          </div>
+          <div class="form-group">
+            <label>Est. Harvest Date</label>
+            <input type="date" id="bed-harvest">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Bible Passage or Blessing</label>
+          <textarea id="bed-blessing" placeholder="The verse displayed on this bed's page…"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Reference (e.g. Psalm 24:1)</label>
+          <input type="text" id="bed-ref" placeholder="Psalm 24:1">
+        </div>
+        <button class="btn btn-primary" onclick="saveBed()">Save Bed</button>
+      </div>
+
+      <div class="section-label">All Beds</div>
+      <div class="data-list" id="beds-list"><div class="empty-state"><span class="spinner"></span> Loading…</div></div>
+    </div>
+
+    <!-- ═══════════ REQUESTS ═══════════ -->
+    <div class="tab-panel" id="tab-requests">
+      <div class="card">
+        <h3>Submit a Request</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name *</label>
+            <input type="text" id="req-name" placeholder="First Last">
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <select id="req-type">
+              <option>Resupply</option>
+              <option>Repair</option>
+              <option>Planting Assistance</option>
+              <option>Infrastructure</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Bed or Zone</label>
+            <select id="req-bed">
+              <option value="">Not bed-specific</option>
+              <optgroup label="Zone 1"><option>1A</option><option>1B</option><option>1C</option><option>1D</option><option>1E</option><option>1F</option><option>1G</option><option>1H</option></optgroup>
+              <optgroup label="Zone 2"><option>2A</option><option>2B</option><option>2C</option><option>2D</option><option>2E</option><option>2F</option></optgroup>
+              <optgroup label="Zone 3"><option>3A</option><option>3B</option><option>3C</option><option>3D</option><option>3E</option><option>3F</option><option>3G</option></optgroup>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Priority</label>
+            <select id="req-priority">
+              <option>Normal — within the week</option>
+              <option>Urgent — within 48 hours</option>
+              <option>Low — when available</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>What do you need? *</label>
+          <textarea id="req-note" placeholder="Describe what's needed…"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="submitRequest()">Submit Request</button>
+      </div>
+
+      <div class="section-label">Open Requests</div>
+      <div class="data-list" id="requests-list"><div class="empty-state"><span class="spinner"></span> Loading…</div></div>
+    </div>
+
+    <!-- ═══════════ REPORTS ═══════════ -->
+    <div class="tab-panel" id="tab-reports">
+      <div class="section-label">Open Damage Reports</div>
+      <div class="data-list" id="reports-list"><div class="empty-state"><span class="spinner"></span> Loading…</div></div>
+
+      <div class="card" style="margin-top:8px;">
+        <h3>Submit a Report</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="rpt-name" placeholder="First name">
+          </div>
+          <div class="form-group">
+            <label>Bed or Area</label>
+            <select id="rpt-bed">
+              <option value="FARM">General Farm</option>
+              <optgroup label="Zone 1"><option>1A</option><option>1B</option><option>1C</option><option>1D</option><option>1E</option><option>1F</option><option>1G</option><option>1H</option></optgroup>
+              <optgroup label="Zone 2"><option>2A</option><option>2B</option><option>2C</option><option>2D</option><option>2E</option><option>2F</option></optgroup>
+              <optgroup label="Zone 3"><option>3A</option><option>3B</option><option>3C</option><option>3D</option><option>3E</option><option>3F</option><option>3G</option></optgroup>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Issue Type</label>
+          <select id="rpt-type">
+            <option>Damaged structure or materials</option>
+            <option>Pest or disease signs</option>
+            <option>Irrigation problem</option>
+            <option>Vandalism</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description *</label>
+          <textarea id="rpt-desc" placeholder="Describe what you observed…"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="submitReport()">Submit Report</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ FIELD LOG ═══════════ -->
+    <div class="tab-panel" id="tab-log">
+      <div class="card">
+        <h3>Add Log Entry</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Location</label>
+            <select id="log-loc">
+              <option value="FARM">General Farm</option>
+              <option value="SEED">Seed Station</option>
+              <option value="ORCH">Orchard</option>
+              <option value="COMP">Compost</option>
+              <optgroup label="Zone 1"><option>1A</option><option>1B</option><option>1C</option><option>1D</option><option>1E</option><option>1F</option><option>1G</option><option>1H</option></optgroup>
+              <optgroup label="Zone 2"><option>2A</option><option>2B</option><option>2C</option><option>2D</option><option>2E</option><option>2F</option></optgroup>
+              <optgroup label="Zone 3"><option>3A</option><option>3B</option><option>3C</option><option>3D</option><option>3E</option><option>3F</option><option>3G</option></optgroup>
+            </select>
+          </div>
+          <div class="form-group" style="align-self:flex-end;">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary" onclick="submitLog()" style="width:100%;">Add Entry</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>What did you observe or do? *</label>
+          <textarea id="log-note" placeholder="Transplanted seedlings, watered Zone 2, spotted aphids on 2C…"></textarea>
+        </div>
+      </div>
+
+      <div class="section-label">Recent Log Entries</div>
+      <div class="data-list" id="log-list"><div class="empty-state"><span class="spinner"></span> Loading…</div></div>
+    </div>
+
+  </div><!-- /main-ui -->
+</div><!-- /shell -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'https://script.google.com/macros/s/AKfycbwseMinOKfwzdSoxkL89o7YtGq2KrOD0FDemKwgkIsVhK-JU7lhGfOVAuDvUv3Qiefz_Q/exec';
+const BASE_PASSWORD = 'Godisgood';
+let adminPw = '';
+
+/* ── AUTH ── */
+function doAuth() {
+  const pw = document.getElementById('auth-pw').value.trim();
+  const mmdd = pw.slice(BASE_PASSWORD.length);
+  if (!pw.startsWith(BASE_PASSWORD) || !/^\d{4}$/.test(mmdd)) {
+    showToast('Incorrect password'); return;
+  }
+  adminPw = pw;
+  sessionStorage.setItem('adminToken', pw);
+  document.getElementById('auth-wall').style.display = 'none';
+  const mu = document.getElementById('main-ui');
+  mu.style.display = 'flex';
+  loadAll();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = sessionStorage.getItem('adminToken');
+  if (saved) {
+    const mmdd = saved.slice(BASE_PASSWORD.length);
+    if (saved.startsWith(BASE_PASSWORD) && /^\d{4}$/.test(mmdd)) {
+      adminPw = saved;
+      document.getElementById('auth-wall').style.display = 'none';
+      const mu = document.getElementById('main-ui');
+      mu.style.display = 'flex';
+      loadAll();
+    }
+  }
+  document.getElementById('auth-pw').addEventListener('keydown', e => { if (e.key === 'Enter') doAuth(); });
+});
+
+/* ── TABS ── */
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+/* ── LOAD ALL ── */
+function loadAll() {
+  loadTasks();
+  loadInventory();
+  loadBeds();
+  loadRequests();
+  loadReports();
+  loadLog();
+}
+
+/* ── UTILS ── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+function fmtDate(iso) {
+  if (!iso) return '—';
+  try { return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }); }
+  catch(e) { return String(iso).slice(0,10); }
+}
+function now() { return new Date().toISOString(); }
+async function api(params) {
+  const res = await fetch(API + '?' + new URLSearchParams(params));
+  return res.json();
+}
+async function post(body) {
+  const res = await fetch(API, { method:'POST', body: JSON.stringify({ ...body, password: adminPw, timestamp: now() }) });
+  return res.json();
+}
+function esc(s) {
+  const d = document.createElement('div');
+  d.appendChild(document.createTextNode(String(s || '')));
+  return d.innerHTML;
+}
+
+/* ════════════════════════════════
+   TASKS
+════════════════════════════════ */
+async function loadTasks() {
+  const box = document.getElementById('tasks-list');
+  try {
+    const data = await api({ view: 'tasks' });
+    const tasks = (data.ok && data.tasks) ? data.tasks : [];
+    if (!tasks.length) { box.innerHTML = '<div class="empty-state">No active tasks — add one above.</div>'; return; }
+    box.innerHTML = tasks.map((t, i) => {
+      const type = String(t.Type || 'routine').toLowerCase();
+      const badgeClass = type === 'urgent' ? 'badge-urgent' : 'badge-routine';
+      return `<div class="data-row" id="task-row-${i}">
+        <div class="row-main">
+          <div class="row-title">${esc(t.Task)}</div>
+          <div class="row-sub">${esc(t.Location || 'Farm-wide')}${t.Notes ? ' · ' + esc(t.Notes) : ''}</div>
+        </div>
+        <div class="row-actions">
+          <span class="badge ${badgeClass}">${esc(type)}</span>
+          <button class="btn btn-success" style="font-family:inherit;font-size:0.75rem;padding:5px 10px;" onclick="completeTask('${esc(t.Task)}','${esc(t.Location||'')}',${i})">✓ Done</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) { box.innerHTML = '<div class="empty-state">Could not load tasks.</div>'; }
+}
+
+async function addTask() {
+  const task = document.getElementById('t-task').value.trim();
+  if (!task) { showToast('Task description is required'); return; }
+  const location = document.getElementById('t-location').value;
+  const notes = document.getElementById('t-notes').value.trim();
+  const type = document.getElementById('t-type').value;
+  showToast('Adding task…');
+  try {
+    const data = await post({ action: 'addTask', task, location, notes, type });
+    if (data.ok) {
+      showToast('Task added!');
+      document.getElementById('t-task').value = '';
+      document.getElementById('t-notes').value = '';
+      loadTasks();
+    } else showToast('Could not add — ' + (data.error || 'try again'));
+  } catch(e) { showToast('Connection error'); }
+}
+
+async function completeTask(taskName, location, idx) {
+  const row = document.getElementById('task-row-' + idx);
+  if (row) row.style.opacity = '0.4';
+  try {
+    await post({ action: 'completeTask', task: taskName, location });
+    showToast('Task marked complete');
+    setTimeout(loadTasks, 800);
+  } catch(e) { showToast('Could not log — check connection'); }
+}
+
+/* ════════════════════════════════
+   INVENTORY
+════════════════════════════════ */
+async function loadInventory() {
+  const box = document.getElementById('inventory-list');
+  try {
+    const data = await api({ view: 'inventory' });
+    const items = (data.ok && data.inventory) ? data.inventory : [];
+    if (!items.length) { box.innerHTML = '<div class="empty-state">No inventory items yet — add one above.</div>'; return; }
+    const groups = {};
+    items.forEach(item => {
+      const cat = String(item.Category || 'Other');
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(item);
+    });
+    let html = '';
+    Object.keys(groups).forEach(cat => {
+      html += `<div class="section-label" style="margin-top:12px;">${esc(cat)}</div><div class="inventory-grid" style="margin-top:6px;">`;
+      groups[cat].forEach(item => {
+        const qty = Number(item.Quantity || 0);
+        const par = Number(item.Par || 0);
+        const low = par > 0 && qty <= par;
+        html += `<div class="inv-card ${low ? 'low' : ''}">
+          <div class="inv-name">${esc(item.Item || item.Name || '—')}${low ? ' <span class="badge badge-urgent" style="font-size:0.55rem;">Low</span>' : ''}</div>
+          <div class="inv-qty">${qty}</div>
+          <div class="inv-sub">${esc(item.Unit || '')}${par ? ' · Par: ' + par : ''}${item.Notes ? ' · ' + esc(item.Notes) : ''}</div>
+        </div>`;
+      });
+      html += '</div>';
+    });
+    box.innerHTML = html;
+  } catch(e) {
+    box.innerHTML = '<div class="empty-state">Inventory sheet not set up yet — add an item to create it.</div>';
+  }
+}
+
+async function addInventoryItem() {
+  const name = document.getElementById('inv-name').value.trim();
+  if (!name) { showToast('Item name is required'); return; }
+  const qty = document.getElementById('inv-qty').value;
+  const unit = document.getElementById('inv-unit').value.trim();
+  const par = document.getElementById('inv-par').value;
+  const cat = document.getElementById('inv-cat').value;
+  const notes = document.getElementById('inv-notes').value.trim();
+  showToast('Saving…');
+  try {
+    const data = await post({ action: 'addInventoryItem', name, quantity: qty, unit, par, category: cat, notes });
+    if (data.ok) {
+      showToast('Item saved!');
+      document.getElementById('inv-name').value = '';
+      document.getElementById('inv-qty').value = '';
+      document.getElementById('inv-unit').value = '';
+      document.getElementById('inv-par').value = '';
+      document.getElementById('inv-notes').value = '';
+      loadInventory();
+    } else showToast('Saved to sheet — reload to see it');
+  } catch(e) { showToast('Connection error'); }
+}
+
+/* ════════════════════════════════
+   BEDS
+════════════════════════════════ */
+async function loadBeds() {
+  const box = document.getElementById('beds-list');
+  try {
+    const data = await api({ view: 'beds' });
+    const beds = (data.ok && data.beds) ? data.beds : [];
+    if (!beds.length) { box.innerHTML = '<div class="empty-state">No bed data yet.</div>'; return; }
+    const keys = Object.keys(beds[0]);
+    const idKey = keys.find(k => /^bed\s*id$/i.test(k) || /^bedid$/i.test(k) || /^id$/i.test(k)) || keys[0];
+    const mgrKey = keys.find(k => /manager/i.test(k));
+    const growKey = keys.find(k => /grow/i.test(k) || /crop/i.test(k));
+    box.innerHTML = beds.map(b => {
+      const id = String(b[idKey] || '');
+      const mgr = mgrKey ? String(b[mgrKey] || '') : '';
+      const grow = growKey ? String(b[growKey] || '') : '';
+      return `<div class="data-row">
+        <div class="row-main">
+          <div class="row-title">Bed ${esc(id)}</div>
+          <div class="row-sub">${grow ? esc(grow) : 'Nothing logged'}${mgr ? ' · ' + esc(mgr) : ''}</div>
+        </div>
+        <div class="row-actions">
+          <button class="btn btn-ghost" style="font-size:0.75rem;padding:5px 10px;" onclick="prefillBed('${esc(id)}','${esc(mgr)}','${esc(grow)}')">Edit</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) { box.innerHTML = '<div class="empty-state">Could not load beds.</div>'; }
+}
+
+function prefillBed(id, mgr, grow) {
+  document.getElementById('bed-id').value = id;
+  document.getElementById('bed-manager').value = mgr;
+  switchTab('beds');
+  document.getElementById('tab-beds').querySelector('.card').scrollIntoView({ behavior:'smooth' });
+  showToast('Bed ' + id + ' loaded — update and save');
+}
+
+async function saveBed() {
+  const bedId = document.getElementById('bed-id').value;
+  if (!bedId) { showToast('Select a bed'); return; }
+  showToast('Saving…');
+  const fields = {
+    Manager: document.getElementById('bed-manager').value,
+    DatePlanted: document.getElementById('bed-planted').value,
+    EstHarvest: document.getElementById('bed-harvest').value,
+    Blessing: document.getElementById('bed-blessing').value,
+    BlessingRef: document.getElementById('bed-ref').value
+  };
+  try {
+    const data = await post({ action: 'updateBed', bedId, fields });
+    if (data.ok) { showToast('Bed ' + bedId + ' updated!'); loadBeds(); }
+    else showToast('Could not save — try again');
+  } catch(e) { showToast('Connection error'); }
+}
+
+/* ════════════════════════════════
+   REQUESTS
+════════════════════════════════ */
+async function loadRequests() {
+  const box = document.getElementById('requests-list');
+  try {
+    const data = await api({ view: 'requests' });
+    const reqs = (data.ok && data.requests) ? data.requests : [];
+    if (!reqs.length) { box.innerHTML = '<div class="empty-state">No open requests.</div>'; return; }
+    box.innerHTML = reqs.map(r => {
+      const priority = String(r.Priority || '').toLowerCase();
+      const urgent = priority.includes('urgent');
+      return `<div class="data-row">
+        <div class="row-main">
+          <div class="row-title">${esc(r.Type || 'Request')}${r.BedID ? ' — ' + esc(r.BedID) : ''}</div>
+          <div class="row-sub">${esc(r.Note || '')} · ${esc(r.Name || '')} · ${fmtDate(r.Timestamp)}</div>
+        </div>
+        <div class="row-actions">
+          ${urgent ? '<span class="badge badge-urgent">Urgent</span>' : '<span class="badge badge-routine">Normal</span>'}
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) { box.innerHTML = '<div class="empty-state">Could not load requests.</div>'; }
+}
+
+async function submitRequest() {
+  const name = document.getElementById('req-name').value.trim();
+  const note = document.getElementById('req-note').value.trim();
+  if (!name || !note) { showToast('Name and description are required'); return; }
+  showToast('Submitting…');
+  try {
+    const data = await post({
+      action: 'addRequest', name,
+      type: document.getElementById('req-type').value,
+      bedId: document.getElementById('req-bed').value,
+      note, priority: document.getElementById('req-priority').value
+    });
+    if (data.ok) {
+      showToast('Request submitted!');
+      document.getElementById('req-name').value = '';
+      document.getElementById('req-note').value = '';
+      loadRequests();
+    } else showToast('Could not submit — try again');
+  } catch(e) { showToast('Connection error'); }
+}
+
+/* ════════════════════════════════
+   REPORTS
+════════════════════════════════ */
+async function loadReports() {
+  const box = document.getElementById('reports-list');
+  try {
+    const data = await api({ view: 'reports' });
+    const rpts = (data.ok && data.reports) ? data.reports : [];
+    const open = rpts.filter(r => String(r.Status || '').toLowerCase() !== 'resolved');
+    if (!open.length) { box.innerHTML = '<div class="empty-state">No open reports — all clear! ✓</div>'; return; }
+    box.innerHTML = open.map(r => `<div class="data-row">
+      <div class="row-main">
+        <div class="row-title">${esc(r.Type || 'Report')}${r.BedID ? ' — Bed ' + esc(r.BedID) : ''}</div>
+        <div class="row-sub">${esc(r.Description || '')} · ${fmtDate(r.Timestamp)}</div>
+      </div>
+      <div class="row-actions">
+        <span class="badge badge-new">Open</span>
+      </div>
+    </div>`).join('');
+  } catch(e) { box.innerHTML = '<div class="empty-state">Could not load reports.</div>'; }
+}
+
+async function submitReport() {
+  const desc = document.getElementById('rpt-desc').value.trim();
+  if (!desc) { showToast('Description is required'); return; }
+  showToast('Submitting…');
+  try {
+    const data = await post({
+      action: 'addReport',
+      bedId: document.getElementById('rpt-bed').value,
+      type: document.getElementById('rpt-type').value,
+      description: desc,
+      name: document.getElementById('rpt-name').value.trim()
+    });
+    if (data.ok) {
+      showToast('Report submitted!');
+      document.getElementById('rpt-desc').value = '';
+      loadReports();
+    } else showToast('Could not submit — try again');
+  } catch(e) { showToast('Connection error'); }
+}
+
+/* ════════════════════════════════
+   FIELD LOG
+════════════════════════════════ */
+async function loadLog() {
+  const box = document.getElementById('log-list');
+  try {
+    const data = await api({ view: 'log' });
+    const log = (data.ok && data.log) ? data.log : [];
+    if (!log.length) { box.innerHTML = '<div class="empty-state">No log entries yet.</div>'; return; }
+    const LOCS = { SEED:'Seed Station', ORCH:'Orchard', COMP:'Compost', FARM:'General Farm' };
+    box.innerHTML = log.slice(0, 30).map(en => {
+      const loc = String(en.BedID || en.Location || en.Where || '');
+      const label = LOCS[loc] || (loc ? 'Bed ' + loc : 'Farm');
+      const note = String(en.What || en.Note || '');
+      const when = en.When || en.LoggedAt || en.Timestamp || '';
+      return `<div class="data-row">
+        <div class="row-main">
+          <div class="row-title">${esc(note)}</div>
+          <div class="row-sub">${esc(label)} · ${fmtDate(when)}</div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) { box.innerHTML = '<div class="empty-state">Could not load log.</div>'; }
+}
+
+async function submitLog() {
+  const note = document.getElementById('log-note').value.trim();
+  if (!note) { showToast('Write a note first'); return; }
+  showToast('Saving…');
+  try {
+    const data = await post({
+      action: 'addLog',
+      location: document.getElementById('log-loc').value,
+      note
+    });
+    if (data.ok) {
+      showToast('Logged!');
+      document.getElementById('log-note').value = '';
+      loadLog();
+    } else showToast('Could not save — try again');
+  } catch(e) { showToast('Connection error'); }
+}
+</script>
+</body>
+</html>
