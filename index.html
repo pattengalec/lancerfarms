@@ -220,7 +220,7 @@ setTimeout(dismiss, 3400);
               <path d="M22 50 Q36 44 50 50" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round" fill="none"/>
             </svg>
           </div>
-          <div class="mood-quadrant mq-tr" data-quad="tr">
+          <"mood-quadrant mq-tr" data-quad="tr">
             <svg class="mood-face" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
               <line x1="20" y1="20" x2="30" y2="24" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
               <line x1="42" y1="24" x2="52" y2="20" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
@@ -229,7 +229,7 @@ setTimeout(dismiss, 3400);
               <line x1="22" y1="50" x2="50" y2="50" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
           </div>
-          <div class="mood-quadrant mq-bl" data-quad="bl">
+          <"mood-quadrant mq-bl" data-quad="bl">
             <svg class="mood-face" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
               <line x1="20" y1="26" x2="30" y2="24" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
               <line x1="42" y1="24" x2="52" y2="26" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
@@ -238,7 +238,7 @@ setTimeout(dismiss, 3400);
               <path d="M22 48 Q36 56 50 48" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round" fill="none"/>
             </svg>
           </div>
-          <div class="mood-quadrant mq-br" data-quad="br">
+          <"mood-quadrant mq-br" data-quad="br">
             <svg class="mood-face" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
               <line x1="20" y1="24" x2="30" y2="26" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
               <line x1="42" y1="26" x2="52" y2="24" stroke="#2C2C2C" stroke-width="2.5" stroke-linecap="round"/>
@@ -252,33 +252,33 @@ setTimeout(dismiss, 3400);
       </div>
       <div style="font-size:11px;color:var(--ink);opacity:0.5;letter-spacing:0.08em;">RELAXED</div>
     </div>
-    <div class="mood-greet" style="margin-top:14px;min-height:1.4em;">tap a mood to set your experience</div>
+    <"mood-greet" style="margin-top:14px;min-height:1.4em;">tap a mood to set your experience</div>
     <button class="btn ghost mood-skip" type="button" style="margin-top:12px;font-size:13px;">i don't care — just show me the garden</button>
   </div>
 </section>
 
 <!-- TOAST -->
-<div class="toast" id="toast"></div>
+<"toast" id="toast"></div>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<"lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" src="" alt="">
-  <div class="lightbox-meta"><h3 id="lightbox-title"></h3><p id="lightbox-date"></p></div>
-  <div class="lightbox-actions" onclick="event.stopPropagation()">
+  <"lightbox-meta"><h3 id="lightbox-title"></h3><p id="lightbox-date"></p></div>
+  <"lightbox-actions" onclick="event.stopPropagation()">
     <button onclick="closeLightbox()">Close</button>
   </div>
 </div>
 
 <!-- UPLOAD MODAL -->
-<div class="upload-modal" id="upload-modal">
-  <div class="upload-sheet">
+<"upload-modal" id="upload-modal">
+  <"upload-sheet">
     <h2>Add a Photo</h2>
-    <div class="upload-preview" id="upload-preview">
+    <"upload-preview" id="upload-preview">
       <img id="preview-img" src="" alt="">
-      <div class="placeholder" id="preview-placeholder">Tap to choose a photo</div>
+      <"placeholder" id="preview-placeholder">Tap to choose a photo</div>
       <input type="file" accept="image/*" capture="environment" onchange="previewPhoto(this)">
     </div>
-    <div class="form-group">
+    <"form-group">
       <label>Which bed?</label>
       <select id="upload-bed">
         <optgroup label="Other"><option value="FARM">General Farm</option><option value="SEED">Seed Station</option><option value="ORCH">Orchard</option><option value="COMP">Compost</option></optgroup>
@@ -287,8 +287,8 @@ setTimeout(dismiss, 3400);
         <optgroup label="Zone 3"><option value="3A">3A</option><option value="3B">3B</option><option value="3C">3C</option><option value="3D">3D</option><option value="3E">3E</option><option value="3F">3F</option><option value="3G">3G</option></optgroup>
       </select>
     </div>
-    <div class="form-group"><label>Your Name</label><input type="text" id="upload-name" placeholder="First name or nickname"></div>
-    <div class="form-group"><label>Caption (optional)</label><input type="text" id="upload-caption" placeholder="What's growing here?"></div>
+    <"form-group"><label>Your Name</label><input type="text" id="upload-name" placeholder="First name or nickname"></div>
+    <"form-group"><label>Caption (optional)</label><input type="text" id="upload-caption" placeholder="What's growing here?"></div>
     <button class="submit-btn" onclick="submitPhoto()">Upload Photo</button>
     <button style="background:none;border:none;color:var(--ink-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeUploadModal()">Cancel</button>
   </div>
@@ -305,7 +305,7 @@ setTimeout(dismiss, 3400);
       <a href="mailto:chad@getgrush.com">Contact Us</a>
       <a onclick="saveAndExit()">Save &amp; Exit</a>
     </div>
-    <div class="hero-block">
+    <div class="hero-block" style="margin-top:0;">
 <img src="lfg-wordmark.png" alt="Lancer Farms and Gardens" style="width:100%;margin-bottom:6px;filter:drop-shadow(0 0 18px rgba(255,255,255,0.3));">
       <p>California Baptist University</p>
     </div>
