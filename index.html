@@ -118,6 +118,7 @@ setTimeout(dismiss, 3400);
     <a onclick="go('screen-landing')">Home</a>
     <a onclick="go('screen-about')">About</a>
     <a onclick="go('screen-leave-comment')">Leave a Comment</a>
+    <a onclick="go('screen-feedback')">Send Feedback</a>
   </div>
   <div style="display:flex;gap:8px;align-items:center;">
     <button class="audio-mute" id="audio-mute-guest" aria-label="Mute sound">🔊</button>
@@ -130,6 +131,7 @@ setTimeout(dismiss, 3400);
     <a onclick="go('screen-landing')">Home</a>
     <a onclick="go('screen-tasks')">Today's Tasks</a>
     <a href="/admin.html">Admin Panel</a>
+    <a onclick="go('screen-feedback')">Send Feedback</a>
   </div>
   <div style="display:flex;gap:8px;align-items:center;">
     <button class="audio-mute" id="audio-mute-staff" aria-label="Mute sound">🔊</button>
@@ -276,6 +278,17 @@ setTimeout(dismiss, 3400);
     </div>
     <div class="form-group"><label>Your Comment</label><textarea id="comment-text" placeholder="Share your thoughts, encouragement, or questions..."></textarea></div>
     <button class="submit-btn" onclick="submitComment()">Post Comment</button>
+  </div>
+</div>
+
+<!-- SCREEN: SEND FEEDBACK -->
+<div class="screen" id="screen-feedback">
+  <div class="app-header"><h1>Send Feedback</h1><p>Tell the Garden Crew</p></div>
+  <div class="screen-body">
+    <div class="about-block"><h3>We'd love to hear from you</h3><p>Suggestions, bugs, or anything else about the site or the farm — this goes straight to the team.</p></div>
+    <div class="form-group"><label>Your Message</label><textarea id="feedback-msg" placeholder="What's on your mind?"></textarea></div>
+    <input type="text" id="feedback-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">
+    <button class="submit-btn" onclick="submitFeedback()">Send Feedback</button>
   </div>
 </div>
 
@@ -582,6 +595,7 @@ setTimeout(dismiss, 3400);
 <script>
   const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwseMinOKfwzdSoxkL89o7YtGq2KrOD0FDemKwgkIsVhK-JU7lhGfOVAuDvUv3Qiefz_Q/exec';
   const PUBLIC_API  = WEB_APP_URL;
+  const FEEDBACK_URL = 'https://script.google.com/macros/s/AKfycbxuAEG3tAoInCRnmhBOnJ8Wufk3exdLqxc_kcyJuF4cvAZKenBXihb1398Ovp2fCAw1/exec';
   const CLOUD_NAME  = 'ddbsuxerb';
   const UPLOAD_PRESET = 'lfg-photos';
   const BASE_PASSWORD = 'Godisgood';
@@ -646,6 +660,7 @@ setTimeout(dismiss, 3400);
       if (screenId === 'screen-almanac') { loadAlmanac(); }
       if (screenId === 'screen-manage-plants') { loadManagePlants(); }
       if (screenId === 'screen-tasks') { loadTasks(); }
+      if (screenId === 'screen-feedback') { feedbackOpenedAt = Date.now(); }
       updateNavBar();
       if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
         history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
@@ -1045,6 +1060,31 @@ setTimeout(dismiss, 3400);
       if (data.ok) { showToast('Comment posted — thank you!'); document.getElementById('comment-name').value = ''; document.getElementById('comment-text').value = ''; go('screen-guest-options'); }
       else showToast('Could not post — try again');
     } catch(e) { showToast('Could not post — check connection'); }
+  }
+
+  // FEEDBACK (separate backend project from PUBLIC_API — see FEEDBACK_URL)
+  var feedbackOpenedAt = Date.now();
+  async function submitFeedback() {
+    const msg = document.getElementById('feedback-msg').value.trim();
+    const honeypot = document.getElementById('feedback-hp').value;
+    if (!msg) { showToast('Write something first'); return; }
+    if (honeypot || Date.now() - feedbackOpenedAt < 1500) { showToast('Thanks!'); return; }
+    showToast('Sending…');
+    try {
+      const res = await fetch(FEEDBACK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          message: msg,
+          theme: document.documentElement.getAttribute('data-mode') || 'light',
+          page: location.pathname,
+          ua: navigator.userAgent
+        })
+      });
+      showToast('Received — thank you.');
+      document.getElementById('feedback-msg').value = '';
+      setTimeout(() => go('screen-landing'), 1200);
+    } catch(e) { showToast('Could not send — try later'); }
   }
 
   // DAMAGE REPORT
