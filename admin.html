@@ -621,22 +621,29 @@ function getDueDay() {
 /* ════════════════════════════════
    TASKS
 ════════════════════════════════ */
+/* ════════════════════════════════ TASKS ════════════════════════════════ */
 async function loadTasks() {
   const box = document.getElementById('tasks-list');
   try {
     const data = await api({ view: 'tasks' });
     const tasks = (data.ok && data.tasks) ? data.tasks : [];
-    if (!tasks.length) { box.innerHTML = '<div class="empty-state">No active tasks — add one above.</div>'; return; }
+
+    if (!tasks.length) {
+      box.innerHTML = '<div class="empty-state">No active tasks — add one above.</div>';
+      return;
+    }
 
     box.innerHTML = tasks.map((t, i) => {
-      const freq = String(t.Frequency || '').toLowerCase();
+      // Remapped to use lower-case sheet fields processed by readTab
+      const freq = String(t.duedate || '').toLowerCase(); // Col F holds 'recurring'
       const isRecurring = freq === 'recurring';
       const overdue = t._overdue === true || t._overdue === 'true';
       const doneToday = t._doneToday === true || t._doneToday === 'true';
-      const schedule = String(t.Schedule || '');
-      const dueDay = String(t.DueDay || '');
-      const lastDone = String(t.LastCompleted || '');
-
+      
+      const schedule = String(t.status || '').toLowerCase(); // Col G holds 'weekly', 'daily'
+      const dueDay = String(t.snoozeuntil || '');           // Col H holds days like 'Monday'
+      const lastDone = String(t.statusdateentered || '');   // Col I tracks completions
+      
       let scheduleLabel = '';
       if (isRecurring) {
         if (schedule === 'daily') scheduleLabel = 'Daily';
@@ -649,28 +656,33 @@ async function loadTasks() {
       else if (isRecurring && doneToday) statusBadge = '<span class="badge badge-done">Done today</span>';
       else if (isRecurring) statusBadge = '<span class="badge badge-recurring">Recurring</span>';
       else {
-        const type = String(t.Type || 'routine').toLowerCase();
+        // Remapped from t.Type to t.duedate column matching field
+        const type = String(t.duedate || 'routine').toLowerCase();
         statusBadge = type === 'urgent' ? '<span class="badge badge-urgent">Urgent</span>' : '<span class="badge badge-routine">One-time</span>';
       }
 
       const subParts = [];
-      if (t.Location) subParts.push(esc(t.Location));
-      if (t.Notes) subParts.push(esc(t.Notes));
+      if (t.bedid) subParts.push(esc(t.bedid)); // Remapped to your BedID (Col B)
+      if (t.taskdetail) subParts.push(esc(t.taskdetail)); // Remapped to TaskDetail (Col D)
       if (isRecurring && scheduleLabel) subParts.push(scheduleLabel);
       if (isRecurring && lastDone) subParts.push('Last done: ' + fmtDate(lastDone));
 
       return `<div class="data-row ${overdue ? 'overdue' : ''}" id="task-row-${i}">
         <div class="row-main">
-          <div class="row-title">${esc(t.Task)}</div>
+          <!-- Fixed: Reads your actual TaskTitle text from Column C -->
+          <div class="row-title">${esc(t.tasktitle)}</div>
           ${subParts.length ? '<div class="row-sub">' + subParts.join(' · ') + '</div>' : ''}
         </div>
         <div class="row-actions">
           ${statusBadge}
-          <button class="btn btn-success" onclick="promptComplete('${esc(t.Task)}','${esc(t.Location||'')}',${isRecurring},${i})">✓ Done</button>
+          <button class="btn btn-success" onclick="promptComplete('${esc(t.tasktitle)}','${esc(t.bedid||'')}',${isRecurring},${i})">✓ Done</button>
         </div>
       </div>`;
     }).join('');
-  } catch(e) { box.innerHTML = '<div class="empty-state">Could not load tasks.</div>'; }
+
+  } catch(e) {
+    box.innerHTML = '<div class="empty-state">Could not load tasks.</div>';
+  }
 }
 
 function promptComplete(taskName, location, isRecurring, idx) {
