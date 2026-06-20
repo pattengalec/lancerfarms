@@ -1145,6 +1145,7 @@ setTimeout(dismiss, 3400);
     try {
       await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'completeTask', password:pw, task:taskName, location, timestamp: now() }) });
       showToast('Task logged');
+      loadTasks();
     } catch(e) { showToast('Task checked but could not log — check connection'); }
   }
 
