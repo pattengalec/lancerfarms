@@ -107,6 +107,7 @@ h1, h2, h3 { font-family: var(--font-head); font-weight: 500; }
   width: 100%;
   box-sizing: border-box;
   padding: 10px 16px;
+  margin-bottom: 24px;
   background: var(--surface2);
   border-bottom: var(--border-w) solid var(--card-border);
   position: sticky;
