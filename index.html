@@ -14,8 +14,8 @@
 <link rel="stylesheet" href="lfg-theme.css">
 <script>
 (function(){try{
-  var t=sessionStorage.getItem('lfg-theme');
-  if(t)document.documentElement.setAttribute('data-theme',t);
+  var m = localStorage.getItem('lfg-mode');
+  if (m === 'dark') document.documentElement.setAttribute('data-mode', 'dark');
 }catch(e){}})();
 </script>
 <style>
@@ -27,153 +27,60 @@
     display:none; width:100%; max-width:420px; min-height:100vh;
     background:var(--bg); color:var(--ink); flex-direction:column;
     position:relative; overflow-y:auto;
-    box-shadow:0 24px 80px rgba(0,0,0,0.7),0 8px 24px rgba(0,0,0,0.5), 0 0 32px rgba(255,255,255,0.10);
+    box-shadow:0 24px 80px rgba(0,0,0,0.18),0 8px 24px rgba(0,0,0,0.10);
     border-radius:16px; margin:24px auto;
+  }
+  [data-mode="dark"] .screen {
+    box-shadow:0 24px 80px rgba(0,0,0,0.7),0 8px 24px rgba(0,0,0,0.5), 0 0 32px rgba(255,255,255,0.10);
   }
   .screen.active { display:flex; }
   .screen.leaving { animation:screenLeave 0.18s ease-in forwards; }
   .screen.entering { animation:screenEnter 0.22s ease-out forwards; }
   @keyframes screenLeave { from { opacity:1; transform:scale(1); } to { opacity:0; transform:scale(0.96); } }
   @keyframes screenEnter { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
-  #screen-landing { background:#0a0a0a; }
+  #screen-landing { background:var(--bg); }
 
   .app-header { background:var(--surface); color:var(--ink); padding:18px 20px 14px; text-align:center; position:relative; }
   .app-header h1 { font-family:'IM Fell English',serif; font-size:1.45rem; letter-spacing:0.02em; line-height:1.2; }
-  .app-header p { font-size:0.7rem; color:var(--ink-soft); opacity:0.7; margin-top:2px; letter-spacing:0.08em; text-transform:uppercase; font-family:'Courier Prime',monospace; }
+  .app-header p { font-size:0.7rem; color:var(--ink-soft); opacity:0.75; margin-top:2px; letter-spacing:0.08em; text-transform:uppercase; font-family:'Courier Prime',monospace; }
 
   .screen-body { flex:1; padding:24px 20px; display:flex; flex-direction:column; gap:14px; }
 
-  .option-card, .submit-btn, .manage-btn, .upload-btn, .login-block button, .info-row, .comment-item, .inventory-item, .bed-selector, .about-block {
-    box-shadow: 0 0 20px rgba(255,255,255,0.10);
+  .photo-thumb-wrap { position:relative; }
+  .photo-thumb-actions {
+    position:absolute; top:4px; right:4px; display:flex; gap:4px; z-index:2;
   }
-
-  .option-card {
-    background:var(--card); border:1.5px solid var(--card-border); border-radius:var(--radius);
-    padding:18px 20px; cursor:pointer; display:flex; align-items:center; gap:16px;
-    transition:border-color 0.15s,box-shadow 0.15s; box-shadow:var(--shadow), 0 0 20px rgba(255,255,255,0.10);
-    text-decoration:none; color:var(--ink);
+  .photo-thumb-actions button {
+    width:24px; height:24px; border-radius:50%; border:none; cursor:pointer;
+    background:rgba(0,0,0,0.55); color:#fff; font-size:12px;
+    display:flex; align-items:center; justify-content:center; line-height:1;
   }
-  .option-card:active { opacity:0.85; }
-  .option-card .card-icon { font-size:1.8rem; flex-shrink:0; }
-  .option-card .card-text h3 { font-size:1rem; font-weight:600; color:var(--ink); }
-  .option-card .card-text p { font-size:0.78rem; color:var(--ink-soft); margin-top:2px; opacity:0.85; }
-  .option-card.primary { background:var(--accent); border-color:var(--accent); }
-  .option-card.primary .card-text h3 { color:var(--on-accent); }
-  .option-card.primary .card-text p { color:var(--on-accent); opacity:0.8; }
-
-  .hero-block { background:#0a0a0a; border-radius:var(--radius); padding:32px 24px 28px; text-align:center; margin-bottom:8px; }
-  .hero-block .farm-emblem { font-size:3rem; margin-bottom:10px; display:block; }
-  .hero-block h2 { font-family:'IM Fell English',serif; font-size:1.6rem; color:var(--ink); line-height:1.2; margin-bottom:6px; }
-  .hero-block p { font-size:0.82rem; color:var(--ink-soft); opacity:0.8; font-style:italic; }
-
-  .section-label { font-family:'Courier Prime',monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-soft); opacity:0.6; margin-bottom:-6px; padding-left:2px; }
-
-  .login-block { background:var(--surface); border-radius:var(--radius); padding:28px 24px; text-align:center; }
-  .login-block h2 { font-family:'IM Fell English',serif; color:var(--ink); font-size:1.3rem; margin-bottom:6px; }
-  .login-block p { font-size:0.8rem; color:var(--ink-soft); opacity:0.75; margin-bottom:20px; }
-  .login-block input { width:100%; background:var(--card); border:1.5px solid var(--card-border); border-radius:8px; padding:12px 16px; font-size:1rem; color:var(--ink); font-family:inherit; outline:none; margin-bottom:12px; text-align:center; letter-spacing:0.1em; }
-  .login-block button { width:100%; background:var(--accent); color:var(--on-accent); border:none; border-radius:8px; padding:13px; font-size:0.95rem; font-family:'IM Fell English',serif; cursor:pointer; letter-spacing:0.04em; }
-
-  .form-group { display:flex; flex-direction:column; gap:6px; }
-  .form-group label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); font-family:'Courier Prime',monospace; }
-  .form-group input,.form-group select,.form-group textarea { background:var(--card); border:1.5px solid var(--card-border); border-radius:8px; padding:11px 14px; font-size:0.92rem; font-family:inherit; color:var(--ink); outline:none; transition:border-color 0.15s; }
-  .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-color:var(--accent-2); }
-  .form-group textarea { resize:vertical; min-height:80px; }
-
-  .submit-btn { background:var(--accent); color:var(--on-accent); border:none; border-radius:var(--radius); padding:16px; font-size:1rem; font-family:'IM Fell English',serif; cursor:pointer; width:100%; letter-spacing:0.04em; }
-  .manage-btn { background:var(--accent); color:var(--on-accent); border:none; border-radius:var(--radius); padding:16px; font-size:1rem; font-family:inherit; font-weight:600; cursor:pointer; width:100%; letter-spacing:0.03em; }
-
-  .blessing-block { background:var(--surface); border-radius:var(--radius); padding:18px 20px; text-align:center; box-shadow: 0 0 24px rgba(255,255,255,0.10); }
-  .blessing-block p { font-family:'IM Fell English',serif; font-style:italic; font-size:0.95rem; color:var(--ink); line-height:1.6; }
-  .blessing-block cite { display:block; font-family:'Courier Prime',monospace; font-size:0.68rem; color:var(--ink-soft); opacity:0.6; margin-top:8px; font-style:normal; letter-spacing:0.06em; }
-
-  .comment-feed { display:flex; flex-direction:column; gap:10px; }
-  .comment-item { background:var(--card); border-radius:8px; padding:12px 14px; border:1px solid var(--card-border); }
-  .comment-item .comment-meta { font-size:0.68rem; color:var(--ink-soft); opacity:0.6; font-family:'Courier Prime',monospace; margin-bottom:4px; }
-  .comment-item p { font-size:0.85rem; color:var(--ink); line-height:1.5; }
-
-  .info-row { background:var(--card); border-radius:8px; padding:12px 16px; border:1px solid var(--card-border); display:flex; justify-content:space-between; align-items:center; }
-  .info-row .label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); opacity:0.65; font-family:'Courier Prime',monospace; }
-  .info-row .value { font-size:0.92rem; font-weight:600; color:var(--ink); text-align:right; max-width:60%; }
-
-  .bed-header { background:var(--accent); color:var(--on-accent); padding:20px 20px 16px; border-radius:var(--radius); box-shadow: 0 0 24px rgba(255,255,255,0.10); }
-  .bed-header .bed-id { font-family:'Courier Prime',monospace; font-size:0.72rem; opacity:0.8; text-transform:uppercase; letter-spacing:0.1em; }
-  .bed-header h2 { font-family:'IM Fell English',serif; font-size:1.4rem; margin:4px 0 2px; }
-  .bed-header .bed-manager { font-size:0.8rem; opacity:0.85; }
-
-  .about-block { background:var(--card); border-radius:var(--radius); border:1px solid var(--card-border); padding:20px; }
-  .about-block h3 { font-family:'IM Fell English',serif; font-size:1.1rem; color:var(--ink); margin-bottom:10px; }
-  .about-block p { font-size:0.88rem; color:var(--ink-soft); line-height:1.65; }
-
-  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--surface); color:var(--ink); padding:12px 22px; border-radius:24px; font-size:0.85rem; font-family:'Courier Prime',monospace; transition:transform 0.3s ease; z-index:999; white-space:nowrap; border:1px solid var(--card-border); }
-  .toast.show { transform:translateX(-50%) translateY(0); }
-
-  .photo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
-  .photo-thumb { position:relative; aspect-ratio:1; border-radius:8px; overflow:hidden; cursor:pointer; background:var(--mist); }
-  .photo-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
-  .photo-thumb .bed-tag { position:absolute; bottom:4px; left:4px; background:rgba(0,0,0,0.6); color:#fff; font-family:'Courier Prime',monospace; font-size:0.6rem; padding:2px 5px; border-radius:4px; }
-  .photo-empty { background:var(--card); border:1.5px dashed var(--card-border); border-radius:var(--radius); padding:24px; text-align:center; color:var(--ink-soft); font-size:0.82rem; opacity:0.6; }
-  .zone-header { background:var(--surface); color:var(--ink); border-radius:var(--radius); padding:10px 16px; font-family:'IM Fell English',serif; font-size:1rem; display:flex; align-items:center; gap:8px; }
-  .upload-btn { background:var(--accent); color:var(--on-accent); border:none; border-radius:var(--radius); padding:16px; font-size:1rem; font-family:inherit; font-weight:600; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:10px; }
-
-  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:100; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
-  .lightbox.open { display:flex; }
-  .lightbox img { max-width:100%; max-height:70vh; border-radius:var(--radius); object-fit:contain; }
-  .lightbox-meta { margin-top:14px; text-align:center; color:#fff; }
-  .lightbox-meta h3 { font-family:'IM Fell English',serif; font-size:1rem; }
-  .lightbox-meta p { font-size:0.75rem; opacity:0.6; font-family:'Courier Prime',monospace; margin-top:4px; }
-  .lightbox-actions { display:flex; gap:10px; margin-top:16px; }
-  .lightbox-actions button { border:none; border-radius:8px; padding:10px 20px; font-size:0.85rem; font-family:inherit; cursor:pointer; background:rgba(255,255,255,0.15); color:#fff; }
-
-  .upload-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:100; align-items:flex-end; justify-content:center; }
-  .upload-modal.open { display:flex; }
-  .upload-sheet { background:var(--bg); border-radius:var(--radius) var(--radius) 0 0; padding:24px 20px 36px; width:100%; max-width:420px; display:flex; flex-direction:column; gap:14px; }
-  .upload-sheet h2 { font-family:'IM Fell English',serif; font-size:1.2rem; color:var(--ink); text-align:center; }
-  .upload-preview { width:100%; aspect-ratio:4/3; background:var(--mist); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; overflow:hidden; border:2px dashed var(--card-border); cursor:pointer; position:relative; }
-  .upload-preview img { width:100%; height:100%; object-fit:cover; display:none; }
-  .upload-preview .placeholder { font-size:0.85rem; color:var(--ink-soft); opacity:0.5; text-align:center; padding:20px; }
-  .upload-preview input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
-
-  .inventory-item { background:var(--card); border:1.5px solid var(--card-border); border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; }
-  .inventory-item.low-stock { border-color:var(--alert); }
-  .inventory-item .item-name { font-size:0.9rem; font-weight:600; color:var(--ink); }
-  .inventory-item .item-sub { font-size:0.72rem; color:var(--ink-soft); opacity:0.65; margin-top:2px; }
-  .inventory-item .qty-num { font-family:'Courier Prime',monospace; font-size:1.1rem; font-weight:600; color:var(--ink); }
-  .inventory-item.low-stock .qty-num { color:var(--alert); }
-  .inventory-item .qty-par { font-size:0.68rem; color:var(--ink-soft); opacity:0.55; }
-  .stock-flag { background:var(--alert); color:var(--on-alert); font-size:0.62rem; border-radius:4px; padding:2px 6px; font-family:'Courier Prime',monospace; letter-spacing:0.06em; text-transform:uppercase; }
-
-  .bed-selector { background:var(--card); border:1.5px solid var(--card-border); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; gap:14px; }
-  .bed-selector h3 { font-family:'IM Fell English',serif; font-size:1.1rem; color:var(--ink); text-align:center; }
-
-  .report-link { text-align:center; margin-top:4px; padding:8px; }
-  .report-link a { font-size:0.72rem; color:var(--ink-soft); opacity:0.45; text-decoration:none; border-bottom:1px dashed currentColor; cursor:pointer; transition:opacity 0.15s; }
-  .report-link a:hover { opacity:0.75; }
-
-  .util-links { display:flex; justify-content:center; gap:16px; padding:8px 0 2px; flex-wrap:wrap; }
-  .util-links a { font-family:'Courier Prime',monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); opacity:0.5; text-decoration:none; cursor:pointer; transition:opacity 0.15s; }
-  .util-links a:hover { opacity:0.85; }
+  .photo-edit-sheet { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:110; align-items:flex-end; justify-content:center; }
+  [data-mode="dark"] .photo-edit-sheet { background:rgba(0,0,0,0.85); }
+  .photo-edit-sheet.open { display:flex; }
+  .photo-edit-card { background:var(--bg); border-radius:var(--radius) var(--radius) 0 0; padding:24px 20px 36px; width:100%; max-width:420px; display:flex; flex-direction:column; gap:14px; }
+  .photo-edit-card h2 { font-family:'IM Fell English',serif; font-size:1.15rem; color:var(--ink); text-align:center; }
 
   ::-webkit-scrollbar { width:4px; }
   ::-webkit-scrollbar-track { background:transparent; }
   ::-webkit-scrollbar-thumb { background:var(--card-border); border-radius:2px; }
 
-  @media (min-width:480px) { body { background:transparent !important; } }
+  @media (min-width:480px) { body { background:var(--bg); } }
   @media (min-width:900px) {
     .screen { max-width:720px; }
-    .upload-sheet { max-width:720px; }
+    .upload-sheet, .photo-edit-card { max-width:720px; }
     .screen-body { padding:32px 40px; }
     .photo-grid { grid-template-columns:repeat(4,1fr); gap:8px; }
   }
   #splash-screen { position:fixed; inset:0; z-index:500; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; overflow:hidden; opacity:0; animation:splashIn 0.9s ease-out forwards; }
   #splash-screen img { width:220px; height:220px; }
-  #splash-screen p { font-size:0.82rem; color:var(--ink-soft); opacity:0.8; font-style:italic; font-family:'Source Sans 3',sans-serif; }
+  #splash-screen p { font-size:0.82rem; color:var(--ink-soft); opacity:0.85; font-style:italic; font-family:'Source Sans 3',sans-serif; }
   #splash-screen.splash-hide { pointer-events:none; }
   #splash-screen.splash-hide img { animation:splashGrow 1.1s ease-in forwards; }
   #splash-screen.splash-hide p { animation:splashTextOut 0.3s ease-out forwards; }
   @keyframes splashIn { from { opacity:0; transform:scale(0.65); } to { opacity:1; transform:scale(1); } }
   @keyframes splashGrow { 0% { transform:scale(1); opacity:1; } 75% { transform:scale(6); opacity:1; } 100% { transform:scale(6); opacity:0; } }
-  @keyframes splashTextOut { from { opacity:0.8; } to { opacity:0; } }
+  @keyframes splashTextOut { from { opacity:0.85; } to { opacity:0; } }
 </style>
 </head>
 <body>
@@ -205,6 +112,31 @@ setTimeout(dismiss, 3400);
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- UNIFIED TOP NAV (guest + staff variants, hidden until a role is chosen) -->
+<div class="top-nav" id="top-nav-guest" style="display:none;">
+  <div class="top-nav-links">
+    <a onclick="go('screen-landing')">Home</a>
+    <a onclick="go('screen-about')">About</a>
+    <a onclick="go('screen-leave-comment')">Leave a Comment</a>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button class="audio-mute" id="audio-mute-guest" aria-label="Mute sound">🔊</button>
+    <button class="mode-toggle" onclick="toggleMode()" aria-label="Toggle dark mode">☀</button>
+  </div>
+</div>
+
+<div class="top-nav" id="top-nav-staff" style="display:none;">
+  <div class="top-nav-links">
+    <a onclick="go('screen-landing')">Home</a>
+    <a onclick="go('screen-tasks')">Today's Tasks</a>
+    <a href="/admin.html">Admin Panel</a>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button class="audio-mute" id="audio-mute-staff" aria-label="Mute sound">🔊</button>
+    <button class="mode-toggle" onclick="toggleMode()" aria-label="Toggle dark mode">☀</button>
+  </div>
+</div>
+
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" src="" alt="">
@@ -235,31 +167,48 @@ setTimeout(dismiss, 3400);
     <div class="form-group"><label>Your Name</label><input type="text" id="upload-name" placeholder="First name or nickname"></div>
     <div class="form-group"><label>Caption (optional)</label><input type="text" id="upload-caption" placeholder="What's growing here?"></div>
     <button class="submit-btn" onclick="submitPhoto()">Upload Photo</button>
-    <button style="background:none;border:none;color:var(--ink-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;" onclick="closeUploadModal()">Cancel</button>
+    <button class="btn-text" onclick="closeUploadModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- PHOTO EDIT SHEET (staff only) -->
+<div class="photo-edit-sheet" id="photo-edit-sheet">
+  <div class="photo-edit-card">
+    <h2>Edit Photo</h2>
+    <div class="form-group">
+      <label>Which bed?</label>
+      <select id="edit-bed">
+        <optgroup label="Other"><option value="FARM">General Farm</option><option value="SEED">Seed Station</option><option value="ORCH">Orchard</option><option value="COMP">Compost</option></optgroup>
+        <optgroup label="Zone 1"><option value="1A">1A</option><option value="1B">1B</option><option value="1C">1C</option><option value="1D">1D</option><option value="1E">1E</option><option value="1F">1F</option><option value="1G">1G</option><option value="1H">1H</option></optgroup>
+        <optgroup label="Zone 2"><option value="2A">2A</option><option value="2B">2B</option><option value="2C">2C</option><option value="2D">2D</option><option value="2E">2E</option><option value="2F">2F</option></optgroup>
+        <optgroup label="Zone 3"><option value="3A">3A</option><option value="3B">3B</option><option value="3C">3C</option><option value="3D">3D</option><option value="3E">3E</option><option value="3F">3F</option><option value="3G">3G</option></optgroup>
+      </select>
+    </div>
+    <div class="form-group"><label>Caption</label><input type="text" id="edit-caption" placeholder="What's growing here?"></div>
+    <button class="submit-btn" onclick="savePhotoEdit()">Save Changes</button>
+    <button class="manage-btn" style="background:var(--alert);border-color:color-mix(in srgb, var(--alert) 100%, black 14%);" onclick="confirmDeletePhoto()">Delete Photo</button>
+    <button class="btn-text" onclick="closePhotoEdit()">Cancel</button>
   </div>
 </div>
 
 <!-- SCREEN: LANDING -->
 <div class="screen active" id="screen-landing">
   <div class="screen-body" style="justify-content:center;padding-top:40px;">
-    <div class="util-links">
-      <a onclick="go('screen-landing')">Home</a>
-      <a onclick="go('screen-login')">Admin</a>
-      <a href="mailto:chad@getgrush.com">Contact Us</a>
-      <a onclick="saveAndExit()">Save &amp; Exit</a>
-    </div>
     <div class="hero-block">
-      <img src="lfg-wordmark.png" alt="Lancer Farms and Gardens" style="width:100%;margin-bottom:6px;filter:drop-shadow(0 0 18px rgba(255,255,255,0.3));">
+      <img src="lfg-wordmark.png" alt="Lancer Farms and Gardens" style="width:100%;margin-bottom:6px;">
       <p>California Baptist University</p>
     </div>
     <p class="section-label">Who are you visiting as?</p>
-    <div class="option-card" onclick="go('screen-guest-options')">
-      <span class="card-icon">👤</span>
+    <div class="option-card cat-entry" onclick="chooseRole('guest')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4v16M19 4v16"/><path d="M5 10.5L13 8M5 14.5L13 12"/></svg></span>
       <div class="card-text"><h3>Guest</h3><p>Browse the farm, explore our beds</p></div>
     </div>
-    <div class="option-card primary" onclick="go('screen-login')">
-      <span class="card-icon">🔑</span>
+    <div class="option-card primary cat-entry" onclick="chooseRole('staff')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4v16M19 4v16"/><path d="M5 10h14M5 14h14"/><path d="M18 11v2"/></svg></span>
       <div class="card-text"><h3>Staff</h3><p>Log in to manage beds and log activity</p></div>
+    </div>
+    <div style="text-align:center;margin-top:8px;">
+      <a href="mailto:chad@getgrush.com" style="font-size:0.72rem;color:var(--ink-soft);opacity:0.6;text-decoration:none;">Contact Us</a>
     </div>
   </div>
 </div>
@@ -268,10 +217,22 @@ setTimeout(dismiss, 3400);
 <div class="screen" id="screen-guest-options">
   <div class="app-header"><h1>Lancer Farms &amp; Gardens</h1><p>Guest Access</p></div>
   <div class="screen-body">
-    <div class="option-card" onclick="go('screen-about')"><span class="card-icon">📖</span><div class="card-text"><h3>About Lancer Farms</h3><p>Our mission, history, and community</p></div></div>
-    <div class="option-card" onclick="go('screen-leave-comment')"><span class="card-icon">💬</span><div class="card-text"><h3>Leave a Comment</h3><p>Share a message for a bed or the farm</p></div></div>
-    <div class="option-card" onclick="go('screen-bed-selector-guest')"><span class="card-icon">🌿</span><div class="card-text"><h3>Explore a Garden Bed</h3><p>View crop info, manager, and blessings</p></div></div>
-    <div class="option-card" onclick="go('screen-photo-album')"><span class="card-icon">📸</span><div class="card-text"><h3>Photo Album</h3><p>Browse and add farm photos</p></div></div>
+    <div class="option-card cat-explore" onclick="go('screen-about')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16c3-4 6-6 10-6s7 2 10 6"/><path d="M11 10v-3"/><path d="M11 7c-1-1-2-1-2.5 0M11 7c1-1 2-1 2.5 0"/></svg></span>
+      <div class="card-text"><h3>About Lancer Farms</h3><p>Our mission, history, and community</p></div>
+    </div>
+    <div class="option-card cat-act" onclick="go('screen-leave-comment')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c2-1 3-3 3-5.5C7 10 5.5 8 3.5 8"/><path d="M7 13.5c3 0 5-1.8 5-4.3 0-2-1.3-3.7-3-3.7"/><path d="M12 9.2c2.3 0 4-1.5 4-3.6 0-1.4-1-2.6-2.2-2.6"/></svg></span>
+      <div class="card-text"><h3>Leave a Comment</h3><p>Share a message for a bed or the farm</p></div>
+    </div>
+    <div class="option-card cat-explore" onclick="go('screen-bed-selector-guest')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6c4 0 4 4 8 4s4-4 8-4M3 18c4 0 4-4 8-4s4 4 8 4"/><circle cx="7" cy="12" r="0.9" fill="currentColor" stroke="none"/><circle cx="12" cy="10" r="0.9" fill="currentColor" stroke="none"/><circle cx="17" cy="12" r="0.9" fill="currentColor" stroke="none"/></svg></span>
+      <div class="card-text"><h3>Explore a Garden Bed</h3><p>View crop info, manager, and blessings</p></div>
+    </div>
+    <div class="option-card cat-explore" onclick="go('screen-photo-album')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18c-3-5-1-11 5-13 3 6 1 12-5 13Z"/><path d="M11 19c-2-6 0-11 6-12"/></svg></span>
+      <div class="card-text"><h3>Photo Album</h3><p>Browse and add farm photos</p></div>
+    </div>
   </div>
 </div>
 
@@ -284,7 +245,7 @@ setTimeout(dismiss, 3400);
       <p>Enter the staff password followed by your birthday in MMDD format</p>
       <input type="password" id="login-password" placeholder="Password + MMDD" autocomplete="off" />
       <button onclick="handleLogin()">Sign In</button>
-      <p style="font-size:0.72rem;margin-top:12px;opacity:0.5;">e.g. if your birthday is March 15, add 0315 at the end</p>
+      <p style="font-size:0.72rem;margin-top:12px;opacity:0.6;">e.g. if your birthday is March 15, add 0315 at the end</p>
     </div>
   </div>
 </div>
@@ -381,17 +342,47 @@ setTimeout(dismiss, 3400);
 <div class="screen" id="screen-employee-options">
   <div class="app-header"><h1>Farm Dashboard</h1><p>Staff &amp; Students</p></div>
   <div class="screen-body">
-    <div class="option-card primary" onclick="go('screen-tasks')"><span class="card-icon">✅</span><div class="card-text"><h3>Today's Tasks</h3><p>Care plan checklist for this visit</p></div></div>
-    <div class="option-card" onclick="go('screen-bed-selector-employee')"><span class="card-icon">🌿</span><div class="card-text"><h3>Garden Beds</h3><p>View and manage all beds</p></div></div>
-    <div class="option-card" onclick="go('screen-field-log')"><span class="card-icon">📓</span><div class="card-text"><h3>Field Log</h3><p>Record observations anywhere on the farm</p></div></div>
-    <div class="option-card" onclick="go('screen-almanac')"><span class="card-icon">🌙</span><div class="card-text"><h3>Farm Almanac</h3><p>Live weather, sun &amp; moon over the farm</p></div></div>
-    <div class="option-card" onclick="go('screen-photo-album')"><span class="card-icon">📸</span><div class="card-text"><h3>Photo Album</h3><p>Browse and upload farm photos</p></div></div>
-    <div class="option-card" onclick="go('screen-about')"><span class="card-icon">📖</span><div class="card-text"><h3>About Lancer Farms</h3><p>Farm info and mission</p></div></div>
+    <div class="option-card primary cat-act" onclick="go('screen-tasks')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9c-2.5 2-3.5 5-3.5 7.5 0 1 .5 1.5 1.5 1.5 2.5 0 5.5-1 7.5-3.5"/><path d="M9 9l6.5-6.5c.8-.8 2-.8 2.8 0 .8.8.8 2 0 2.8L11.8 11.8"/></svg></span>
+      <div class="card-text"><h3>Today's Tasks</h3><p>Care plan checklist for this visit</p></div>
+    </div>
+    <div class="option-card cat-act" onclick="go('screen-bed-selector-employee')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h18v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6Z"/><path d="M5 14v-1.5"/><path d="M19 14v-1.5"/><path d="M7 14V8M7 8c-1-.2-1.6-1-1.6-1.8M7 8c1-.2 1.6-1 1.6-1.8"/><path d="M12 14V6M12 6c-1.1-.3-1.8-1.2-1.8-2.2M12 6c1.1-.3 1.8-1.2 1.8-2.2"/><path d="M17 14V9M17 9c-1-.2-1.6-1-1.6-1.8M17 9c1-.2 1.6-1 1.6-1.8"/></svg></span>
+      <div class="card-text"><h3>Garden Beds</h3><p>View and manage all beds</p></div>
+    </div>
+    <div class="option-card cat-act" onclick="go('screen-field-log')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h9l3 3v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"/><path d="M9 12h6M9 15h4"/></svg></span>
+      <div class="card-text"><h3>Field Log</h3><p>Record observations anywhere on the farm</p></div>
+    </div>
+    <div class="option-card cat-explore" onclick="go('screen-almanac')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16c2-7 7-11 9-11s7 4 9 11"/><path d="M2 18h20"/><path d="M16 6.5l1.6-1 1.6 1"/></svg></span>
+      <div class="card-text"><h3>Farm Almanac</h3><p>Live weather, sun &amp; moon over the farm</p></div>
+    </div>
+    <div class="option-card cat-explore" onclick="go('screen-photo-album')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18c-3-5-1-11 5-13 3 6 1 12-5 13Z"/><path d="M11 19c-2-6 0-11 6-12"/></svg></span>
+      <div class="card-text"><h3>Photo Album</h3><p>Browse and upload farm photos</p></div>
+    </div>
+    <div class="option-card cat-explore" onclick="go('screen-about')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16c3-4 6-6 10-6s7 2 10 6"/><path d="M11 10v-3"/><path d="M11 7c-1-1-2-1-2.5 0M11 7c1-1 2-1 2.5 0"/></svg></span>
+      <div class="card-text"><h3>About Lancer Farms</h3><p>Farm info and mission</p></div>
+    </div>
     <p class="section-label">Staff Tools</p>
-    <div class="option-card" onclick="go('screen-tools-inventory')"><span class="card-icon">🔧</span><div class="card-text"><h3>Tool Inventory</h3><p>View available farm equipment</p></div></div>
-    <div class="option-card" onclick="go('screen-consumables')"><span class="card-icon">📦</span><div class="card-text"><h3>Supplies &amp; Consumables</h3><p>Track stock levels and par flags</p></div></div>
-<div class="option-card" onclick="go('screen-requests')"><span class="card-icon">📋</span><div class="card-text"><h3>Submit a Request</h3><p>Resupply, repairs, and outside assistance</p></div></div>
-    <a class="option-card" href="/admin.html"><span class="card-icon">⚙️</span><div class="card-text"><h3>Admin Panel</h3><p>Manage tasks, inventory, beds &amp; reports</p></div></a>
+    <div class="option-card cat-manage" onclick="go('screen-tools-inventory')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M10 6v3"/><path d="M8 9v4l2 5 2-5V9"/></svg></span>
+      <div class="card-text"><h3>Tool Inventory</h3><p>View available farm equipment</p></div>
+    </div>
+    <div class="option-card cat-manage" onclick="go('screen-consumables')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4.5c-.5 1-1 1.8-1 2.8 0 .6.3 1 .8 1.3-2.3 1.6-3.6 4.3-3.3 7.4.3 2.7 2.3 4 5.5 4s5.4-1.5 5.6-4.3c.2-3-1.1-5.7-3.4-7.2.5-.3.8-.7.8-1.3 0-1-.5-1.8-1-2.7"/><path d="M9 7.5h6"/></svg></span>
+      <div class="card-text"><h3>Supplies &amp; Consumables</h3><p>Track stock levels and par flags</p></div>
+    </div>
+    <div class="option-card cat-act" onclick="go('screen-requests')">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h12l-1.5 8a2 2 0 0 1-2 1.7H9.5a2 2 0 0 1-2-1.7L6 11Z"/><path d="M8 11c0-3.5 2-6 4-6s4 2.5 4 6"/></svg></span>
+      <div class="card-text"><h3>Submit a Request</h3><p>Resupply, repairs, and outside assistance</p></div>
+    </div>
+    <a class="option-card cat-manage" href="/admin.html">
+      <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V6l6-2v16"/><path d="M10 5l8 2.5V20"/><path d="M4 6l6 1.5"/><path d="M5.5 19V8l3.5 1"/></svg></span>
+      <div class="card-text"><h3>Admin Panel</h3><p>Manage tasks, inventory, beds &amp; reports</p></div>
+    </a>
   </div>
 </div>
 
@@ -439,7 +430,7 @@ setTimeout(dismiss, 3400);
     <button class="manage-btn" onclick="go('screen-manage-plants'); loadManagePlants();">🌱 Add / Remove Plants</button>
     <div class="form-group"><label>Bed Designator</label><input type="text" id="bc-id" disabled /></div>
     <div class="form-group"><label>Bed Manager Name</label><input type="text" id="bc-manager" /></div>
-    <div class="form-group"><label>Currently Growing</label><input type="text" id="bc-growing" placeholder="Auto-updated from plants" style="opacity:0.5;" readonly /></div>
+    <div class="form-group"><label>Currently Growing</label><input type="text" id="bc-growing" placeholder="Auto-updated from plants" style="opacity:0.6;" readonly /></div>
     <div class="form-group"><label>Date Planted</label><input type="date" id="bc-planted" /></div>
     <div class="form-group"><label>Estimated Harvest Date</label><input type="date" id="bc-harvest" /></div>
     <div class="form-group"><label>Bible Passage or Blessing</label><textarea id="bc-blessing" placeholder="The verse or words shown on this bed's page"></textarea></div>
@@ -456,7 +447,7 @@ setTimeout(dismiss, 3400);
 <!-- SCREEN: MANAGE PLANTS -->
 <div class="screen" id="screen-manage-plants">
   <div class="app-header">
-    <button onclick="go('screen-bed-configurator')" style="position:absolute;left:16px;top:18px;background:none;border:none;color:var(--ink);font-size:1.2rem;cursor:pointer;">‹</button>
+    <button onclick="go('screen-bed-configurator')" class="btn-text" style="position:absolute;left:16px;top:14px;font-size:1.2rem;padding:6px 10px;">‹</button>
     <h1 id="mp-title">Plants</h1><p>Add or Remove</p>
   </div>
   <div class="screen-body">
@@ -469,7 +460,7 @@ setTimeout(dismiss, 3400);
 <!-- SCREEN: ADD PLANT -->
 <div class="screen" id="screen-add-plant">
   <div class="app-header">
-    <button onclick="go('screen-manage-plants'); loadManagePlants();" style="position:absolute;left:16px;top:18px;background:none;border:none;color:var(--ink);font-size:1.2rem;cursor:pointer;">‹</button>
+    <button onclick="go('screen-manage-plants'); loadManagePlants();" class="btn-text" style="position:absolute;left:16px;top:14px;font-size:1.2rem;padding:6px 10px;">‹</button>
     <h1>Add a Plant</h1><p id="ap-bed-label">Bed</p>
   </div>
   <div class="screen-body">
@@ -483,7 +474,7 @@ setTimeout(dismiss, 3400);
     <div class="form-group"><label>Date Planted</label><input type="date" id="bc-plant-date" /></div>
     <div class="form-group"><label>Est. Harvest Date</label><input type="date" id="bc-plant-harvest" /></div>
     <button class="submit-btn" onclick="submitAddPlant()">Log Plant</button>
-    <button onclick="go('screen-manage-plants'); loadManagePlants();" style="background:none;border:none;color:var(--ink-soft);font-size:0.88rem;cursor:pointer;text-align:center;padding:4px;">Cancel</button>
+    <button onclick="go('screen-manage-plants'); loadManagePlants();" class="btn-text">Cancel</button>
   </div>
 </div>
 
@@ -580,7 +571,7 @@ setTimeout(dismiss, 3400);
   </div>
 </div>
 
-<!-- SCREEN: TASKS -->
+<!-- SCREEN: TASKS (read-only checklist — also reachable from staff top nav) -->
 <div class="screen" id="screen-tasks">
   <div class="app-header"><h1>Today's Tasks</h1><p>Care Plan</p></div>
   <div class="screen-body">
@@ -594,6 +585,48 @@ setTimeout(dismiss, 3400);
   const CLOUD_NAME  = 'ddbsuxerb';
   const UPLOAD_PRESET = 'lfg-photos';
   const BASE_PASSWORD = 'Godisgood';
+
+  // LIGHT / DARK MODE
+  function toggleMode() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-mode') === 'dark';
+    const next = isDark ? 'light' : 'dark';
+    if (next === 'light') { html.removeAttribute('data-mode'); } else { html.setAttribute('data-mode', 'dark'); }
+    try { localStorage.setItem('lfg-mode', next); } catch(e) {}
+    updateModeIcons();
+  }
+  function updateModeIcons() {
+    const isDark = document.documentElement.getAttribute('data-mode') === 'dark';
+    document.querySelectorAll('.mode-toggle').forEach(btn => { btn.textContent = isDark ? '🌙' : '☀'; });
+  }
+
+  // NAV BAR / ROLE STATE
+  function chooseRole(role) {
+    if (role === 'guest') {
+      sessionStorage.setItem('lfg-role', 'guest');
+      updateNavBar();
+      go('screen-guest-options');
+    } else {
+      go('screen-login');
+    }
+  }
+
+  function updateNavBar() {
+    const role = sessionStorage.getItem('lfg-role');
+    const isStaffNow = !!sessionStorage.getItem('adminToken');
+    const guestNav = document.getElementById('top-nav-guest');
+    const staffNav = document.getElementById('top-nav-staff');
+    if (isStaffNow) {
+      guestNav.style.display = 'none';
+      staffNav.style.display = 'flex';
+    } else if (role === 'guest') {
+      guestNav.style.display = 'flex';
+      staffNav.style.display = 'none';
+    } else {
+      guestNav.style.display = 'none';
+      staffNav.style.display = 'none';
+    }
+  }
 
   // NAVIGATION
   function go(screenId, options = {}) {
@@ -613,6 +646,7 @@ setTimeout(dismiss, 3400);
       if (screenId === 'screen-almanac') { loadAlmanac(); }
       if (screenId === 'screen-manage-plants') { loadManagePlants(); }
       if (screenId === 'screen-tasks') { loadTasks(); }
+      updateNavBar();
       if (!options.fromHistory && (!history.state || history.state.lfgScreen !== screenId)) {
         history.pushState({ lfgScreen: screenId, lfgOptions: options }, '', '#' + screenId);
       }
@@ -655,7 +689,9 @@ setTimeout(dismiss, 3400);
 
   function saveAndExit() {
     sessionStorage.removeItem('adminToken');
+    sessionStorage.removeItem('lfg-role');
     showToast('Signed out');
+    updateNavBar();
     go('screen-landing');
   }
 
@@ -676,6 +712,7 @@ setTimeout(dismiss, 3400);
     return null;
   }
   function now() { return new Date().toISOString(); }
+  function isStaff() { return !!sessionStorage.getItem('adminToken'); }
 
   // BED DATA
   let bedsCache = null, bedsCacheTime = 0, currentBed = null;
@@ -758,6 +795,7 @@ setTimeout(dismiss, 3400);
     }
     sessionStorage.setItem('adminToken', pw);
     loginAttempts = 0;
+    updateNavBar();
     go('screen-employee-options');
     try {
       fetch(WEB_APP_URL, { method:'POST', body: JSON.stringify({ action:'staffLogin', password: pw, mmdd, timestamp: now() }) });
@@ -765,6 +803,19 @@ setTimeout(dismiss, 3400);
   }
 
   // PHOTO ALBUM
+  function photoThumbHtml(ph, idx, label) {
+    const full = String(ph.CloudinaryURL || ''); if (!full) return '';
+    const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
+    const photoId = esc(String(ph.PhotoID || ''));
+    const cap = esc(String(ph.Caption || label));
+    const bedId = esc(String(ph.BedID || ''));
+    const editControls = isStaff() && photoId
+      ? '<div class="photo-thumb-actions"><button onclick="event.stopPropagation();openPhotoEdit(\'' + photoId + '\',\'' + bedId + '\',\'' + cap.replace(/'/g, "\\'") + '\')" aria-label="Edit photo">✎</button></div>'
+      : '';
+    return '<div class="photo-thumb-wrap"><div class="photo-thumb" onclick="openLightbox(' + idx + ')"><img src="' + esc(thumb) + '" alt="' + esc(label) + '" loading="lazy">' +
+      (bedId ? '<span class="bed-tag">' + bedId + '</span>' : '') + '</div>' + editControls + '</div>';
+  }
+
   async function loadBedPhotos() {
     const box = document.getElementById('bed-photos-content');
     const titleEl = document.getElementById('bp-photos-title');
@@ -780,14 +831,11 @@ setTimeout(dismiss, 3400);
       if (!mine.length) { box.innerHTML = '<div class="photo-empty">No photos yet for this bed.</div>'; return; }
       let html = '<div class="photo-grid">';
       mine.forEach(ph => {
-        const full = String(ph.CloudinaryURL || ''); if (!full) return;
-        const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
         const label = LOCATION_NAMES[bed] || ('Bed ' + bed);
-        const cap = String(ph.Caption || label);
         const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
         const idx = lbData.length;
-        lbData.push({ src: full, title: cap, date: when });
-        html += '<div class="photo-thumb" onclick="openLightbox(' + idx + ')"><img src="' + esc(thumb) + '" alt="' + esc(label) + '" loading="lazy"></div>';
+        lbData.push({ src: String(ph.CloudinaryURL||''), title: String(ph.Caption || label), date: when });
+        html += photoThumbHtml(ph, idx, label);
       });
       html += '</div>';
       box.innerHTML = html;
@@ -808,21 +856,68 @@ setTimeout(dismiss, 3400);
         if (!list.length) return '';
         let h = '<div class="zone-header">🌿 ' + esc(title) + '</div><div class="photo-grid">';
         list.forEach(ph => {
-          const full = String(ph.CloudinaryURL || ''); if (!full) return;
-          const thumb = String(ph.ThumbnailURL || '') || full.replace('/upload/', '/upload/w_300,h_300,c_fill/');
           const bed = String(ph.BedID || '');
           const label = LOCATION_NAMES[bed] || ('Bed ' + bed);
-          const cap = String(ph.Caption || label);
           const when = ph.UploadedAt ? 'Uploaded ' + fmtDate(ph.UploadedAt) : '';
           const idx = lbData.length;
-          lbData.push({ src: full, title: cap, date: when });
-          h += '<div class="photo-thumb" onclick="openLightbox(' + idx + ')"><img src="' + esc(thumb) + '" alt="' + esc(label) + '" loading="lazy"><span class="bed-tag">' + esc(bed) + '</span></div>';
+          lbData.push({ src: String(ph.CloudinaryURL||''), title: String(ph.Caption || label), date: when });
+          h += photoThumbHtml(ph, idx, label);
         });
         return h + '</div>';
       };
       html += section('Zone 1', groups['1']) + section('Zone 2', groups['2']) + section('Zone 3', groups['3']) + section('Around the Farm', groups.other);
       box.innerHTML = html || '<div class="photo-empty">No photos yet.</div>';
     } catch(e) { box.innerHTML = '<div class="photo-empty">Could not load photos.</div>'; }
+  }
+
+  // PHOTO EDIT/DELETE (staff only)
+  var editingPhotoId = null;
+  function openPhotoEdit(photoId, bedId, caption) {
+    if (!isStaff()) return;
+    editingPhotoId = photoId;
+    document.getElementById('edit-bed').value = bedId || 'FARM';
+    document.getElementById('edit-caption').value = caption || '';
+    document.getElementById('photo-edit-sheet').classList.add('open');
+  }
+  function closePhotoEdit() {
+    editingPhotoId = null;
+    document.getElementById('photo-edit-sheet').classList.remove('open');
+  }
+  async function savePhotoEdit() {
+    if (!editingPhotoId) return;
+    const pw = sessionStorage.getItem('adminToken');
+    if (!pw) { showToast('Session expired'); go('screen-login'); return; }
+    showToast('Saving…');
+    try {
+      const res = await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({
+        action:'updatePhoto', password:pw, photoId: editingPhotoId,
+        bedId: document.getElementById('edit-bed').value,
+        caption: document.getElementById('edit-caption').value,
+        timestamp: now()
+      })});
+      const data = await res.json();
+      if (data.ok) { showToast('Photo updated'); closePhotoEdit(); reloadCurrentPhotoView(); }
+      else showToast('Could not save — try again');
+    } catch(e) { showToast('Could not save — check connection'); }
+  }
+  async function confirmDeletePhoto() {
+    if (!editingPhotoId) return;
+    if (!confirm('Delete this photo? This cannot be undone.')) return;
+    const pw = sessionStorage.getItem('adminToken');
+    if (!pw) { showToast('Session expired'); go('screen-login'); return; }
+    showToast('Deleting…');
+    try {
+      const res = await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'deletePhoto', password:pw, photoId: editingPhotoId, timestamp: now() })});
+      const data = await res.json();
+      if (data.ok) { showToast('Photo deleted'); closePhotoEdit(); reloadCurrentPhotoView(); }
+      else showToast('Could not delete — try again');
+    } catch(e) { showToast('Could not delete — check connection'); }
+  }
+  function reloadCurrentPhotoView() {
+    lbData = [];
+    const active = document.querySelector('.screen.active');
+    if (active && active.id === 'screen-bed-photos') loadBedPhotos();
+    else loadAlbum();
   }
 
   // ALMANAC
@@ -982,7 +1077,7 @@ setTimeout(dismiss, 3400);
     } catch(e) { showToast('Could not submit — check connection'); }
   }
 
-  // TASKS
+  // TASKS (read-only checklist)
   async function loadTasks() {
     const box = document.getElementById('tasks-content'); if (!box) return;
     try {
@@ -1139,7 +1234,7 @@ setTimeout(dismiss, 3400);
           '<div class="form-group"><label>What was done with it?</label>' +
           '<select id="disp-' + esc(id) + '"><option value="Harvested">Harvested</option><option value="Composted">Composted</option><option value="Donated">Donated</option><option value="Replanted elsewhere">Replanted elsewhere</option><option value="Lost to pests/disease">Lost to pests/disease</option><option value="Other">Other</option></select></div>' +
           '<button onclick="confirmRemovePlant(\'' + esc(id) + '\')" style="background:var(--alert);color:var(--on-alert);border:none;border-radius:6px;padding:8px;font-size:0.82rem;cursor:pointer;width:100%;">Confirm Removal</button>' +
-          '<button onclick="hideRemovePlant(\'' + esc(id) + '\')" style="background:none;border:none;color:var(--ink-soft);font-size:0.8rem;cursor:pointer;">Cancel</button>' +
+          '<button onclick="hideRemovePlant(\'' + esc(id) + '\')" class="btn-text">Cancel</button>' +
           '</div></div>';
       }).join('');
     } catch(e) { box.innerHTML = '<div class="comment-item"><p>Could not load plants.</p></div>'; }
@@ -1283,7 +1378,7 @@ setTimeout(dismiss, 3400);
       const data = await res.json();
       if (data.secure_url) {
         try { await fetch(PUBLIC_API, { method:'POST', body: JSON.stringify({ action:'addPhoto', bedId:bed, caption, uploaderName, url:data.secure_url, thumb:data.secure_url.replace('/upload/', '/upload/w_300,h_300,c_fill/'), timestamp: now() }) }); } catch(e) {}
-        showToast('Photo uploaded!'); closeUploadModal(); loadAlbum();
+        showToast('Photo uploaded!'); closeUploadModal(); reloadCurrentPhotoView();
       } else showToast('Upload failed — try again');
     } catch(e) { showToast('Upload failed — check connection'); }
   }
@@ -1291,17 +1386,20 @@ setTimeout(dismiss, 3400);
   // SECRET ADMIN ACCESS
   let tapCount = 0;
   document.addEventListener('DOMContentLoaded', () => {
+    updateModeIcons();
+    updateNavBar();
     document.querySelectorAll('.app-header h1').forEach(h => {
       h.addEventListener('click', () => {
         const current = document.querySelector('.screen.active');
         if (current && current.id === 'screen-employee-options') {
           tapCount++;
-          if (tapCount >= 5) { tapCount = 0; showToast('Admin access granted'); setTimeout(() => go('screen-admin'), 800); }
+          if (tapCount >= 5) { tapCount = 0; showToast('Admin access granted'); setTimeout(() => { location.href = '/admin.html'; }, 800); }
         }
       });
     });
   });
 </script>
 <script src="lfg-site.js" defer></script>
+<script src="lfg-audio.js" defer></script>
 </body>
 </html>
