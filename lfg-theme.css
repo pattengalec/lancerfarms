@@ -104,6 +104,8 @@ h1, h2, h3 { font-family: var(--font-head); font-weight: 500; }
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
   padding: 10px 16px;
   background: var(--surface2);
   border-bottom: var(--border-w) solid var(--card-border);
