@@ -1118,24 +1118,24 @@ setTimeout(dismiss, 3400);
   }
 
   // TASKS (read-only checklist)
-  async function loadTasks() {
-    const box = document.getElementById('tasks-content'); if (!box) return;
-    try {
-      const res = await fetch(PUBLIC_API + '?view=tasks');
-      const data = await res.json();
-      const tasks = (data.ok && data.tasks) ? data.tasks : [];
-      if (!tasks.length) { box.innerHTML = '<div class="comment-item"><p>No tasks for today.</p></div>'; return; }
-      box.innerHTML = tasks.map((t, i) => {
-        const id = 'task-' + i;
-        return '<div class="inventory-item" id="' + id + '" style="gap:12px;">' +
-          '<input type="checkbox" onchange="completeTask(this,\'' + esc(t.Task || '') + '\',\'' + esc(t.Location || '') + '\',\'' + id + '\')" style="width:20px;height:20px;cursor:pointer;accent-color:var(--accent);">' +
-          '<div><div class="item-name">' + esc(t.Task || '') + '</div>' +
-          (t.Location ? '<div class="item-sub">' + esc(t.Location) + '</div>' : '') +
-          (t.Notes ? '<div class="item-sub">' + esc(t.Notes) + '</div>' : '') +
-          '</div></div>';
-      }).join('');
-    } catch(e) { box.innerHTML = '<div class="comment-item"><p>Could not load tasks.</p></div>'; }
-  }
+async function loadTasks() {
+  const box = document.getElementById('tasks-content'); if (!box) return;
+  try {
+    const res = await fetch(PUBLIC_API + '?view=tasks');
+    const data = await res.json();
+    const tasks = (data.ok && data.tasks) ? data.tasks : [];
+    if (!tasks.length) { box.innerHTML = '<div class="comment-item"><p>No tasks for today.</p></div>'; return; }
+    box.innerHTML = tasks.map((t, i) => {
+      const id = 'task-' + i;
+      return '<div class="inventory-item" id="' + id + '" style="gap:12px;">' +
+        '<input type="checkbox" onchange="completeTask(this,\'' + esc(t.TaskTitle || '') + '\',\'' + esc(t.BedID || '') + '\',\'' + id + '\')" style="width:20px;height:20px;cursor:pointer;accent-color:var(--accent);">' +
+        '<div><div class="item-name">' + esc(t.TaskTitle || '') + '</div>' +
+        (t.BedID ? '<div class="item-sub">' + esc(t.BedID) + '</div>' : '') +
+        (t.TaskDetail ? '<div class="item-sub">' + esc(t.TaskDetail) + '</div>' : '') +
+        '</div></div>';
+    }).join('');
+  } catch(e) { box.innerHTML = '<div class="comment-item"><p>Could not load tasks.</p></div>'; }
+}
 
   async function completeTask(checkbox, taskName, location, rowId) {
     if (!checkbox.checked) return;
